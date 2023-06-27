@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvoy/screens/register/chooseRole.screen.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
@@ -24,7 +25,7 @@ class LoginScreen extends StatelessWidget {
             _buildLogo(),
             _buildLoginForm(),
             _buildLoginBtn(),
-            _buildSignupBtn(),
+            _buildSignupBtn(context),
             _buildForgottenPass()
           ],
         ),
@@ -41,7 +42,6 @@ class LoginScreen extends StatelessWidget {
               top: baseSize.height * .04, right: baseSize.width * .04),
           child: MvoyLinkedBtn(
             text: "saltar",
-            onTap: () {},
           ),
         ),
       ],
@@ -81,20 +81,23 @@ class LoginScreen extends StatelessWidget {
   _buildLoginBtn() {
     return MvoyMainBtn(
       text: "ingresar",
-      onTapp: () {},
     );
   }
 
-  _buildSignupBtn() {
+  _buildSignupBtn(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MvoyLinkedBtn(
-            text: "registrate",
-            onTap: () {},
-            showArrow: false,
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ChooseRoleScreen.routeName);
+            },
+            child: MvoyLinkedBtn(
+              text: "registrate",
+              showArrow: false,
+            ),
           ),
         ],
       ),
@@ -110,7 +113,6 @@ class LoginScreen extends StatelessWidget {
           MvoyLinkedBtn(
             text: "olvide mi contraseña",
             fontSize: 15,
-            onTap: () {},
             showArrow: false,
           ),
         ],

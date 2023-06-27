@@ -1,0 +1,83 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+
+class MvoyDateField extends StatefulWidget {
+  final String placeHolder;
+  const MvoyDateField({super.key, required this.placeHolder});
+
+  @override
+  State<MvoyDateField> createState() => _MvoyDateFieldState();
+}
+
+class _MvoyDateFieldState extends State<MvoyDateField> {
+  TextEditingController dateController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    Size baseSize = MediaQuery.of(context).size;
+
+    return Row(
+      children: [
+        Container(
+          height: baseSize.height * .1,
+          width: baseSize.width * .60,
+          decoration: const BoxDecoration(),
+          child: TextField(
+            enabled: false,
+            controller: dateController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: widget.placeHolder.toUpperCase(),
+                labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
+                fillColor: const Color(0xffDDDDDD),
+                filled: true),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10, bottom: 11),
+          child: GestureDetector(
+            onTap: () async {
+              DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  cancelText: "Cancelar",
+                  confirmText: "Seleccionar",
+                  initialDatePickerMode: DatePickerMode.year,
+                  builder: (context, child) {
+                    return Theme(
+                        data: Theme.of(context).copyWith(
+                            colorScheme: ColorScheme.light(
+                                primary: Color(0xffFFDE30),
+                                onPrimary: Colors.black,
+                                onSurface: Colors.black),
+                            textButtonTheme: TextButtonThemeData(
+                                style: TextButton.styleFrom(
+                                    primary: Colors.black))),
+                        child: child!);
+                  },
+                  initialDate: DateTime.now(), //get today's date
+                  firstDate: DateTime(
+                      1800), //DateTime.now() - not to allow to choose before today.
+                  lastDate: DateTime(2024));
+
+              setState(() {
+                dateController.text =
+                    "${pickedDate?.day}/${pickedDate?.month}/${pickedDate?.year}";
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: const Color(0xffDDDDDD),
+                  borderRadius: BorderRadius.circular(20)),
+              child: SvgPicture.asset("assets/date.svg"),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}

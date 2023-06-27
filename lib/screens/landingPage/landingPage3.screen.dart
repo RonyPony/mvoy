@@ -2,12 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mvoy/screens/landingPage/landingPage3.screen.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
-class LandingScreen2 extends StatelessWidget {
-  static String routeName = "/landingScreen2";
-  const LandingScreen2({super.key});
+import '../login.screen.dart';
+
+class LandingScreen3 extends StatelessWidget {
+  static String routeName = "/landingScreen3";
+  const LandingScreen3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,6 @@ class LandingScreen2 extends StatelessWidget {
         child: Column(
           children: [
             _buildLogo(),
-            _buildFirstLabel(),
             _buildImage(),
             _buildSecondLabel(),
             _buildChip(),
@@ -61,7 +61,7 @@ class LandingScreen2 extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(LandingScreen3.routeName);
+            Navigator.of(context).pushNamed(LoginScreen.routeName);
           },
           child: MvoyMainBtn(
             text: "siguiente",
@@ -77,25 +77,31 @@ class LandingScreen2 extends StatelessWidget {
   _buildImage() {
     return Padding(
       padding: const EdgeInsets.only(top: 35),
-      child: SvgPicture.asset("assets/landing2.svg"),
+      child: SvgPicture.asset(
+        "assets/landing3.svg",
+        width: 350,
+      ),
     );
   }
 
   _buildSecondLabel() {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "AQUI EL LIMITE LO PONES TU",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "AQUI EL LIMITE LO PONES TU",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
     );
   }
 
   _buildChip() {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.only(top: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -104,7 +110,7 @@ class LandingScreen2 extends StatelessWidget {
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: const SizedBox(
                 height: 10,
-                width: 50,
+                width: 20,
               )),
           const SizedBox(
             width: 10,
@@ -114,7 +120,7 @@ class LandingScreen2 extends StatelessWidget {
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: const SizedBox(
                 height: 10,
-                width: 20,
+                width: 50,
               )),
         ],
       ),

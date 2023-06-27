@@ -6,12 +6,10 @@ class MvoyLinkedBtn extends StatelessWidget {
   final String text;
   final bool showArrow;
   final double fontSize;
-  final Function onTap;
   const MvoyLinkedBtn(
       {super.key,
       this.showArrow = true,
       required this.text,
-      required this.onTap,
       this.fontSize = 20});
 
   @override
@@ -20,17 +18,14 @@ class MvoyLinkedBtn extends StatelessWidget {
       children: [
         Row(
           children: [
-            GestureDetector(
-              onTap: onTap(),
-              child: Text(
-                text.toUpperCase(),
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: fontSize,
-                  fontFamily: 'K2D',
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
-                ),
+            Text(
+              text.toUpperCase(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: fontSize,
+                fontFamily: 'K2D',
+                fontWeight: FontWeight.w600,
+                decoration: TextDecoration.underline,
               ),
             ),
             showArrow

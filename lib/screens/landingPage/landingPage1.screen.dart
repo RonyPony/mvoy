@@ -28,12 +28,16 @@ class LandingScreen1 extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * .8),
-                  child: MvoyMainBtn(
-                    text: "comencemos",
-                    onTapp: () {
-                      Navigator.pushNamed(context, LandingScreen2.routeName);
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(LandingScreen2.routeName);
                     },
-                    width: 300,
+                    child: MvoyMainBtn(
+                      text: "comencemos",
+                      color: Color(0xffFFDE30),
+                      fontColor: Colors.black,
+                      width: 300,
+                    ),
                   ),
                 ),
               ],
@@ -42,6 +46,5 @@ class LandingScreen1 extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
