@@ -27,6 +27,7 @@ class _MvoyDateFieldState extends State<MvoyDateField> {
             enabled: false,
             controller: dateController,
             decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10.0),

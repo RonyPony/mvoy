@@ -53,7 +53,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
 
   _buildLogo() {
     return Image.asset(
-      'assets/logox.png',
+      'assets/base-logo.png',
       height: 200,
     );
   }

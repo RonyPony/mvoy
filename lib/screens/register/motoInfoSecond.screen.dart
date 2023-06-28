@@ -21,6 +21,7 @@ class MotoInfoScreenSecond extends StatefulWidget {
 }
 
 class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
+  String selectedYear = "año";
   bool isDriver = false;
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
-          children: [
-            _buildHeader(),
-            _buildregisterForm(),
-            _buildregisterBtn(),
-            _buildSigninBtn()
-          ],
+          children: [_buildHeader(), _buildregisterForm(), _buildregisterBtn()],
         ),
       )),
     );
@@ -45,14 +41,14 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10, left: 20),
+          padding: const EdgeInsets.only(top: 10, left: 0),
           child: Image.asset(
-            'assets/logox.png',
+            'assets/base-logo.png',
             height: 100,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 0),
           child: Text(
             "REGISTRATE",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -92,8 +88,11 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
   }
 
   _buildregisterBtn() {
-    return MvoyMainBtn(
-      text: "siguiente",
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: MvoyMainBtn(
+        text: "registrate",
+      ),
     );
   }
 
@@ -113,30 +112,15 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
             option1Text: "si",
             option2Text: "no"),
         MvoyOptionSelectorField(
-          placeHolder: "año",
+          placeHolder: selectedYear,
           list: list,
+          onSelected: (x) {
+            setState(() {
+              selectedYear = list[x];
+            });
+          },
         )
       ],
-    );
-  }
-
-  _buildSigninBtn() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(LoginScreen.routeName);
-            },
-            child: MvoyLinkedBtn(
-              text: "inicia sesion",
-              showArrow: false,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

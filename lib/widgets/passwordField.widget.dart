@@ -28,6 +28,7 @@ class _MvoyPasswordFieldState extends State<MvoyPasswordField> {
             obscureText: isShowingPassword,
             controller: passwordController,
             decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10.0),

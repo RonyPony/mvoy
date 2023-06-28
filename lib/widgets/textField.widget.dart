@@ -14,6 +14,7 @@ class MvoyTextField extends StatelessWidget {
       decoration: BoxDecoration(),
       child: TextField(
         decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(10.0),

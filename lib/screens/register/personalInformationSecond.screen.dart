@@ -46,14 +46,14 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10, left: 20),
+          padding: const EdgeInsets.only(top: 10, left: 0),
           child: Image.asset(
-            'assets/logox.png',
+            'assets/base-logo.png',
             height: 100,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 0),
           child: Text(
             "REGISTRATE",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),

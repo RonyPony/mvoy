@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mvoy/screens/landingPage/landingPage1.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage3.screen.dart';
 import 'package:mvoy/screens/login.screen.dart';
+import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
 import 'package:mvoy/screens/register/motoInfo.screen.dart';
 import 'package:mvoy/screens/register/motoInfoSecond.screen.dart';
@@ -25,5 +26,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     PersonalInfoSecondScreen.routeName: (BuildContext context) =>
         const PersonalInfoSecondScreen(),
     LoginScreen.routeName: (BuildContext context) => const LoginScreen(),
+    ForgottenPasswordScreen.routeName: (BuildContext context) =>
+        const ForgottenPasswordScreen(),
   };
 }

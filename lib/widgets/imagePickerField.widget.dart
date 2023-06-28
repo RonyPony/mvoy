@@ -8,7 +8,16 @@ import 'package:image_picker/image_picker.dart';
 
 class MvoyImageField extends StatefulWidget {
   final String placeHolder;
-  const MvoyImageField({super.key, required this.placeHolder});
+  final bool hasDescription;
+
+  final String descriptionText;
+  final String descriptionTitle;
+  const MvoyImageField(
+      {super.key,
+      required this.placeHolder,
+      this.hasDescription = false,
+      this.descriptionText = "Descripcion",
+      this.descriptionTitle = "titulo"});
 
   @override
   State<MvoyImageField> createState() => _MvoyImageFieldState();
@@ -46,6 +55,9 @@ class _MvoyImageFieldState extends State<MvoyImageField> {
           padding: const EdgeInsets.only(left: 10, bottom: 11),
           child: GestureDetector(
             onTap: () async {
+              if (widget.hasDescription) {
+                await showDescription(widget.descriptionText);
+              }
               _getFromGallery();
             },
             child: Container(
@@ -78,5 +90,78 @@ class _MvoyImageFieldState extends State<MvoyImageField> {
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
     }
+  }
+
+  Future<bool> showDescription(String text) async {
+    Dialog errorDialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 5),
+            color: Color(0xffFFDE30),
+            borderRadius: BorderRadius.circular(20)),
+        height: MediaQuery.of(context).size.height * .6,
+        width: MediaQuery.of(context).size.width * 1,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, right: 10),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: SvgPicture.asset("assets/close.svg")),
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          widget.descriptionTitle.toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  child: Text(
+                    widget.descriptionText.toUpperCase(),
+                    style: TextStyle(color: Colors.black, fontSize: 23),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(top: 50.0)),
+                // TextButton(
+                //     onPressed: () {
+                //       Navigator.of(context).pop(true);
+                //     },
+                //     child: Text(
+                //       'Got It!',
+                //       style: TextStyle(color: Colors.purple, fontSize: 18.0),
+                //     ))
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) => errorDialog,
+    );
   }
 }

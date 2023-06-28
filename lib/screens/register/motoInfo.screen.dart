@@ -44,14 +44,14 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10, left: 20),
+          padding: const EdgeInsets.only(top: 10, left: 0),
           child: Image.asset(
-            'assets/logox.png',
+            'assets/base-logo.png',
             height: 100,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 0),
           child: Text(
             "REGISTRATE",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -110,8 +110,19 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
         MvoyTextField(placeHolder: "licencia"),
         MvoyTextField(placeHolder: "seguro"),
         MvoyTextField(placeHolder: "no. de chasis"),
-        MvoyImageField(placeHolder: "foto del vehiculo"),
-        MvoyImageField(placeHolder: "foto de matricula")
+        MvoyImageField(
+            placeHolder: "foto del vehiculo",
+            hasDescription: true,
+            descriptionText:
+                "DEBES INCLUIR TRES IMAGENES MOSTRANDO TU VEHICULO EN VARIOS ANGULOS. INCLUYENDO UNO DONDE SEA VISIBLE LA PLACA.",
+            descriptionTitle: "informacion"),
+        MvoyImageField(
+          placeHolder: "foto de matricula",
+          hasDescription: true,
+          descriptionTitle: "informacion",
+          descriptionText:
+              "ASEGURATE DE QUE EN ESTA FOTO LA INFORMACION PUEDA SER LEIDA  CORRECTAMENTE. SI LA MATRICULA NO ESTA A TU NOMBRE, ANEXA IMAGENES DEL ACTO DE VENTA.",
+        )
       ],
     );
   }

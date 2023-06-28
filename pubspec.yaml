@@ -64,7 +64,9 @@ flutter:
   assets:
     - assets/left_arrow.svg
     - assets/logox.png
+    - assets/dropdown.svg
     - assets/landing1.png
+    - assets/base-logo.png
     - assets/landing2.svg
     - assets/landing3.svg
     - assets/caco.svg
@@ -74,6 +76,7 @@ flutter:
     - assets/camara.svg
     - assets/date.svg
     - assets/eye.svg
+    - assets/close.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

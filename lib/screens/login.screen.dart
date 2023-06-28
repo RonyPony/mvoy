@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
@@ -26,7 +27,7 @@ class LoginScreen extends StatelessWidget {
             _buildLoginForm(),
             _buildLoginBtn(),
             _buildSignupBtn(context),
-            _buildForgottenPass()
+            _buildForgottenPass(context)
           ],
         ),
       )),
@@ -50,7 +51,7 @@ class LoginScreen extends StatelessWidget {
 
   _buildLogo() {
     return Image.asset(
-      'assets/logox.png',
+      'assets/base-logo.png',
       height: 240,
     );
   }
@@ -104,16 +105,22 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  _buildForgottenPass() {
+  _buildForgottenPass(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MvoyLinkedBtn(
-            text: "olvide mi contraseña",
-            fontSize: 15,
-            showArrow: false,
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(ForgottenPasswordScreen.routeName);
+            },
+            child: MvoyLinkedBtn(
+              text: "olvide mi contraseña",
+              fontSize: 15,
+              showArrow: false,
+            ),
           ),
         ],
       ),

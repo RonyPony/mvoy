@@ -33,7 +33,7 @@ class LandingScreen2 extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/logox.png",
+          "assets/base-logo.png",
           height: 150,
         ),
       ],
