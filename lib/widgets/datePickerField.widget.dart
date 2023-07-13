@@ -5,14 +5,15 @@ import 'package:flutter_svg/svg.dart';
 
 class MvoyDateField extends StatefulWidget {
   final String placeHolder;
-  const MvoyDateField({super.key, required this.placeHolder});
+  final TextEditingController? receivedController;
+  const MvoyDateField(
+      {super.key, required this.placeHolder, this.receivedController});
 
   @override
   State<MvoyDateField> createState() => _MvoyDateFieldState();
 }
 
 class _MvoyDateFieldState extends State<MvoyDateField> {
-  TextEditingController dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
@@ -25,7 +26,7 @@ class _MvoyDateFieldState extends State<MvoyDateField> {
           decoration: const BoxDecoration(),
           child: TextField(
             enabled: false,
-            controller: dateController,
+            controller: widget.receivedController,
             decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
@@ -65,7 +66,7 @@ class _MvoyDateFieldState extends State<MvoyDateField> {
                   lastDate: DateTime(2024));
 
               setState(() {
-                dateController.text =
+                widget.receivedController!.text =
                     "${pickedDate?.day}/${pickedDate?.month}/${pickedDate?.year}";
               });
             },
