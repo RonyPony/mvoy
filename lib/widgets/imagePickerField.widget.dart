@@ -12,12 +12,14 @@ class MvoyImageField extends StatefulWidget {
 
   final String descriptionText;
   final String descriptionTitle;
+  final File? selectedImage;
   const MvoyImageField(
       {super.key,
       required this.placeHolder,
       this.hasDescription = false,
       this.descriptionText = "Descripcion",
-      this.descriptionTitle = "titulo"});
+      this.descriptionTitle = "titulo",
+      this.selectedImage});
 
   @override
   State<MvoyImageField> createState() => _MvoyImageFieldState();
@@ -111,7 +113,7 @@ class _MvoyImageFieldState extends State<MvoyImageField> {
                   padding: const EdgeInsets.only(top: 10, right: 10),
                   child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(true);
                       },
                       child: SvgPicture.asset("assets/close.svg")),
                 )
@@ -129,7 +131,7 @@ class _MvoyImageFieldState extends State<MvoyImageField> {
                           widget.descriptionTitle.toUpperCase(),
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 30,
+                              fontSize: 20,
                               decoration: TextDecoration.underline,
                               fontWeight: FontWeight.bold),
                         ),
@@ -141,7 +143,7 @@ class _MvoyImageFieldState extends State<MvoyImageField> {
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: Text(
                     widget.descriptionText.toUpperCase(),
-                    style: TextStyle(color: Colors.black, fontSize: 23),
+                    style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(top: 50.0)),

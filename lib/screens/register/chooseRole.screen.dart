@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/register/personalInformation.screen.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 import 'package:mvoy/widgets/passwordField.widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseRoleScreen extends StatefulWidget {
   static String routeName = "/registerScreen";
@@ -29,7 +33,10 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
             _buildSkiptBtn(baseSize),
             _buildLogo(),
             _buildregisterForm(),
-            _buildregisterBtn()
+            _buildregisterBtn(),
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       )),
@@ -54,7 +61,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
   _buildLogo() {
     return Image.asset(
       'assets/base-logo.png',
-      height: 200,
+      height: 100,
     );
   }
 
@@ -82,8 +89,20 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
 
   _buildregisterBtn() {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(PersonalInfoScreen.routeName);
+      onTap: () async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        MvoyUser usr = MvoyUser();
+        usr.isDriver = isDriver;
+        // await prefs.setString('tmpMvoyUser', jsonEncode(usr.toJson()));
+        // Navigator.of(context).pushNamed(PersonalInfoScreen.routeName);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PersonalInfoScreen(
+              usr: usr,
+            ),
+          ),
+        );
       },
       child: MvoyMainBtn(
         text: "siguiente",

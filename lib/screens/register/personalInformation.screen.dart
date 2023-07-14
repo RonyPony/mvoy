@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/register/personalInformationSecond.screen.dart';
 import 'package:mvoy/widgets/datePickerField.widget.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
@@ -16,8 +17,8 @@ import '../login.screen.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
   static String routeName = "/personalInfoScreen";
-
-  const PersonalInfoScreen({super.key});
+  final MvoyUser? usr;
+  const PersonalInfoScreen({super.key, this.usr});
 
   @override
   State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
@@ -52,6 +53,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
 
   _buildHeader() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 10, left: 0),
@@ -64,7 +66,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
           padding: const EdgeInsets.only(left: 0),
           child: Text(
             "REGISTRATE",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         Padding(
@@ -103,7 +105,21 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   _buildregisterBtn() {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(PersonalInfoSecondScreen.routeName);
+        // Navigator.of(context).pushNamed(PersonalInfoSecondScreen.routeName);
+        widget.usr!.cedula = _cedula.text;
+        widget.usr!.name = _firstName.text;
+        widget.usr!.middleName = _secondName.text;
+        widget.usr!.lastname = _lastName1.text;
+        widget.usr!.lastname2 = _lastName2.text;
+        widget.usr!.birthDate = _birthDate.text;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PersonalInfoSecondScreen(
+              usr: widget.usr,
+            ),
+          ),
+        );
       },
       child: MvoyMainBtn(
         text: "siguiente",
@@ -179,7 +195,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     } else {
       setState(() {
         _firstName.text = person.nombres!.split(' ')[0];
-        _secondName.text = person.nombres!.split(' ')[1];
+        _secondName.text =
+            person.nombres!.contains(' ') ? person.nombres!.split(' ')[1] : "";
         _lastName1.text = person.apellido1!;
         _lastName2.text = person.apellido2!;
         _birthDate.text = person.fechaNacimiento!.split(' ')[0];

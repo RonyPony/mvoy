@@ -21,7 +21,7 @@ class _MvoyPasswordFieldState extends State<MvoyPasswordField> {
     return Row(
       children: [
         Container(
-          height: baseSize.height * .1,
+          height: 80,
           width: baseSize.width * .60,
           decoration: const BoxDecoration(),
           child: TextField(
@@ -40,7 +40,7 @@ class _MvoyPasswordFieldState extends State<MvoyPasswordField> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 11),
+          padding: const EdgeInsets.only(left: 10, bottom: 18),
           child: GestureDetector(
             onTap: () {
               setState(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/register/motoInfoSecond.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
@@ -14,8 +15,8 @@ import 'package:mvoy/widgets/textField.widget.dart';
 class MotoInfoScreen extends StatefulWidget {
   static String routeName = "/MotoInfoScreen";
 
-  const MotoInfoScreen({super.key});
-
+  const MotoInfoScreen({super.key, this.usr});
+  final MvoyUser? usr;
   @override
   State<MotoInfoScreen> createState() => _MotoInfoScreenState();
 }
@@ -42,6 +43,7 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
 
   _buildHeader() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 10, left: 0),
@@ -54,7 +56,7 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
           padding: const EdgeInsets.only(left: 0),
           child: Text(
             "REGISTRATE",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         Padding(
@@ -95,7 +97,15 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
       padding: const EdgeInsets.only(bottom: 40),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(MotoInfoScreenSecond.routeName);
+          // Navigator.of(context).pushNamed(MotoInfoScreenSecond.routeName);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MotoInfoScreenSecond(
+                usr: widget.usr,
+              ),
+            ),
+          );
         },
         child: MvoyMainBtn(
           text: "siguiente",

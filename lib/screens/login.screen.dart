@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(
-              top: baseSize.height * .04, right: baseSize.width * .04),
+              top: baseSize.height * .01, right: baseSize.width * .04),
           child: MvoyLinkedBtn(
             text: "saltar",
           ),
@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
   _buildLogo() {
     return Image.asset(
       'assets/base-logo.png',
-      height: 240,
+      height: 130,
     );
   }
 
@@ -61,6 +61,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MvoyTextField(
                 placeHolder: "usuario",
@@ -68,6 +69,7 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MvoyPasswordField(
                 placeHolder: "contraseña",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
 import 'package:mvoy/widgets/datePickerField.widget.dart';
@@ -14,8 +15,8 @@ import 'package:mvoy/widgets/textField.widget.dart';
 class MotoInfoScreenSecond extends StatefulWidget {
   static String routeName = "/MotoInfoScreenSecond";
 
-  const MotoInfoScreenSecond({super.key});
-
+  const MotoInfoScreenSecond({super.key, this.usr});
+  final MvoyUser? usr;
   @override
   State<MotoInfoScreenSecond> createState() => _MotoInfoScreenSecondState();
 }
@@ -39,6 +40,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
 
   _buildHeader() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 10, left: 0),
@@ -51,7 +53,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
           padding: const EdgeInsets.only(left: 0),
           child: Text(
             "REGISTRATE",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         Padding(

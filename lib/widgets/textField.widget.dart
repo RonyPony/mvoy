@@ -21,7 +21,7 @@ class MvoyTextField extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap!(),
       child: Container(
-        height: baseSize.height * .1,
+        height: 80,
         width: baseSize.width * .78,
         decoration: BoxDecoration(),
         child: TextField(

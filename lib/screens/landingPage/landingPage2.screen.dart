@@ -14,15 +14,17 @@ class LandingScreen2 extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffFFDE30),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildLogo(),
-            _buildFirstLabel(),
-            _buildImage(),
-            _buildSecondLabel(),
-            _buildChip(),
-            _buildNextBtn(context),
-          ],
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildLogo(),
+              _buildFirstLabel(),
+              _buildImage(context),
+              _buildSecondLabel(),
+              _buildChip(),
+              _buildNextBtn(context),
+            ],
+          ),
         ),
       ),
     );
@@ -34,7 +36,7 @@ class LandingScreen2 extends StatelessWidget {
       children: [
         Image.asset(
           "assets/base-logo.png",
-          height: 150,
+          height: 140,
         ),
       ],
     );
@@ -42,13 +44,13 @@ class LandingScreen2 extends StatelessWidget {
 
   _buildFirstLabel() {
     return const Padding(
-      padding: EdgeInsets.only(top: 30),
+      padding: EdgeInsets.only(top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             "MAS QUE UN CONDUCTOR",
-            style: TextStyle(fontSize: 29),
+            style: TextStyle(fontSize: 20),
           )
         ],
       ),
@@ -56,28 +58,34 @@ class LandingScreen2 extends StatelessWidget {
   }
 
   _buildNextBtn(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(LandingScreen3.routeName);
-          },
-          child: MvoyMainBtn(
-            text: "siguiente",
-            fontColor: Colors.black,
-            color: Colors.white,
-            width: 300,
+    return Padding(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(LandingScreen3.routeName);
+            },
+            child: MvoyMainBtn(
+              text: "siguiente",
+              fontColor: Colors.black,
+              color: Colors.white,
+              width: 300,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  _buildImage() {
+  _buildImage(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 35),
-      child: SvgPicture.asset("assets/landing2.svg"),
+      padding: EdgeInsets.only(top: 20),
+      child: SvgPicture.asset(
+        "assets/landing2.svg",
+        height: MediaQuery.of(context).size.width * .6,
+      ),
     );
   }
 
@@ -87,7 +95,7 @@ class LandingScreen2 extends StatelessWidget {
       children: [
         Text(
           "AQUI EL LIMITE LO PONES TU",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         )
       ],
     );

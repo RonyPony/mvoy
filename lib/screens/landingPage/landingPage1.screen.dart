@@ -11,6 +11,7 @@ class LandingScreen1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size baseSize = MediaQuery.of(context).size;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -20,29 +21,33 @@ class LandingScreen1 extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * .8),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(LandingScreen2.routeName);
-                    },
-                    child: MvoyMainBtn(
-                      text: "comencemos",
-                      color: Color(0xffFFDE30),
-                      fontColor: Colors.black,
-                      width: 300,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: baseSize.height * .75),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(LandingScreen2.routeName);
+                        },
+                        child: MvoyMainBtn(
+                          text: "comencemos",
+                          color: Color(0xffFFDE30),
+                          fontColor: Colors.black,
+                          width: 300,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

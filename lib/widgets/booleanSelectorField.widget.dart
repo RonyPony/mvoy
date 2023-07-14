@@ -7,11 +7,13 @@ class MvoyBooleanSelectorField extends StatefulWidget {
   final String placeHolder;
   final String option1Text;
   final String option2Text;
+  final TextEditingController? controller;
   const MvoyBooleanSelectorField(
       {super.key,
       required this.placeHolder,
       required this.option1Text,
-      required this.option2Text});
+      required this.option2Text,
+      this.controller});
 
   @override
   State<MvoyBooleanSelectorField> createState() =>
@@ -52,6 +54,7 @@ class _MvoyBooleanSelectorFieldState extends State<MvoyBooleanSelectorField> {
             onTap: () {
               setState(() {
                 isOption1Selected = true;
+                widget.controller!.text = widget.option1Text;
               });
             },
             child: Row(
@@ -87,6 +90,7 @@ class _MvoyBooleanSelectorFieldState extends State<MvoyBooleanSelectorField> {
                   onTap: () {
                     setState(() {
                       isOption1Selected = false;
+                      widget.controller!.text = widget.option2Text;
                     });
                   },
                   child: Container(

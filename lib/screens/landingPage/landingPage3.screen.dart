@@ -15,14 +15,16 @@ class LandingScreen3 extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffFFDE30),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildLogo(),
-            _buildImage(),
-            _buildSecondLabel(),
-            _buildChip(),
-            _buildNextBtn(context),
-          ],
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildLogo(),
+              _buildImage(context),
+              _buildSecondLabel(),
+              _buildChip(),
+              _buildNextBtn(context),
+            ],
+          ),
         ),
       ),
     );
@@ -34,7 +36,7 @@ class LandingScreen3 extends StatelessWidget {
       children: [
         Image.asset(
           "assets/base-logo.png",
-          height: 150,
+          height: 130,
         ),
       ],
     );
@@ -74,12 +76,12 @@ class LandingScreen3 extends StatelessWidget {
     );
   }
 
-  _buildImage() {
+  _buildImage(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 35),
+      padding: const EdgeInsets.only(top: 15),
       child: SvgPicture.asset(
         "assets/landing3.svg",
-        width: 350,
+        width: MediaQuery.of(context).size.height * .4,
       ),
     );
   }
@@ -92,7 +94,7 @@ class LandingScreen3 extends StatelessWidget {
         children: [
           Text(
             "AQUI EL LIMITE LO PONES TU",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           )
         ],
       ),
