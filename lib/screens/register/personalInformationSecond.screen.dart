@@ -11,8 +11,11 @@ import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 import 'package:mvoy/widgets/passwordField.widget.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/processResponse.dart';
+import '../../providers/auth.provider.dart';
 import '../login.screen.dart';
 
 class PersonalInfoSecondScreen extends StatefulWidget {
@@ -115,6 +118,9 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
         widget.usr!.relativeName = _relative.text;
         widget.usr!.relativeNumber = _relativeNumber.text;
         widget.usr!.gender = _gender.text;
+        widget.usr!.creationDate = DateTime.now().toString();
+        widget.usr!.isDeleted = false;
+        widget.usr!.userKind = 1;
         if (widget.usr!.isDriver!) {
           // Navigator.of(context).pushNamed(MotoInfoScreen.routeName);
           Navigator.push(
@@ -125,11 +131,86 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
               ),
             ),
           );
+        } else {
+          final _auth = Provider.of<AuthProvider>(context, listen: false);
+          ProcessResponse registered = await _auth.registerUser(widget.usr!);
+          if (registered.success!) {
+            showMessage(registered.errorMessage!);
+          } else {
+            showMessage(registered.errorMessage!);
+          }
         }
       },
       child: MvoyMainBtn(
         text: "siguiente",
       ),
+    );
+  }
+
+  Future<bool> showMessage(String text) async {
+    Dialog errorDialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 5),
+              color: Color(0xffFFDE30),
+              borderRadius: BorderRadius.circular(20)),
+          height: MediaQuery.of(context).size.height * .6,
+          width: MediaQuery.of(context).size.width * 1,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 10),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: SvgPicture.asset("assets/close.svg")),
+                  )
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            "titulo".toUpperCase(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                    child: Text(
+                      text.toUpperCase(),
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 50.0)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) => errorDialog,
     );
   }
 

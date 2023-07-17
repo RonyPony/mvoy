@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mvoy/contracts/auth.contract.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 
 import '../models/dominicanPerson.dart';
+import '../models/processResponse.dart';
 
 class AuthProvider with ChangeNotifier {
   AuthContract _contract;
@@ -23,10 +25,11 @@ class AuthProvider with ChangeNotifier {
   //   return result;
   // }
 
-  // Future<ProcessResponse> registerUser(Credentials info)async{
-  //   final result = await _contract.registerUser(info);
-  //   return result;
-  // }
+  Future<ProcessResponse> registerUser(MvoyUser info) async {
+    final result = await _contract.registeruser(info);
+    return result;
+  }
+
   // Future<ProcessResponse> signin(Credentials info)async{
   //   final result = await _contract.signin(info);
   //   return result;

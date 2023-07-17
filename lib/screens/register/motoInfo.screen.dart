@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/models/driver.dart';
 import 'package:mvoy/models/mvoyUser.dart';
+import 'package:mvoy/models/vehicle.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/register/motoInfoSecond.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
@@ -23,6 +25,9 @@ class MotoInfoScreen extends StatefulWidget {
 
 class _MotoInfoScreenState extends State<MotoInfoScreen> {
   bool isDriver = false;
+  TextEditingController _licencia = TextEditingController();
+  TextEditingController _segurp = TextEditingController();
+  TextEditingController _chasis = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
@@ -98,11 +103,18 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
       child: GestureDetector(
         onTap: () {
           // Navigator.of(context).pushNamed(MotoInfoScreenSecond.routeName);
+          MvoyDriver driver = MvoyDriver();
+          MvoyVehicle vehicle = MvoyVehicle();
+          vehicle.license = _licencia.text;
+          vehicle.seguro = _segurp.text;
+          vehicle.chasis = _chasis.text;
+          driver.user = widget.usr;
+          driver.vehicle = vehicle;
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => MotoInfoScreenSecond(
-                usr: widget.usr,
+                usr: driver,
               ),
             ),
           );
@@ -115,11 +127,20 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
   }
 
   _buildFields() {
-    return const Column(
+    return Column(
       children: [
-        MvoyTextField(placeHolder: "licencia"),
-        MvoyTextField(placeHolder: "seguro"),
-        MvoyTextField(placeHolder: "no. de chasis"),
+        MvoyTextField(
+          placeHolder: "licencia",
+          receivedController: _licencia,
+        ),
+        MvoyTextField(
+          placeHolder: "seguro",
+          receivedController: _segurp,
+        ),
+        MvoyTextField(
+          placeHolder: "no. de chasis",
+          receivedController: _chasis,
+        ),
         MvoyImageField(
             placeHolder: "foto del vehiculo",
             hasDescription: true,
