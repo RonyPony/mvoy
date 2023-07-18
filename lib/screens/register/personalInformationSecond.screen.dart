@@ -148,11 +148,11 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
             );
           } else {
             final _auth = Provider.of<AuthProvider>(context, listen: false);
-            ProcessResponse registered = await _auth.registerUser(widget.usr!);
-            if (registered.success!) {
-              showMessage(registered.errorMessage!);
+            MvoyUser registered = await _auth.registerUser(widget.usr!);
+            if (registered.id != null) {
+              showMessage("Registrado");
             } else {
-              showMessage(registered.errorMessage!);
+              showMessage("error");
             }
           }
         } else {

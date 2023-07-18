@@ -25,7 +25,7 @@ class AuthProvider with ChangeNotifier {
   //   return result;
   // }
 
-  Future<ProcessResponse> registerUser(MvoyUser info) async {
+  Future<MvoyUser> registerUser(MvoyUser info) async {
     final result = await _contract.registeruser(info);
     return result;
   }

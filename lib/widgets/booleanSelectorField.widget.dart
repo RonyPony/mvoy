@@ -54,7 +54,9 @@ class _MvoyBooleanSelectorFieldState extends State<MvoyBooleanSelectorField> {
             onTap: () {
               setState(() {
                 isOption1Selected = true;
-                widget.controller!.text = widget.option1Text;
+                if (widget.controller != null) {
+                  widget.controller!.text = widget.option1Text;
+                }
               });
             },
             child: Row(

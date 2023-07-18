@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/models/processResponse.dart';
+import 'package:mvoy/providers/driver.provider.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
 import 'package:mvoy/widgets/datePickerField.widget.dart';
@@ -27,6 +28,11 @@ class MotoInfoScreenSecond extends StatefulWidget {
 }
 
 class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
+  TextEditingController _seguroVigente = TextEditingController();
+  TextEditingController _placa = TextEditingController();
+  TextEditingController _color = TextEditingController();
+  TextEditingController _marca = TextEditingController();
+  TextEditingController _modelo = TextEditingController();
   String selectedYear = "año";
   bool isDriver = false;
   @override
@@ -99,14 +105,32 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
       padding: const EdgeInsets.only(bottom: 20),
       child: GestureDetector(
         onTap: () async {
+          widget.usr!.vehicle!.placa = _placa.text;
+          widget.usr!.vehicle!.color = _color.text;
+          widget.usr!.vehicle!.marca = _marca.text;
+          widget.usr!.vehicle!.modelo = _modelo.text;
+          widget.usr!.vehicle!.seguro = _seguroVigente.text;
+          widget.usr!.vehicle!.tieneSeguro =
+              _seguroVigente.text.toLowerCase() == "si";
+          widget.usr!.vehicle!.year = selectedYear;
           final _auth = Provider.of<AuthProvider>(context, listen: false);
-          ProcessResponse registered =
-              await _auth.registerUser(widget.usr!.user!);
-          if (registered.success!) {
-            
-            showMessage(registered.errorMessage!);
+          final _vehicle = Provider.of<DriverProvider>(context, listen: false);
+
+          MvoyUser registered = await _auth.registerUser(widget.usr!.user!);
+          if (registered.id != null) {
+            widget.usr!.user!.id = registered.id;
+            widget.usr!.vehicle!.ownerId = registered.id;
+            ProcessResponse vehicleCreated =
+                await _vehicle.registerVehicle(widget.usr!);
+
+            if (vehicleCreated.success!) {
+              showMessage("Registro completado", true);
+            } else {
+              showMessage(
+                  "Usuario registrado, pero algo paso validando la informacion de tu vehiculo, favor contactar la administracion");
+            }
           } else {
-            showMessage(registered.errorMessage!);
+            showMessage("Ups, algo ha pasado y no pudimos registrarte");
           }
         },
         child: MvoyMainBtn(
@@ -116,7 +140,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
     );
   }
 
-  Future<bool> showMessage(String text) async {
+  Future<bool> showMessage(String text, [bool? isFinalMessage]) async {
     Dialog errorDialog = Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
@@ -135,7 +159,14 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
                   padding: const EdgeInsets.only(top: 10, right: 10),
                   child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pop(true);
+                        if (isFinalMessage!) {
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()),
+                              (Route<dynamic> route) => false);
+                        } else {
+                          Navigator.of(context).pop(true);
+                        }
                       },
                       child: SvgPicture.asset("assets/close.svg")),
                 )
@@ -188,11 +219,24 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
     }
     return Column(
       children: [
-        MvoyTextField(placeHolder: "no. placa"),
-        MvoyTextField(placeHolder: "color"),
-        MvoyTextField(placeHolder: "marca"),
-        MvoyTextField(placeHolder: "modelo"),
+        MvoyTextField(
+          placeHolder: "no. placa",
+          receivedController: _placa,
+        ),
+        MvoyTextField(
+          placeHolder: "color",
+          receivedController: _color,
+        ),
+        MvoyTextField(
+          placeHolder: "marca",
+          receivedController: _marca,
+        ),
+        MvoyTextField(
+          placeHolder: "modelo",
+          receivedController: _modelo,
+        ),
         MvoyBooleanSelectorField(
+            controller: _seguroVigente,
             placeHolder: "seguro vigente",
             option1Text: "si",
             option2Text: "no"),

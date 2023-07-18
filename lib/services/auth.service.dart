@@ -52,8 +52,7 @@ class AuthService implements AuthContract {
   }
 
   @override
-  Future<ProcessResponse> registeruser(MvoyUser info) async {
-    ProcessResponse finalData = ProcessResponse(false, "process not completed");
+  Future<MvoyUser> registeruser(MvoyUser info) async {
     MvoyUser? dataResponse;
     Map<String, dynamic> data = info.toJson();
     try {
@@ -80,29 +79,23 @@ class AuthService implements AuthContract {
         }),
       );
       if (response.statusCode == 200) {
+        // info.id = r
         dataResponse = MvoyUser.fromJson(jsonDecode(response.body));
-        finalData.success = true;
-        finalData.errorMessage = "Usuario Creado";
-        return finalData;
+
+        return dataResponse;
       } else {
         if (response.statusCode == 404) {
-          finalData.success = false;
-          finalData.errorMessage =
-              "Favor valida la informacion e intentalo luego.";
-          return finalData;
+          dataResponse = MvoyUser();
+          return dataResponse;
         } else {
-          finalData.success = false;
           print(response.body);
-          finalData.errorMessage =
-              "Error al intentar registrarte, intentalo luego";
-          return finalData;
+          dataResponse = MvoyUser();
+          return dataResponse;
         }
       }
     } catch (e) {
-      finalData.success = false;
-      //TODO fix exception message
-      finalData.errorMessage = e.toString();
-      return finalData;
+      dataResponse = MvoyUser();
+      return dataResponse;
     }
   }
 }
