@@ -32,6 +32,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   TextEditingController _lastName1 = TextEditingController();
   TextEditingController _lastName2 = TextEditingController();
   TextEditingController _birthDate = TextEditingController();
+
+  bool _isSearchingCedula = false;
+  String _validationError = "";
   @override
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
@@ -88,10 +91,25 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   "INFORMACION PERSONAL !",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  _validationError,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.red,
+                      fontWeight: FontWeight.normal),
                 ),
               ),
             ],
@@ -105,21 +123,26 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   _buildregisterBtn() {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).pushNamed(PersonalInfoSecondScreen.routeName);
-        widget.usr!.cedula = _cedula.text;
-        widget.usr!.name = _firstName.text;
-        widget.usr!.middleName = _secondName.text;
-        widget.usr!.lastname = _lastName1.text;
-        widget.usr!.lastname2 = _lastName2.text;
-        widget.usr!.birthDate = _birthDate.text;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PersonalInfoSecondScreen(
-              usr: widget.usr,
+        if (validateForm() && !_isSearchingCedula) {
+          widget.usr!.cedula = _cedula.text;
+          widget.usr!.name = _firstName.text;
+          widget.usr!.middleName = _secondName.text;
+          widget.usr!.lastname = _lastName1.text;
+          widget.usr!.lastname2 = _lastName2.text;
+          widget.usr!.birthDate = _birthDate.text;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PersonalInfoSecondScreen(
+                usr: widget.usr,
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          setState(() {
+            print("No valid Form");
+          });
+        }
       },
       child: MvoyMainBtn(
         text: "siguiente",
@@ -188,6 +211,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   }
 
   getDominicanPerson(String cedula) async {
+    _validationError = "Validado Documento, por favor espere...";
+    clearForm();
+    setState(() {
+      _isSearchingCedula = true;
+    });
     final _auth = Provider.of<AuthProvider>(context, listen: false);
     DominicanPerson person = await _auth.getPersonInfoByCedula(cedula);
     if (person.cedula == null) {
@@ -201,7 +229,24 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
         _lastName2.text = person.apellido2!;
         _birthDate.text = person.fechaNacimiento!.split(' ')[0];
       });
+      final snackBar = SnackBar(
+        content: Text(
+            "Validacion completada exitosamente, se cargo la informacion de ${person.nombres}"),
+        action: SnackBarAction(
+          label: 'Deshacer',
+          onPressed: () {
+            clearForm();
+            // Some code to undo the change.
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+
+    setState(() {
+      _isSearchingCedula = false;
+    });
+    _validationError = "";
   }
 
   void clearForm() {
@@ -212,5 +257,28 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
       _lastName2.clear();
       _birthDate.clear();
     });
+  }
+
+  bool validateForm() {
+    if (_cedula.text.length != 11) {
+      _validationError = "Cedula es invalida";
+      return false;
+    }
+    if (_firstName.text.length < 2) {
+      _validationError = "Nombre no es valido";
+      return false;
+    }
+    if (_lastName1.text.length < 2) {
+      _validationError = "Primer apellido no es valido";
+      return false;
+    }
+    if (_lastName2.text.length < 2) {
+      _validationError = "Segundo apellido no es valido";
+      return false;
+    }
+    setState(() {
+      _validationError = "";
+    });
+    return true;
   }
 }

@@ -30,6 +30,7 @@ class PersonalInfoSecondScreen extends StatefulWidget {
 
 class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
   bool isDriver = false;
+  String _validationError = "";
   TextEditingController _email = TextEditingController();
   TextEditingController _telefono = TextEditingController();
   TextEditingController _direccion = TextEditingController();
@@ -101,6 +102,21 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
               ),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  _validationError,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.red,
+                      fontWeight: FontWeight.normal),
+                ),
+              ),
+            ],
+          ),
           _buildFields()
         ],
       ),
@@ -110,35 +126,39 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
   _buildregisterBtn() {
     return GestureDetector(
       onTap: () async {
-        // final SharedPreferences prefs = await SharedPreferences.getInstance();
-        // final String? tmpUserJson = prefs.getString('tmpMvoyUser');
-        widget.usr!.email = _email.text;
-        widget.usr!.phone = _telefono.text;
-        widget.usr!.direccion = _direccion.text;
-        widget.usr!.relativeName = _relative.text;
-        widget.usr!.relativeNumber = _relativeNumber.text;
-        widget.usr!.gender = _gender.text;
-        widget.usr!.creationDate = DateTime.now().toString();
-        widget.usr!.isDeleted = false;
-        widget.usr!.userKind = 1;
-        if (widget.usr!.isDriver!) {
-          // Navigator.of(context).pushNamed(MotoInfoScreen.routeName);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MotoInfoScreen(
-                usr: widget.usr,
+        if (validateForm()) {
+          widget.usr!.email = _email.text;
+          widget.usr!.phone = _telefono.text;
+          widget.usr!.direccion = _direccion.text;
+          widget.usr!.relativeName = _relative.text;
+          widget.usr!.relativeNumber = _relativeNumber.text;
+          widget.usr!.gender = _gender.text;
+          widget.usr!.creationDate = DateTime.now().toString();
+          widget.usr!.isDeleted = false;
+          widget.usr!.userKind = 1;
+          if (widget.usr!.isDriver!) {
+            // Navigator.of(context).pushNamed(MotoInfoScreen.routeName);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MotoInfoScreen(
+                  usr: widget.usr,
+                ),
               ),
-            ),
-          );
-        } else {
-          final _auth = Provider.of<AuthProvider>(context, listen: false);
-          ProcessResponse registered = await _auth.registerUser(widget.usr!);
-          if (registered.success!) {
-            showMessage(registered.errorMessage!);
+            );
           } else {
-            showMessage(registered.errorMessage!);
+            final _auth = Provider.of<AuthProvider>(context, listen: false);
+            ProcessResponse registered = await _auth.registerUser(widget.usr!);
+            if (registered.success!) {
+              showMessage(registered.errorMessage!);
+            } else {
+              showMessage(registered.errorMessage!);
+            }
           }
+        } else {
+          setState(() {
+            print("No valid Form");
+          });
         }
       },
       child: MvoyMainBtn(
@@ -265,5 +285,35 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
         ],
       ),
     );
+  }
+
+  bool validateForm() {
+    bool validEmail = !RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(_email.text);
+    if (validEmail) {
+      _validationError = "Correo electronico no es valido";
+      return false;
+    }
+    if (_telefono.text.length != 10) {
+      _validationError = "Telefono no es valido";
+      return false;
+    }
+    if (_direccion.text.length < 2) {
+      _validationError = "Direccion no valida";
+      return false;
+    }
+    if (_relative.text.length < 2) {
+      _validationError = "Nombre de familiar no es valido";
+      return false;
+    }
+    if (_relativeNumber.text.length < 2) {
+      _validationError = "Numero de familiar no es valido";
+      return false;
+    }
+    setState(() {
+      _validationError = "";
+    });
+    return true;
   }
 }

@@ -6,13 +6,15 @@ class MvoyMainBtn extends StatelessWidget {
   final String text;
   final double width;
   final Color color;
+  final bool? enabled;
   final Color fontColor;
   const MvoyMainBtn(
       {super.key,
       required this.text,
       this.width = 300,
       this.color = Colors.black,
-      this.fontColor = const Color(0xffFFDE30)});
+      this.fontColor = const Color(0xffFFDE30),
+      this.enabled});
 
   @override
   Widget build(BuildContext context) {

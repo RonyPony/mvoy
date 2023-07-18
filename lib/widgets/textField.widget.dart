@@ -28,7 +28,9 @@ class MvoyTextField extends StatelessWidget {
           keyboardType: keyboardType,
           controller: receivedController,
           onChanged: (value) {
-            onChanged!();
+            if (onChanged != null) {
+              onChanged!();
+            }
           },
           decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.never,
