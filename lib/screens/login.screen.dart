@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
@@ -25,7 +26,7 @@ class LoginScreen extends StatelessWidget {
             _buildSkiptBtn(baseSize),
             _buildLogo(),
             _buildLoginForm(),
-            _buildLoginBtn(),
+            _buildLoginBtn(context),
             _buildSignupBtn(context),
             _buildForgottenPass(context)
           ],
@@ -81,9 +82,16 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  _buildLoginBtn() {
-    return MvoyMainBtn(
-      text: "ingresar",
+  _buildLoginBtn(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            (route) => false);
+      },
+      child: MvoyMainBtn(
+        text: "ingresar",
+      ),
     );
   }
 

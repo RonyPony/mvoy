@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage1.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage3.screen.dart';
 import 'package:mvoy/screens/login.screen.dart';
@@ -28,5 +29,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     LoginScreen.routeName: (BuildContext context) => const LoginScreen(),
     ForgottenPasswordScreen.routeName: (BuildContext context) =>
         const ForgottenPasswordScreen(),
+    HomeScreen.routeName: (BuildContext context) => const HomeScreen(),
   };
 }

@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 class MvoyMainBtn extends StatelessWidget {
   final String text;
   final double width;
+  final double? textSize;
   final Color color;
   final bool? enabled;
+  final bool? showNextIcon;
   final Color fontColor;
   const MvoyMainBtn(
       {super.key,
@@ -14,7 +16,9 @@ class MvoyMainBtn extends StatelessWidget {
       this.width = 300,
       this.color = Colors.black,
       this.fontColor = const Color(0xffFFDE30),
-      this.enabled});
+      this.enabled,
+      this.showNextIcon = true,
+      this.textSize = 28});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +35,15 @@ class MvoyMainBtn extends StatelessWidget {
             Text(
               text.toUpperCase(),
               style: TextStyle(
-                  color: fontColor, fontSize: 28, fontWeight: FontWeight.bold),
+                  color: fontColor,
+                  fontSize: textSize,
+                  fontWeight: FontWeight.bold),
             ),
-            Container(
-                child: SvgPicture.asset("assets/left_arrow.svg",
-                    height: 28, color: fontColor)),
+            showNextIcon!
+                ? Container(
+                    child: SvgPicture.asset("assets/left_arrow.svg",
+                        height: 28, color: fontColor))
+                : SizedBox()
           ],
         ),
       ),

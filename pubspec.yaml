@@ -35,6 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.0
   shared_preferences: ^2.2.0
+  google_maps_flutter: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,14 @@ flutter:
     - assets/date.svg
     - assets/eye.svg
     - assets/close.svg
+    - assets/MENU.svg
+    - assets/search.svg
+    - assets/map_dark_style.json
+    - assets/zoom-control.svg
+    - assets/home.svg
+    - assets/task.svg
+    - assets/profile.svg
+    - assets/location.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
