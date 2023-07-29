@@ -343,6 +343,27 @@ class _HomeState extends State<HomeScreen> {
   }
 
   Widget _buildWaitScreen() {
-    return CircularProgressIndicator();
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 7,
+        ),
+        SvgPicture.asset(
+          'assets/loading.svg',
+          height: 100,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 4,
+        ),
+        Text(
+          "Cargando Lugares a tu alrededor",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text("Por favor espera ...")
+      ],
+    );
   }
 }
