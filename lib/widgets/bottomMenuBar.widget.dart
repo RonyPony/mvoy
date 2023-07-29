@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
+import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
+import 'package:mvoy/screens/profile/profile.screen.dart';
 
 class MvoyBottomMenuBarWidget extends StatefulWidget {
   final double? spaceBetween;
@@ -42,9 +45,11 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      activeTab = 0;
-                    });
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ),
+                        (route) => false);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
@@ -61,9 +66,11 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      activeTab = 1;
-                    });
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => MyTripsScreen(),
+                        ),
+                        (route) => false);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
@@ -80,9 +87,12 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      activeTab = 2;
-                    });
+                    activeTab = 2;
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(),
+                        ),
+                        (route) => false);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),

@@ -3,7 +3,9 @@ import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage1.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage3.screen.dart';
 import 'package:mvoy/screens/login.screen.dart';
+import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
 import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
+import 'package:mvoy/screens/profile/profile.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
 import 'package:mvoy/screens/register/motoInfo.screen.dart';
 import 'package:mvoy/screens/register/motoInfoSecond.screen.dart';
@@ -30,5 +32,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     ForgottenPasswordScreen.routeName: (BuildContext context) =>
         const ForgottenPasswordScreen(),
     HomeScreen.routeName: (BuildContext context) => const HomeScreen(),
+    MyTripsScreen.routeName: (BuildContext context) => const MyTripsScreen(),
+    ProfileScreen.routeName: (BuildContext context) => const ProfileScreen(),
   };
 }
