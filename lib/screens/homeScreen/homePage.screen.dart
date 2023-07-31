@@ -23,6 +23,7 @@ class _HomeState extends State<HomeScreen> {
 
   var _darkMapStyle;
   bool showZoomControl = false;
+  BuildContext? _scaffContext;
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(_darkMapStyle);
     mapController = controller;
@@ -41,29 +42,94 @@ class _HomeState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _scaffContext = context;
     return Scaffold(
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+  child: ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("data")
+          ],
+        ),
+      ),
+      ListTile(
+        title:  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/caco.svg'),
+            SizedBox(width: 30,),
+            Text('INICIO',style: TextStyle(
+              fontSize: 25
+            ),),
+          ],
+        ),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+      ListTile(
+        title: Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/trip.svg'),
+            SizedBox(width: 30,),
+            Text('MIS VIAJES',style: TextStyle(
+              fontSize: 25
+            ),),
+          ],
+        ),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+      ListTile(
+        title: Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/profile.svg'),
+            SizedBox(width: 30,),
+            Text('PERFIL',style: TextStyle(
+              fontSize: 25
+            ),),
+          ],
+        ),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+    ],
+  ),
+),
       backgroundColor: Color.fromRGBO(255, 222, 48, 1),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildHeader(context),
-              _buildSerchBar(context),
-              FutureBuilder<Widget>(
-                future: _buildMap(context),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return _buildWaitScreen();
-                  }
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    return snapshot.data!;
-                  }
+        child: Column(
+          children: [
+            _buildHeader(context),
+            _buildSerchBar(context),
+            FutureBuilder<Widget>(
+              future: _buildMap(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return _buildWaitScreen();
-                },
-              )
-            ],
-          ),
+                }
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  return snapshot.data!;
+                }
+                return _buildWaitScreen();
+              },
+            )
+          ],
         ),
       ),
     );
@@ -88,7 +154,8 @@ class _HomeState extends State<HomeScreen> {
           SizedBox(
             width: MediaQuery.of(context).size.width * .4,
           ),
-          SvgPicture.asset('assets/MENU.svg')
+          GestureDetector(onTap: ()=>Scaffold.of(_scaffContext!).openDrawer(),
+            child: SvgPicture.asset('assets/MENU.svg'))
         ],
       ),
     );
@@ -139,7 +206,7 @@ class _HomeState extends State<HomeScreen> {
 
     return await Container(
       width: MediaQuery.of(context).size.width * .96,
-      height: MediaQuery.of(context).size.height * .75,
+      height: MediaQuery.of(context).size.height * .74,
       child: Center(
         child: ClipRRect(
           borderRadius: BorderRadius.only(
@@ -277,11 +344,16 @@ class _HomeState extends State<HomeScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 30),
-                            child: MvoyMainBtn(
-                              text: "solicitar viaje",
-                              textSize: 16,
-                              width: MediaQuery.of(context).size.width * .5,
-                              showNextIcon: false,
+                            child: GestureDetector(
+                              onTap: (){
+                                //TODO solicitar viaje
+                              },
+                              child: MvoyMainBtn(
+                                text: "solicitar viaje",
+                                textSize: 16,
+                                width: MediaQuery.of(context).size.width * .5,
+                                showNextIcon: false,
+                              ),
                             ),
                           ),
                           SizedBox(

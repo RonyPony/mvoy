@@ -139,7 +139,7 @@ class _HomeState extends State<MyTripsScreen> {
                     ),
                     Container(
                       // color: Colors.red,
-                      height: MediaQuery.of(context).size.height * .55,
+                      height: MediaQuery.of(context).size.height * .60,
                       width: MediaQuery.of(context).size.width * .9,
                       child: ListView.builder(
                         itemCount: 30,
