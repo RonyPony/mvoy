@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
+import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
 import 'package:mvoy/screens/profile/profile.screen.dart';
 
@@ -72,8 +73,11 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
               ],
             ),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                  (route) => false);
             },
           ),
           ListTile(
@@ -91,8 +95,11 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
               ],
             ),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => MyTripsScreen(),
+                  ),
+                  (route) => false);
             },
           ),
           ListTile(
@@ -110,8 +117,11 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
               ],
             ),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(),
+                  ),
+                  (route) => false);
             },
           ),
           SizedBox(
@@ -132,8 +142,11 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
               ],
             ),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                  (route) => false);
             },
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/screens/tripDetailsScreen/tripDetails.screen.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
 import '../../widgets/appbar.dart';
@@ -137,60 +138,68 @@ class _HomeState extends State<MyTripsScreen> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 20),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Color.fromRGBO(255, 222, 48, 1),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 20),
-                                        child: SvgPicture.asset(
-                                          'assets/trip.svg',
-                                          height: 90,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    TripDetailsScreen.routeName,
+                                    arguments: index + 1);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color.fromRGBO(255, 222, 48, 1),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 20),
+                                          child: SvgPicture.asset(
+                                            'assets/trip.svg',
+                                            height: 90,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              // color: Colors.red,
+                                              width: 200,
+                                              child: Text(
+                                                "viaje ".toUpperCase() +
+                                                    (index + 1).toString() +
+                                                    " | de los mameyes a san isidro"
+                                                        .toUpperCase(),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            // color: Colors.red,
-                                            width: 200,
-                                            child: Text(
-                                              "viaje ".toUpperCase() +
-                                                  (index + 1).toString() +
-                                                  " | de los mameyes a san isidro"
-                                                      .toUpperCase(),
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "lunes 14 de febrero, 2020"
-                                                .toUpperCase(),
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  )
-                                ],
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "lunes 14 de febrero, 2020"
+                                                  .toUpperCase(),
+                                              style:
+                                                  TextStyle(color: Colors.grey),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );

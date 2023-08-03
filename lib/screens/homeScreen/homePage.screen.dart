@@ -154,7 +154,7 @@ class _HomeState extends State<HomeScreen> {
                 // liteModeEnabled: true,
                 // mapToolbarEnabled: true,
                 trafficEnabled: true,
-
+                myLocationButtonEnabled: false,
                 myLocationEnabled: true,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
