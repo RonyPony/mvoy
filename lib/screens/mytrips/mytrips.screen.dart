@@ -5,7 +5,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
+import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
+import '../../widgets/drawer.widget.dart';
 
 class MyTripsScreen extends StatefulWidget {
   static String routeName = "/MyTripsScreen";
@@ -17,6 +19,7 @@ class MyTripsScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<MyTripsScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -26,43 +29,31 @@ class _HomeState extends State<MyTripsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 100,
+        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        automaticallyImplyLeading: false,
+        actions: [
+          _buildHeader(context, () => _scaffoldKey.currentState!.openDrawer()),
+        ],
+      ),
+      drawer: MvoyDrawerWidget(),
       backgroundColor: Color.fromRGBO(255, 222, 48, 1),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
-              _buildHeader(context),
-              _buildSerchBar(context),
-              _buildList(context)
-            ],
+            children: [_buildSerchBar(context), _buildList(context)],
           ),
         ),
       ),
     );
   }
 
-  _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.grey,
-            child: SvgPicture.asset('assets/usuario.svg'),
-            // backgroundImage: AssetImage('assets/images/cat3.png'),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * .05),
-          Text(
-            "Hola, Ernesto!",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .4,
-          ),
-          SvgPicture.asset('assets/MENU.svg')
-        ],
-      ),
+  _buildHeader(BuildContext context, Function onTap) {
+    return MvoyAppBarWidget(
+      onMenuTap: onTap,
     );
   }
 
@@ -142,7 +133,7 @@ class _HomeState extends State<MyTripsScreen> {
                       height: MediaQuery.of(context).size.height * .60,
                       width: MediaQuery.of(context).size.width * .9,
                       child: ListView.builder(
-                        itemCount: 30,
+                        itemCount: 300,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 20),
@@ -176,8 +167,10 @@ class _HomeState extends State<MyTripsScreen> {
                                             // color: Colors.red,
                                             width: 200,
                                             child: Text(
-                                              "de los mameyes a san isidro"
-                                                  .toUpperCase(),
+                                              "viaje ".toUpperCase() +
+                                                  (index + 1).toString() +
+                                                  " | de los mameyes a san isidro"
+                                                      .toUpperCase(),
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),

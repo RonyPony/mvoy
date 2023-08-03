@@ -2,21 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
 
+import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
+import '../../widgets/drawer.widget.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static String routeName = '/profileScreen';
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 100,
+        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        automaticallyImplyLeading: false,
+        actions: [
+          _buildHeader(context, () => _scaffoldKey.currentState!.openDrawer()),
+        ],
+      ),
+      drawer: MvoyDrawerWidget(),
       backgroundColor: Color.fromRGBO(255, 222, 48, 1),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildHeader(context),
             Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -28,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     _buildProfileHeader(context),
                     _buildProfileKPIS(),
                     Container(
-                      height: MediaQuery.of(context).size.height * .47,
+                      height: MediaQuery.of(context).size.height * .37,
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         child: _buildFrom(),
@@ -43,28 +61,9 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.grey,
-            child: SvgPicture.asset('assets/usuario.svg'),
-            // backgroundImage: AssetImage('assets/images/cat3.png'),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * .05),
-          Text(
-            "Hola, Ernesto!",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .4,
-          ),
-          SvgPicture.asset('assets/MENU.svg')
-        ],
-      ),
+  _buildHeader(BuildContext context, Function onTap) {
+    return MvoyAppBarWidget(
+      onMenuTap: onTap,
     );
   }
 

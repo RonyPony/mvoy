@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/widgets/appbar.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
 import '../../widgets/bottomMenuBar.widget.dart';
+import '../../widgets/drawer.widget.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = "/homeScreen";
@@ -20,7 +22,7 @@ class _HomeState extends State<HomeScreen> {
   late GoogleMapController mapController;
   CameraPosition? _googleMapCurrentCameraPosition;
   final LatLng _center = const LatLng(45.521563, -122.677433);
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var _darkMapStyle;
   bool showZoomControl = false;
   BuildContext? _scaffContext;
@@ -44,77 +46,21 @@ class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     _scaffContext = context;
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-  child: ListView(
-    padding: EdgeInsets.zero,
-    children: [
-      const DrawerHeader(
-        
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("data")
-          ],
-        ),
+      key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 100,
+        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        automaticallyImplyLeading: false,
+        actions: [
+          _buildHeader(context, () => _scaffoldKey.currentState!.openDrawer()),
+        ],
       ),
-      ListTile(
-        title:  Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset('assets/caco.svg'),
-            SizedBox(width: 30,),
-            Text('INICIO',style: TextStyle(
-              fontSize: 25
-            ),),
-          ],
-        ),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-      ListTile(
-        title: Row(mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset('assets/trip.svg'),
-            SizedBox(width: 30,),
-            Text('MIS VIAJES',style: TextStyle(
-              fontSize: 25
-            ),),
-          ],
-        ),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-      ListTile(
-        title: Row(mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset('assets/profile.svg'),
-            SizedBox(width: 30,),
-            Text('PERFIL',style: TextStyle(
-              fontSize: 25
-            ),),
-          ],
-        ),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-    ],
-  ),
-),
+      drawer: MvoyDrawerWidget(),
       backgroundColor: Color.fromRGBO(255, 222, 48, 1),
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(context),
             _buildSerchBar(context),
             FutureBuilder<Widget>(
               future: _buildMap(context),
@@ -135,29 +81,9 @@ class _HomeState extends State<HomeScreen> {
     );
   }
 
-  _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.grey,
-            child: SvgPicture.asset('assets/usuario.svg'),
-            // backgroundImage: AssetImage('assets/images/cat3.png'),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * .05),
-          Text(
-            "Hola, Ernesto!",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .4,
-          ),
-          GestureDetector(onTap: ()=>Scaffold.of(_scaffContext!).openDrawer(),
-            child: SvgPicture.asset('assets/MENU.svg'))
-        ],
-      ),
+  _buildHeader(BuildContext context, Function onTap) {
+    return MvoyAppBarWidget(
+      onMenuTap: onTap,
     );
   }
 
@@ -206,7 +132,7 @@ class _HomeState extends State<HomeScreen> {
 
     return await Container(
       width: MediaQuery.of(context).size.width * .96,
-      height: MediaQuery.of(context).size.height * .74,
+      height: MediaQuery.of(context).size.height * .70,
       child: Center(
         child: ClipRRect(
           borderRadius: BorderRadius.only(
@@ -345,7 +271,7 @@ class _HomeState extends State<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 30),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 //TODO solicitar viaje
                               },
                               child: MvoyMainBtn(

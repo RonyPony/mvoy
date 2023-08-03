@@ -65,6 +65,9 @@ flutter:
   assets:
     - assets/left_arrow.svg
     - assets/logox.png
+    - assets/logo.svg
+    - assets/logo.png
+    - assets/logo2.svg
     - assets/dropdown.svg
     - assets/landing1.png
     - assets/base-logo.png
@@ -91,6 +94,7 @@ flutter:
     - assets/locationSpot.svg
     - assets/wait.svg
     - assets/loading.svg
+    - assets/logout.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
