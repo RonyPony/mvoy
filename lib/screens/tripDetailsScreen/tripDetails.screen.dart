@@ -61,8 +61,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
       drawer: MvoyDrawerWidget(),
       backgroundColor: Color.fromRGBO(255, 222, 48, 1),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
                 decoration: BoxDecoration(
@@ -71,6 +71,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 // height: MediaQuery.of(context).size.height * .85,
                 width: MediaQuery.of(context).size.width * .95,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height * .71,
@@ -101,6 +103,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
 
   _buildTripHeader(String tripid) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           padding: EdgeInsets.only(top: 20, left: 20),
@@ -157,6 +160,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   height: 20,
@@ -207,7 +211,35 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             Container(
               padding: EdgeInsets.only(bottom: 15),
               child: Text(
-                "DURACION DE VIAJE",
+                "DISTANCIA DEL VIAJE",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: 15),
+              child: Text(
+                "HORA DE SALIDA",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: 15),
+              child: Text(
+                "HORA DE LLEGADA",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: 15),
+              child: Text(
+                "CONDUCTOR",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: 15),
+              child: Text(
+                "PRECIO",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -219,7 +251,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
         Container(
           decoration: BoxDecoration(color: Colors.black),
           width: 5,
-          height: 100,
+          height: 150,
         ),
         SizedBox(
           width: 10,
@@ -229,14 +261,14 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             Container(
               padding: EdgeInsets.only(bottom: 15),
               child: Text(
-                "DURACION DE VIAJE",
+                "15 MINUTOS",
                 style: TextStyle(fontWeight: FontWeight.normal),
               ),
             ),
             Container(
               padding: EdgeInsets.only(bottom: 15),
               child: Text(
-                "DURACION DE VIAJE",
+                "2.5 KILOMETROS",
                 style: TextStyle(fontWeight: FontWeight.normal),
               ),
             ),
