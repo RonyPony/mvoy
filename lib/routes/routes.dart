@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mvoy/screens/driverDetailScreen/driverDetail.screen.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage1.screen.dart';
 import 'package:mvoy/screens/landingPage/landingPage3.screen.dart';
@@ -37,5 +38,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     ProfileScreen.routeName: (BuildContext context) => const ProfileScreen(),
     TripDetailsScreen.routeName: (BuildContext context) =>
         const TripDetailsScreen(),
+    DriverDetailScreen.routeName: (BuildContext) => const DriverDetailScreen(),
   };
 }

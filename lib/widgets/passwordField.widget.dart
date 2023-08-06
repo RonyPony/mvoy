@@ -5,15 +5,16 @@ import 'package:flutter_svg/svg.dart';
 
 class MvoyPasswordField extends StatefulWidget {
   final String placeHolder;
-  const MvoyPasswordField({super.key, required this.placeHolder});
+  final TextEditingController? receivedController;
+  const MvoyPasswordField(
+      {super.key, required this.placeHolder, this.receivedController});
 
   @override
   State<MvoyPasswordField> createState() => _MvoyPasswordFieldState();
 }
 
 class _MvoyPasswordFieldState extends State<MvoyPasswordField> {
-  bool isShowingPassword = false;
-  TextEditingController passwordController = TextEditingController();
+  bool isShowingPassword = true;
   @override
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
@@ -26,7 +27,7 @@ class _MvoyPasswordFieldState extends State<MvoyPasswordField> {
           decoration: const BoxDecoration(),
           child: TextField(
             obscureText: isShowingPassword,
-            controller: passwordController,
+            controller: widget.receivedController,
             decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(

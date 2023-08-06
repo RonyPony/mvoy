@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvoy/contracts/auth.contract.dart';
 import 'package:mvoy/providers/auth.provider.dart';
 import 'package:mvoy/providers/driver.provider.dart';
 import 'package:mvoy/routes/routes.dart';

@@ -5,9 +5,21 @@ import 'package:flutter/widgets.dart';
 import 'package:mvoy/screens/landingPage/landingPage2.screen.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
-class LandingScreen1 extends StatelessWidget {
+class LandingScreen1 extends StatefulWidget {
   static String routeName = "/landingScreen1";
   const LandingScreen1({super.key});
+
+  @override
+  State<LandingScreen1> createState() => _LandingScreen1State();
+}
+
+class _LandingScreen1State extends State<LandingScreen1> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
   @override
   Widget build(BuildContext context) {

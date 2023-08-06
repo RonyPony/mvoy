@@ -25,7 +25,6 @@ class _HomeState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var _darkMapStyle;
   bool showZoomControl = false;
-  BuildContext? _scaffContext;
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(_darkMapStyle);
     mapController = controller;
@@ -44,7 +43,6 @@ class _HomeState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _scaffContext = context;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

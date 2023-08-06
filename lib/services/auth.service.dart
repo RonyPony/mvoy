@@ -3,8 +3,10 @@ import 'dart:math';
 
 import 'package:http/http.dart';
 import 'package:mvoy/contracts/auth.contract.dart';
+import 'package:mvoy/models/credentials.dart';
 import 'package:mvoy/models/dominicanPerson.dart';
 import 'package:http/http.dart' as http;
+import 'package:mvoy/models/loginResponse.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/models/processResponse.dart';
 
@@ -57,7 +59,6 @@ class AuthService implements AuthContract {
     Map<String, dynamic> data = info.toJson();
     try {
       Response? response;
-      Uri addr = Uri.parse('http://23.19.226.29/api/user');
       response = await http.post(
         Uri.parse('http://23.19.226.29/api/user'),
         headers: <String, String>{
@@ -96,6 +97,38 @@ class AuthService implements AuthContract {
     } catch (e) {
       dataResponse = MvoyUser();
       return dataResponse;
+    }
+  }
+
+  @override
+  Future<LoginResponse> signin(Credentials info) async {
+    LoginResponse dataResponse = LoginResponse(success: false);
+    try {
+      Response? response;
+      response = await http.post(
+          Uri.parse('http://23.19.226.29/api/user/login'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(<String, String>{
+            'email': info.email!,
+            'password': info.password!
+          }));
+
+      if (response.statusCode == 200) {
+        dataResponse = LoginResponse.fromJson(jsonDecode(response.body));
+        return dataResponse;
+      } else {
+        if (response.statusCode == 404) {
+          return dataResponse;
+        } else {
+          dataResponse = LoginResponse.fromJson(jsonDecode(response.body));
+          return dataResponse;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      return dataResponse!;
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/screens/driverDetailScreen/driverDetail.screen.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
@@ -112,7 +113,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             "viaje no. ".toUpperCase() +
                 tripid +
                 " | de los mameyes a san isidro".toUpperCase(),
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         SvgPicture.asset(
@@ -196,85 +197,127 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
   }
 
   _buildTripInfo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "DURACION DE VIAJE",
-                style: TextStyle(fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.only(top: 22),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "DURACION DE VIAJE",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "DISTANCIA DEL VIAJE",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "DISTANCIA DEL VIAJE",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "HORA DE SALIDA",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "HORA DE SALIDA",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "HORA DE LLEGADA",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "HORA DE LLEGADA",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "CONDUCTOR",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "CONDUCTOR",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "PRECIO",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "PRECIO",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Container(
-          decoration: BoxDecoration(color: Colors.black),
-          width: 5,
-          height: 150,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "15 MINUTOS",
-                style: TextStyle(fontWeight: FontWeight.normal),
+            ],
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.black.withOpacity(.2)),
+            width: 3,
+            height: 150,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "15 MINUTOS",
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Text(
-                "2.5 KILOMETROS",
-                style: TextStyle(fontWeight: FontWeight.normal),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "2.5 KILOMETROS",
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
               ),
-            ),
-          ],
-        )
-      ],
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "2:45 PM",
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "2:56 PM",
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      DriverDetailScreen.routeName,
+                    );
+                  },
+                  child: const Text(
+                    "ERNESTO ROSARIO",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.red,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "DOP: 50.00",
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
