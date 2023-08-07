@@ -49,23 +49,19 @@ class _HomeState extends State<HomeScreen> {
   child: ListView(
     padding: EdgeInsets.zero,
     children: [
-      const DrawerHeader(
+       DrawerHeader(
         
-        decoration: BoxDecoration(
-          color: Colors.white,
+        decoration: const BoxDecoration(
+          // color: Colors.white,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("data")
-          ],
-        ),
+        child: SvgPicture.asset('assets/logo21.svg',height: 100,),
       ),
       ListTile(
         title:  Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset('assets/caco.svg'),
+            SvgPicture.asset('assets/logo.svg',height: 100,),
             SizedBox(width: 30,),
             Text('INICIO',style: TextStyle(
               fontSize: 25

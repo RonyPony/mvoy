@@ -1,6 +1,5 @@
 import '../models/dominicanPerson.dart';
 import '../models/mvoyUser.dart';
-import '../models/processResponse.dart';
 
 abstract class AuthContract {
   Future<bool> isUserAuthenticated();
