@@ -7,6 +7,7 @@ import 'package:mvoy/screens/driverDetailScreen/driverDetail.screen.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
+import '../../widgets/detailsList.widget.dart';
 import '../../widgets/drawer.widget.dart';
 
 class TripDetailsScreen extends StatefulWidget {
@@ -197,127 +198,17 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
   }
 
   _buildTripInfo() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 22),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "DURACION DE VIAJE",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "DISTANCIA DEL VIAJE",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "HORA DE SALIDA",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "HORA DE LLEGADA",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "CONDUCTOR",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "PRECIO",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Container(
-            decoration: BoxDecoration(color: Colors.black.withOpacity(.2)),
-            width: 3,
-            height: 150,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "15 MINUTOS",
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "2.5 KILOMETROS",
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "2:45 PM",
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "2:56 PM",
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      DriverDetailScreen.routeName,
-                    );
-                  },
-                  child: const Text(
-                    "ERNESTO ROSARIO",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.red,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "DOP: 50.00",
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
+    Map<String, String> tripData = <String, String>{
+      "duracion del viaje": "15 minutos",
+      "distancia del viaje": "2.5 kilometros",
+      "hora de salida": "1:22 PM",
+      "hora de llegada": "1:38 PM",
+      "conductor": "kevin rosario",
+      "precio": "RD: 145.00"
+    };
+    return MvoyDetailsListWidget(
+      data: tripData,
+      height: 170,
     );
   }
 

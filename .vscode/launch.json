@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      
+        {
+            "name": "mvoy",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mvoy (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "mvoy (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+        },
+        {
+          "name": "mvoy (debug verbose mode)",
+          "request": "launch",
+          "type": "dart",          
+          "args": [
+            "--verbose"
+          ]
+      },
+      {
+        "name": "mvoy (release verbose mode)",
+        "request": "launch",
+        "type": "dart",        
+        "flutterMode": "release",  
+        "args": [
+          "--verbose"
+        ]
+    }
+    ]
+}
