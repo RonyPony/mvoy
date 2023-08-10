@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/models/credentials.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/register/motoInfo.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
@@ -37,6 +38,8 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
   TextEditingController _relative = TextEditingController();
   TextEditingController _relativeNumber = TextEditingController();
   TextEditingController _gender = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  TextEditingController _password2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +139,8 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
           widget.usr!.creationDate = DateTime.now().toString();
           widget.usr!.isDeleted = false;
           widget.usr!.userKind = 1;
+          Credentials cred =
+              Credentials(password: _password.text, email: _email.text);
           if (widget.usr!.isDriver!) {
             // Navigator.of(context).pushNamed(MotoInfoScreen.routeName);
             Navigator.push(
@@ -143,12 +148,13 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
               MaterialPageRoute(
                 builder: (context) => MotoInfoScreen(
                   usr: widget.usr,
+                  credentials: cred,
                 ),
               ),
             );
           } else {
             final _auth = Provider.of<AuthProvider>(context, listen: false);
-            MvoyUser registered = await _auth.registerUser(widget.usr!);
+            MvoyUser registered = await _auth.registerUser(widget.usr!, cred);
             if (registered.id != null) {
               showMessage("Registrado");
             } else {
@@ -242,6 +248,16 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
           receivedController: _email,
         ),
         MvoyTextField(
+          placeHolder: "Clave",
+          hideTeext: true,
+          receivedController: _password,
+        ),
+        MvoyTextField(
+          hideTeext: true,
+          placeHolder: "Rep. Clave",
+          receivedController: _password2,
+        ),
+        MvoyTextField(
           placeHolder: "telefono",
           receivedController: _telefono,
         ),
@@ -293,6 +309,10 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
         .hasMatch(_email.text);
     if (validEmail) {
       _validationError = "Correo electronico no es valido";
+      return false;
+    }
+    if (_password.text != _password2.text) {
+      _validationError = "Las claves no coinciden";
       return false;
     }
     if (_telefono.text.length != 10) {

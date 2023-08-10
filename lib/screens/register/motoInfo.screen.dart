@@ -14,11 +14,14 @@ import 'package:mvoy/widgets/mainBtn.widget.dart';
 import 'package:mvoy/widgets/passwordField.widget.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
 
+import '../../models/credentials.dart';
+
 class MotoInfoScreen extends StatefulWidget {
   static String routeName = "/MotoInfoScreen";
 
-  const MotoInfoScreen({super.key, this.usr});
+  const MotoInfoScreen({super.key, this.usr, this.credentials});
   final MvoyUser? usr;
+  final Credentials? credentials;
   @override
   State<MotoInfoScreen> createState() => _MotoInfoScreenState();
 }
@@ -115,6 +118,7 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
             MaterialPageRoute(
               builder: (context) => MotoInfoScreenSecond(
                 usr: driver,
+                credentials: widget.credentials,
               ),
             ),
           );

@@ -54,7 +54,7 @@ class AuthService implements AuthContract {
   }
 
   @override
-  Future<MvoyUser> registeruser(MvoyUser info) async {
+  Future<MvoyUser> registeruser(MvoyUser info, Credentials credentials) async {
     MvoyUser? dataResponse;
     Map<String, dynamic> data = info.toJson();
     try {
@@ -76,7 +76,8 @@ class AuthService implements AuthContract {
           'phoneNumber': info.phone!,
           'address': info.direccion!,
           'relativeName': info.relativeName!,
-          'relativePhoneNumber': info.relativeNumber!
+          'relativePhoneNumber': info.relativeNumber!,
+          'password': credentials.password!
         }),
       );
       if (response.statusCode == 200) {

@@ -15,14 +15,16 @@ import 'package:mvoy/widgets/passwordField.widget.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/credentials.dart';
 import '../../models/driver.dart';
 import '../../providers/auth.provider.dart';
 
 class MotoInfoScreenSecond extends StatefulWidget {
   static String routeName = "/MotoInfoScreenSecond";
 
-  const MotoInfoScreenSecond({super.key, this.usr});
+  const MotoInfoScreenSecond({super.key, this.usr, this.credentials});
   final MvoyDriver? usr;
+  final Credentials? credentials;
   @override
   State<MotoInfoScreenSecond> createState() => _MotoInfoScreenSecondState();
 }
@@ -33,6 +35,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
   TextEditingController _color = TextEditingController();
   TextEditingController _marca = TextEditingController();
   TextEditingController _modelo = TextEditingController();
+
   String selectedYear = "año";
   bool isDriver = false;
   @override
@@ -113,15 +116,18 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
           widget.usr!.vehicle!.tieneSeguro =
               _seguroVigente.text.toLowerCase() == "si";
           widget.usr!.vehicle!.year = selectedYear;
+
           final _auth = Provider.of<AuthProvider>(context, listen: false);
           final _vehicle = Provider.of<DriverProvider>(context, listen: false);
 
-          MvoyUser registered = await _auth.registerUser(widget.usr!.user!);
+          MvoyUser registered =
+              await _auth.registerUser(widget.usr!.user!, widget.credentials!);
           if (registered.id != null) {
             widget.usr!.user!.id = registered.id;
             widget.usr!.vehicle!.ownerId = registered.id;
             ProcessResponse vehicleCreated =
-                await _vehicle.registerVehicle(widget.usr!);
+                await _vehicle.registerVehicleWithCredentials(
+                    widget.usr!, widget.credentials!);
 
             if (vehicleCreated.success!) {
               showMessage("Registro completado", true);
