@@ -85,6 +85,9 @@ class _HomeState extends State<HomeScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: MvoyBottomMenuBarWidget(
+                        activeIndex: 0,
+                      ),
     );
   }
 
@@ -293,6 +296,7 @@ class _HomeState extends State<HomeScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 //TODO solicitar viaje
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyMapView()));
                               },
                               child: MvoyMainBtn(
                                 text: "solicitar viaje",
@@ -325,9 +329,9 @@ class _HomeState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      MvoyBottomMenuBarWidget(
-                        activeIndex: 0,
-                      )
+                      // MvoyBottomMenuBarWidget(
+                      //   activeIndex: 0,
+                      // )
                     ],
                   );
                 },
