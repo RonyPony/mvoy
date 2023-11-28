@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
 import 'package:mvoy/screens/profile/profile.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 class MvoyBottomMenuBarWidget extends StatefulWidget {
   final double? spaceBetween;
@@ -39,7 +40,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                 vertical: MediaQuery.of(context).size.width * .02),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Color.fromRGBO(255, 222, 48, 1),
+              color: AppColors.primaryColor,
             ),
             child: Row(
               children: [
@@ -56,7 +57,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: activeTab == 0
-                            ? Color.fromRGBO(191, 161, 0, 1)
+                            ? AppColors.primaryColor
                             : Colors.transparent),
                     child: SvgPicture.asset('assets/home.svg'),
                   ),
@@ -77,7 +78,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: activeTab == 1
-                            ? Color.fromRGBO(191, 161, 0, 1)
+                            ? AppColors.primaryColor
                             : Colors.transparent),
                     child: SvgPicture.asset('assets/task.svg'),
                   ),
@@ -99,7 +100,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: activeTab == 2
-                            ? Color.fromRGBO(191, 161, 0, 1)
+                            ? AppColors.primaryColor
                             : Colors.transparent),
                     child: SvgPicture.asset('assets/profile.svg'),
                   ),

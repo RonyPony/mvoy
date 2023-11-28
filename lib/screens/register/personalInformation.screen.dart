@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/register/personalInformationSecond.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/datePickerField.widget.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
@@ -39,7 +40,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
@@ -22,7 +23,7 @@ class _DriverDetailScreenState extends State<DriverDetailScreen> {
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 100,
-          backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+          backgroundColor: AppColors.primaryColor,
           automaticallyImplyLeading: false,
           actions: [
             _buildHeader(context, () {
@@ -31,7 +32,7 @@ class _DriverDetailScreenState extends State<DriverDetailScreen> {
           ],
         ),
         drawer: MvoyDrawerWidget(),
-        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        backgroundColor: AppColors.primaryColor,
         body: SafeArea(
           child: Column(
             children: [
@@ -93,7 +94,7 @@ class _DriverDetailScreenState extends State<DriverDetailScreen> {
                   ),
                   labelText: "  A DONDE VAMOS ?",
                   labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
-                  fillColor: Color.fromRGBO(255, 222, 48, 1),
+                  fillColor: AppColors.primaryColor,
                   filled: true),
             ),
           ),

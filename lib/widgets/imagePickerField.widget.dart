@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 class MvoyImageField extends StatefulWidget {
   final String placeHolder;
@@ -100,7 +101,7 @@ class _MvoyImageFieldState extends State<MvoyImageField> {
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 5),
-            color: Color(0xffFFDE30),
+            color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(20)),
         height: MediaQuery.of(context).size.height * .6,
         width: MediaQuery.of(context).size.width * 1,

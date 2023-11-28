@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 class MvoyDateField extends StatefulWidget {
   final String placeHolder;
@@ -52,7 +53,7 @@ class _MvoyDateFieldState extends State<MvoyDateField> {
                     return Theme(
                         data: Theme.of(context).copyWith(
                             colorScheme: ColorScheme.light(
-                                primary: Color(0xffFFDE30),
+                                primary: AppColors.primaryColor,
                                 onPrimary: Colors.black,
                                 onSurface: Colors.black),
                             textButtonTheme: TextButtonThemeData(

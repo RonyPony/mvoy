@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 class MvoyBooleanSelectorField extends StatefulWidget {
   final String placeHolder;
@@ -73,7 +74,7 @@ class _MvoyBooleanSelectorFieldState extends State<MvoyBooleanSelectorField> {
                         )
                       ],
                       color: isOption1Selected
-                          ? Color(0xffFFDE30)
+                          ? AppColors.primaryColor
                           : Color(0xffDDDDDD),
                       borderRadius: BorderRadius.circular(20)),
                   child: Container(
@@ -107,7 +108,7 @@ class _MvoyBooleanSelectorFieldState extends State<MvoyBooleanSelectorField> {
                           )
                         ],
                         color: !isOption1Selected
-                            ? Color(0xffFFDE30)
+                            ? AppColors.primaryColor
                             : Color(0xffDDDDDD),
                         borderRadius: BorderRadius.circular(20)),
                     child: Container(

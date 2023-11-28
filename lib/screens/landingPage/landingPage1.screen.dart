@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mvoy/screens/landingPage/landingPage2.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
 class LandingScreen1 extends StatefulWidget {
@@ -49,7 +50,7 @@ class _LandingScreen1State extends State<LandingScreen1> {
                         },
                         child: MvoyMainBtn(
                           text: "comencemos",
-                          color: Color(0xffFFDE30),
+                          color: AppColors.primaryColor,
                           fontColor: Colors.black,
                           width: 300,
                         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/register/personalInformation.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
@@ -25,7 +26,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -123,7 +124,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
             height: 150,
             width: 150,
             decoration: BoxDecoration(
-                color: Color(0xffFFDE30),
+                color: AppColors.primaryColor,
                 border: isDriver
                     ? Border.all(color: Colors.black, width: 5)
                     : Border.symmetric(),
@@ -161,7 +162,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
             height: 150,
             width: 150,
             decoration: BoxDecoration(
-                color: Color(0xffFFDE30),
+                color: AppColors.primaryColor,
                 border: !isDriver
                     ? Border.all(color: Colors.black, width: 5)
                     : Border.symmetric(),

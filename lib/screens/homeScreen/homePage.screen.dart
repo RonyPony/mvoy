@@ -1,9 +1,15 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/mapa/map.dart';
 import 'package:mvoy/widgets/appbar.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
 import '../../widgets/bottomMenuBar.widget.dart';
@@ -44,34 +50,37 @@ class _HomeState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 100,
-        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        backgroundColor: AppColors.primaryColor,
         automaticallyImplyLeading: false,
         actions: [
           _buildHeader(context, () => _scaffoldKey.currentState!.openDrawer()),
         ],
       ),
       drawer: MvoyDrawerWidget(),
-      backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
         child: Column(
           children: [
             _buildSerchBar(context),
-            FutureBuilder<Widget>(
-              future: _buildMap(context),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            Expanded(
+              child: FutureBuilder<Widget>(
+                future: _buildMap(context),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return _buildWaitScreen();
+                  }
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return snapshot.data!;
+                  }
                   return _buildWaitScreen();
-                }
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  return snapshot.data!;
-                }
-                return _buildWaitScreen();
-              },
+                },
+              ),
             )
           ],
         ),
@@ -95,29 +104,44 @@ class _HomeState extends State<HomeScreen> {
             width: MediaQuery.of(context).size.width * .8,
             height: 60,
             child: TextField(
+              cursorColor:Colors.black,
               keyboardType: TextInputType.text,
               onChanged: (value) {},
               decoration: InputDecoration(
+                
+                  focusColor: Colors.black,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors
+                            .black), // Color cuando el TextField está enfocado
+                  ),
                   prefixIcon: SvgPicture.asset(
                     'assets/moto.svg',
-                    height: 10,
+                    height: 9,
                   ),
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+
+                      // borderRadius: BorderRadius.circular(10.0),
+
+                      ),
                   labelText: "  A DONDE VAMOS ?",
                   labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
-                  fillColor: Color.fromRGBO(255, 222, 48, 1),
+                  fillColor: AppColors.primaryColor,
                   filled: true),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(5)),
-            child: SvgPicture.asset('assets/search.svg'),
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyMapView()));
+            },
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(5)),
+              child: SvgPicture.asset('assets/search.svg'),
+            ),
           )
         ],
       ),
@@ -199,8 +223,7 @@ class _HomeState extends State<HomeScreen> {
                                         child: Text(
                                           "+",
                                           style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  255, 222, 48, 1),
+                                              color: AppColors.primaryColor,
                                               fontSize: 40),
                                         ),
                                       )),
@@ -236,8 +259,7 @@ class _HomeState extends State<HomeScreen> {
                                         child: Text(
                                           "-",
                                           style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  255, 222, 48, 1),
+                                              color: AppColors.primaryColor,
                                               fontSize: 40),
                                         ),
                                       )),
@@ -351,14 +373,14 @@ class _HomeState extends State<HomeScreen> {
         SizedBox(
           height: MediaQuery.of(context).size.height / 4,
         ),
-        Text(
+        const Text(
           "Cargando Lugares a tu alrededor",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
-        Text("Por favor espera ...")
+        const Text("Por favor espera ...")
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvoy/screens/driverDetailScreen/driverDetail.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
@@ -54,14 +55,14 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 100,
-        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        backgroundColor: AppColors.primaryColor,
         automaticallyImplyLeading: false,
         actions: [
           _buildHeader(context, () => _scaffoldKey.currentState!.openDrawer()),
         ],
       ),
       drawer: MvoyDrawerWidget(),
-      backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

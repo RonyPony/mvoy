@@ -6,6 +6,7 @@ import 'package:mvoy/models/vehicle.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/register/motoInfoSecond.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/datePickerField.widget.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/imagePickerField.widget.dart';
@@ -35,7 +36,7 @@ class _MotoInfoScreenState extends State<MotoInfoScreen> {
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(

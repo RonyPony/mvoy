@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mvoy/widgets/colors.dart';
 
 class MvoyMainBtn extends StatelessWidget {
   final String text;
@@ -15,7 +16,7 @@ class MvoyMainBtn extends StatelessWidget {
       required this.text,
       this.width = 300,
       this.color = Colors.black,
-      this.fontColor = const Color(0xffFFDE30),
+      this.fontColor = AppColors.primaryColor,
       this.enabled,
       this.showNextIcon = true,
       this.textSize = 28});

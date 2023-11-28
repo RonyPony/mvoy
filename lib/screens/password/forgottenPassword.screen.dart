@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
@@ -17,7 +18,7 @@ class ForgottenPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(

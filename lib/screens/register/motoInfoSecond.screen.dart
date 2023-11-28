@@ -5,6 +5,7 @@ import 'package:mvoy/models/processResponse.dart';
 import 'package:mvoy/providers/driver.provider.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/datePickerField.widget.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/imagePickerField.widget.dart';
@@ -42,7 +43,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
   Widget build(BuildContext context) {
     Size baseSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -152,7 +153,7 @@ class _MotoInfoScreenSecondState extends State<MotoInfoScreenSecond> {
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 5),
-            color: Color(0xffFFDE30),
+            color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(20)),
         height: MediaQuery.of(context).size.height * .6,
         width: MediaQuery.of(context).size.width * 1,

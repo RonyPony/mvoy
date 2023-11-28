@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
 
 import '../../widgets/appbar.dart';
@@ -23,14 +24,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 100,
-        backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+        backgroundColor: AppColors.primaryColor,
         automaticallyImplyLeading: false,
         actions: [
           _buildHeader(context, () => _scaffoldKey.currentState!.openDrawer()),
         ],
       ),
       drawer: MvoyDrawerWidget(),
-      backgroundColor: Color.fromRGBO(255, 222, 48, 1),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -117,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.only(top: 10),
       child: Container(
         decoration: BoxDecoration(
-            color: Color.fromRGBO(255, 222, 48, 1),
+            color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(30)),
         width: 350,
         height: 90,

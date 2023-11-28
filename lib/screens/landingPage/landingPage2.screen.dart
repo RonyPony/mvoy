@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvoy/screens/landingPage/landingPage3.screen.dart';
+import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 
 class LandingScreen2 extends StatelessWidget {
@@ -12,7 +13,7 @@ class LandingScreen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffFFDE30),
+      backgroundColor:  AppColors.primaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
