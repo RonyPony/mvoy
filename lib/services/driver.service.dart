@@ -36,20 +36,20 @@ class DriverService implements DriverContract {
       if (response.statusCode == 200) {
         dataResponse = MvoyVehicle.fromJson(jsonDecode(response.body));
         ProcessResponse result =
-            ProcessResponse(dataResponse.Id != null, response.body);
+            ProcessResponse(success:dataResponse.Id != null, errorMessage: response.body);
         return result;
       } else {
         if (response.statusCode == 404) {
-          ProcessResponse result = ProcessResponse(false, response.body);
+          ProcessResponse result = ProcessResponse(success:false,errorMessage:response.body);
           return result;
         } else {
-          ProcessResponse result = ProcessResponse(false, response.body);
+          ProcessResponse result = ProcessResponse(success:false,errorMessage:response.body);
           return result;
         }
       }
     } catch (e) {
       print(e.toString());
-      ProcessResponse result = ProcessResponse(false, e.toString());
+      ProcessResponse result = ProcessResponse(success:false,errorMessage:e.toString());
       return result;
     }
   }
@@ -99,20 +99,20 @@ class DriverService implements DriverContract {
       if (response.statusCode == 200) {
         dataResponse = MvoyVehicle.fromJson(jsonDecode(response.body));
         ProcessResponse result =
-            ProcessResponse(dataResponse.Id != null, response.body);
+            ProcessResponse(success:dataResponse.Id != null, errorMessage:response.body);
         return result;
       } else {
         if (response.statusCode == 404) {
-          ProcessResponse result = ProcessResponse(false, response.body);
+          ProcessResponse result = ProcessResponse(success:false, errorMessage:response.body);
           return result;
         } else {
-          ProcessResponse result = ProcessResponse(false, response.body);
+          ProcessResponse result = ProcessResponse(success:false,errorMessage: response.body);
           return result;
         }
       }
     } catch (e) {
       print(e.toString());
-      ProcessResponse result = ProcessResponse(false, e.toString());
+      ProcessResponse result = ProcessResponse(success:false,errorMessage: e.toString());
       return result;
     }
   }

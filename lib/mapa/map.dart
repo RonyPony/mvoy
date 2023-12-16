@@ -5,10 +5,13 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/models/trip.dart';
+import 'package:mvoy/providers/trip.provider.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
 import 'package:mvoy/widgets/colors.dart';
+import 'package:provider/provider.dart';
 
 
 class MyMapView extends StatefulWidget {
@@ -41,12 +44,12 @@ class _MapViewState extends State<MyMapView> {
 
   String _startAddress = '';
   String _destinationAddress = '';
-  String? _placeDistance;
+  String? _placeDistance = "";
 
   Set<Marker> markers = {};
 
   late PolylinePoints polylinePoints;
-  Map<PolylineId, Polyline> polylines = {};
+  Map<PolylineId, Polyline> polylines = {}; 
   List<LatLng> polylineCoordinates = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -274,7 +277,7 @@ class _MapViewState extends State<MyMapView> {
   }
 
   // Formula for calculating distance between two coordinates
-  // https://stackoverflow.com/a/54138876/11910277
+
   double _coordinateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var c = cos;
@@ -297,7 +300,7 @@ class _MapViewState extends State<MyMapView> {
       PointLatLng(startLatitude, startLongitude),
       PointLatLng(destinationLatitude, destinationLongitude),
       travelMode: TravelMode.transit,
-    );
+    ); 
 
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
@@ -308,7 +311,7 @@ class _MapViewState extends State<MyMapView> {
     PolylineId id = PolylineId('poly');
     Polyline polyline = Polyline(
       polylineId: id,
-      color: AppColors.primaryColor,
+      color: Colors.black,
       points: polylineCoordinates,
       width: 3,
     );
@@ -340,7 +343,7 @@ class _MapViewState extends State<MyMapView> {
                 markers: Set<Marker>.from(markers),
                 initialCameraPosition: _initialLocation,
                 myLocationEnabled: true,
-                myLocationButtonEnabled: false,
+                myLocationButtonEnabled: true,
                 // mapType: MapType.normal
                 zoomGesturesEnabled: true,
                 zoomControlsEnabled: false,
@@ -503,9 +506,27 @@ class _MapViewState extends State<MyMapView> {
                                               content: Text(
                                                   'Error Calculating Distance'),
                                             ),
-                                          );
+                                            
+                                          ); 
                                         }
+                                        Trip newTrip = Trip();
+                                        newTrip.originName =  _startAddress;
+                                        newTrip.destinyName =  _destinationAddress = '';
+                                        newTrip.distance =  _placeDistance;
+                                        newTrip.arrivingTime = "arrivingTime";
+                                        newTrip.clientId = "clientId";
+                                        newTrip.leavingTime ="leavingTime";
+                                        newTrip.duration = "duration";
+                                        newTrip.price = "price";
+                                        newTrip.driverId= "driverId";
+
+                                        final getTrip = Provider.of<TripProvider>(context, listen: false);
+                                        
+                                          getTrip.createTrip(newTrip);
+
+                                          print(newTrip);
                                       });
+                                      
                                     }
                                   : null,
                               child: Padding(

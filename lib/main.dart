@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mvoy/providers/auth.provider.dart';
 import 'package:mvoy/providers/driver.provider.dart';
+import 'package:mvoy/providers/trip.provider.dart';
 import 'package:mvoy/routes/routes.dart';
 import 'package:mvoy/screens/landingPage/landingPage1.screen.dart';
 import 'package:mvoy/services/auth.service.dart';
 import 'package:mvoy/services/driver.service.dart';
+import 'package:mvoy/services/trip.service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -22,7 +24,10 @@ class InitialScreen extends StatelessWidget {
           create: (context) => AuthProvider(AuthService()),
         ),
         ChangeNotifierProvider(
-            create: (context) => DriverProvider(DriverService()))
+            create: (context) => DriverProvider(DriverService())),
+        ChangeNotifierProvider(
+          create: (context)=>TripProvider(TripService()),
+        )       
       ],
       child: MaterialApp(
         routes: getApplicationRoutes(),
