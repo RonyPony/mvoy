@@ -34,6 +34,7 @@ class _MapViewState extends State<MyMapView> {
   }
   Future _loadMapStyles() async {
     _darkMapStyle = await rootBundle.loadString('assets/map_dark_style.json');
+    _getCurrentLocation();
   }
 
   final startAddressController = TextEditingController();
@@ -137,7 +138,7 @@ class _MapViewState extends State<MyMapView> {
 
       setState(() {
         _currentAddress =
-            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+            "${place.street}, ${place.locality}, ${place.postalCode} ";
         startAddressController.text = _currentAddress;
         _startAddress = _currentAddress;
       });

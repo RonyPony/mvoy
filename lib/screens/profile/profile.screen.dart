@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
@@ -33,32 +33,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
       drawer: MvoyDrawerWidget(),
       backgroundColor: AppColors.primaryColor,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40)),
-                // height: MediaQuery.of(context).size.height * .85,
-                width: MediaQuery.of(context).size.width * .95,
-                child: Column(
-                  children: [
-                    _buildProfileHeader(context),
-                    _buildProfileKPIS(),
-                    Container(
-                      height: MediaQuery.of(context).size.height * .37,
-                      width: MediaQuery.of(context).size.width,
-                      child: SingleChildScrollView(
-                        child: _buildFrom(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40)),
+                  // height: MediaQuery.of(context).size.height * .85,
+                  width: MediaQuery.of(context).size.width * .95,
+                  child: Column(
+                    children: [
+                      _buildProfileHeader(context),
+                      _buildProfileKPIS(),
+                      Container(
+                        height: MediaQuery.of(context).size.height * .47,
+                        width: MediaQuery.of(context).size.width,
+                        child: SingleChildScrollView(
+                          child: _buildFrom(),
+                        ),
                       ),
-                    ),
-                    MvoyBottomMenuBarWidget(activeIndex: 2)
-                  ],
-                )),
-          ],
+                      
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: MvoyBottomMenuBarWidget(activeIndex: 0,)
     );
   }
 
