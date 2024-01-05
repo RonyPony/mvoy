@@ -122,6 +122,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   }
 
   _buildregisterBtn() {
+    _isSearchingCedula = false; // TODO remove when data migrations is complete on the server
     return GestureDetector(
       onTap: () {
         if (validateForm() && !_isSearchingCedula) {

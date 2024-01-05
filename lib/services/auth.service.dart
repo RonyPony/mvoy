@@ -17,7 +17,7 @@ class AuthService implements AuthContract {
     try {
       Response? response;
       response =
-          await http.get(Uri.parse("http://23.19.226.29:8020/Cedula/$cedula"));
+          await http.get(Uri.parse("http://69.197.150.152:8066/cedula/$cedula"));
       if (response.statusCode == 200) {
         dataResponse = DominicanPerson.fromJson(jsonDecode(response.body));
         return dataResponse;
@@ -60,7 +60,7 @@ class AuthService implements AuthContract {
     try {
       Response? response;
       response = await http.post(
-        Uri.parse('http://23.19.226.29/api/user'),
+        Uri.parse('http://69.197.150.152:8043/api/user'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -107,7 +107,7 @@ class AuthService implements AuthContract {
     try {
       Response? response;
       response = await http.post(
-          Uri.parse('http://23.19.226.29/api/user/login'),
+          Uri.parse('http://69.197.150.152:8043/api/user/login'),
           headers: <String, String>{
             'Content-Type': 'application/json',
           },
