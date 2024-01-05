@@ -68,6 +68,7 @@ class _MapViewState extends State<MyMapView> {
     return Container(
       width: width * 0.8,
       child: TextField(
+        cursorColor: Colors.black,
         onChanged: (value) {
           locationCallback(value);
         },
@@ -75,10 +76,12 @@ class _MapViewState extends State<MyMapView> {
         
         focusNode: focusNode,
         decoration: new InputDecoration(
+          
           focusColor: Colors.black,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           labelText: label,
+          labelStyle: TextStyle(color: Colors.black),
           filled: true,
           fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
