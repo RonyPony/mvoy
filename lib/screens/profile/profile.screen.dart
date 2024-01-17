@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildProfileHeader(context),
                       _buildProfileKPIS(),
                       Container(
-                        height: MediaQuery.of(context).size.height * .43,
+                        height: MediaQuery.of(context).size.height * .47,
                         width: MediaQuery.of(context).size.width,
                         child: SingleChildScrollView(
                           child: _buildFrom(),

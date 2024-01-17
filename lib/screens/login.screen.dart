@@ -5,7 +5,6 @@ import 'package:mvoy/models/loginResponse.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
-import 'package:mvoy/screens/register/personalInformation.screen.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
@@ -212,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(PersonalInfoScreen.routeName);
+              Navigator.of(context).pushNamed(ChooseRoleScreen.routeName);
             },
             child: MvoyLinkedBtn(
               text: "registrate",

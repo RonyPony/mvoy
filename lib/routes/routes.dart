@@ -12,6 +12,7 @@ import 'package:mvoy/screens/register/motoInfo.screen.dart';
 import 'package:mvoy/screens/register/motoInfoSecond.screen.dart';
 import 'package:mvoy/screens/register/personalInformation.screen.dart';
 import 'package:mvoy/screens/register/personalInformationSecond.screen.dart';
+import 'package:mvoy/screens/requestTrip/requestTrip.screen.dart';
 import 'package:mvoy/screens/tripDetailsScreen/tripDetails.screen.dart';
 
 import '../screens/landingPage/landingPage2.screen.dart';
@@ -21,8 +22,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     LandingScreen1.routeName: (BuildContext context) => const LandingScreen1(),
     LandingScreen2.routeName: (BuildContext context) => const LandingScreen2(),
     LandingScreen3.routeName: (BuildContext context) => const LandingScreen3(),
-      // ChooseRoleScreen.routeName: (BuildContext context) =>
-      //     const ChooseRoleScreen(),
+    ChooseRoleScreen.routeName: (BuildContext context) =>
+        const ChooseRoleScreen(),
     MotoInfoScreen.routeName: (BuildContext context) => const MotoInfoScreen(),
     MotoInfoScreenSecond.routeName: (BuildContext context) =>
         const MotoInfoScreenSecond(),
@@ -34,6 +35,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     ForgottenPasswordScreen.routeName: (BuildContext context) =>
         const ForgottenPasswordScreen(),
     HomeScreen.routeName: (BuildContext context) => const HomeScreen(),
+    RequestTrip.routeName:(BuildContext context) => const RequestTrip(),
     MyTripsScreen.routeName: (BuildContext context) => const MyTripsScreen(),
     ProfileScreen.routeName: (BuildContext context) => const ProfileScreen(),
     TripDetailsScreen.routeName: (BuildContext context) =>

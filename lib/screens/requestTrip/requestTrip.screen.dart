@@ -1,43 +1,27 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvoy/models/trip.dart';
 import 'package:mvoy/providers/trip.provider.dart';
-
-import 'dart:math' show cos, sqrt, asin;
-
 import 'package:mvoy/widgets/colors.dart';
 import 'package:provider/provider.dart';
 
-
-class MyMapView extends StatefulWidget {
+class RequestTrip extends StatefulWidget {
+  static String routeName = "/RequestTrip";
+  const RequestTrip({super.key});
   @override
-  _MapViewState createState() => _MapViewState();
+  State<StatefulWidget> createState() => _RequestTripState();
+
 }
 
-class _MapViewState extends State<MyMapView> {
-  
-  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
-  late GoogleMapController mapController;
-  static const API_KEY = 'AIzaSyCY47HTgLpdMDimZ49YdWqzWk-rt5UI3jA';
-  late Position _currentPosition;
-  String _currentAddress = '';
+class _RequestTripState extends State<RequestTrip> {
 
-  var _darkMapStyle;
-  void _onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(_darkMapStyle);
-    mapController = controller;
-  }
-  Future _loadMapStyles() async {
-    _darkMapStyle = await rootBundle.loadString('assets/map_dark_style.json');
-    _getCurrentLocation();
-  }
-
-  final startAddressController = TextEditingController();
+    final startAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
 
   final startAddressFocusNode = FocusNode();
@@ -55,7 +39,7 @@ class _MapViewState extends State<MyMapView> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget _textField({
+ Widget _textField({
     required TextEditingController controller,
     required FocusNode focusNode,
     required String label,
@@ -75,7 +59,6 @@ class _MapViewState extends State<MyMapView> {
         
         focusNode: focusNode,
         decoration: new InputDecoration(
-          
           focusColor: Colors.black,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
@@ -106,7 +89,20 @@ class _MapViewState extends State<MyMapView> {
       ),
     );
   }
+  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
+  GoogleMapController? mapController;
+  static const API_KEY = 'AIzaSyCY47HTgLpdMDimZ49YdWqzWk-rt5UI3jA';
+  late Position _currentPosition;
+  String _currentAddress = '';
 
+  var _darkMapStyle;
+  void _onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle(_darkMapStyle);
+    mapController = controller;
+  }
+  Future _loadMapStyles() async {
+    _darkMapStyle = await rootBundle.loadString('assets/map_dark_style.json');
+  }
   // Method for retrieving the current location
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -114,7 +110,7 @@ class _MapViewState extends State<MyMapView> {
       setState(() {
         _currentPosition = position;
         print('Posicion actual: $_currentPosition');
-        mapController.animateCamera(
+        mapController!.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(position.latitude, position.longitude),
@@ -139,7 +135,7 @@ class _MapViewState extends State<MyMapView> {
 
       setState(() {
         _currentAddress =
-            "${place.street}, ${place.locality}, ${place.postalCode} ";
+            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         startAddressController.text = _currentAddress;
         _startAddress = _currentAddress;
       });
@@ -231,7 +227,7 @@ class _MapViewState extends State<MyMapView> {
 
       // Accommodate the two locations within the
       // camera view of the map
-      mapController.animateCamera(
+      mapController!.animateCamera(
         CameraUpdate.newLatLngBounds(
           LatLngBounds(
             northeast: LatLng(northEastLatitude, northEastLongitude),
@@ -277,8 +273,7 @@ class _MapViewState extends State<MyMapView> {
     }
     return false;
   }
-
-  // Formula for calculating distance between two coordinates
+ // Formula for calculating distance between two coordinates
 
   double _coordinateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
@@ -327,7 +322,6 @@ class _MapViewState extends State<MyMapView> {
     _loadMapStyles();
   }
 
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -375,7 +369,7 @@ class _MapViewState extends State<MyMapView> {
                                 child: Icon(Icons.add),
                               ),
                               onTap: () {
-                                mapController.animateCamera(
+                                mapController!.animateCamera(
                                   CameraUpdate.zoomIn(),
                                 );
                               },
@@ -394,7 +388,7 @@ class _MapViewState extends State<MyMapView> {
                                 child: Icon(Icons.remove),
                               ),
                               onTap: () {
-                                mapController.animateCamera(
+                                mapController!.animateCamera(
                                   CameraUpdate.zoomOut(),
                                 );
                               },
@@ -573,7 +567,7 @@ class _MapViewState extends State<MyMapView> {
                             child: Icon(Icons.my_location),
                           ),
                           onTap: () {
-                            mapController.animateCamera(
+                            mapController!.animateCamera(
                               CameraUpdate.newCameraPosition(
                                 CameraPosition(
                                   target: LatLng(
@@ -596,6 +590,6 @@ class _MapViewState extends State<MyMapView> {
         ),
       ),
     );
+  
   }
 }
-
