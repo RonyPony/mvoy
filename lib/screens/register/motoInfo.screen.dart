@@ -29,7 +29,7 @@ class MotoInfoScreen extends StatefulWidget {
 
 class _MotoInfoScreenState extends State<MotoInfoScreen> {
   bool isDriver = false;
-  TextEditingController _licencia = TextEditingController();
+  final TextEditingController _licencia = TextEditingController();
   TextEditingController _segurp = TextEditingController();
   TextEditingController _chasis = TextEditingController();
   @override
