@@ -76,6 +76,7 @@ class _MapViewState extends State<MyMapView> {
         
         focusNode: focusNode,
         decoration: new InputDecoration(
+          
           focusColor: Colors.black,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
