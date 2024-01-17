@@ -505,22 +505,22 @@ class _RequestTripState extends State<RequestTrip> {
                                             
                                           ); 
                                         }
-                                        Trip newTrip = Trip();
-                                        newTrip.originName =  _startAddress;
-                                        newTrip.destinyName =  _destinationAddress = '';
-                                        newTrip.distance =  _placeDistance;
-                                        newTrip.arrivingTime = "arrivingTime";
-                                        newTrip.clientId = "clientId";
-                                        newTrip.leavingTime ="leavingTime";
-                                        newTrip.duration = "duration";
-                                        newTrip.price = "price";
-                                        newTrip.driverId= "driverId";
+                                        // Trip newTrip = Trip();
+                                        // newTrip.originName =  _startAddress;
+                                        // newTrip.destinyName =  _destinationAddress = '';
+                                        // newTrip.distance =  _placeDistance;
+                                        // newTrip.arrivingTime = "arrivingTime";
+                                        // newTrip.clientId = "clientId";
+                                        // newTrip.leavingTime ="leavingTime";
+                                        // newTrip.duration = "duration";
+                                        // newTrip.price = "price";
+                                        // newTrip.driverId= "driverId";
 
-                                        final getTrip = Provider.of<TripProvider>(context, listen: false);
+                                        // final getTrip = Provider.of<TripProvider>(context, listen: false);
                                         
-                                          getTrip.createTrip(newTrip);
+                                        //   getTrip.createTrip(newTrip);
 
-                                          print(newTrip);
+                                        //   print(newTrip);
                                       });
                                       
                                     }

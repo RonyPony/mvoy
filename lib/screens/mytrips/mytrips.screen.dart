@@ -151,6 +151,7 @@ class _HomeState extends State<MyTripsScreen> {
                             padding: const EdgeInsets.only(bottom: 20),
                             child: GestureDetector(
                               onTap: () {
+                                
                                 Navigator.of(context).pushNamed(
                                     TripDetailsScreen.routeName,
                                     arguments: index + 1);

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -5,8 +7,11 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/models/coordinates.dart';
 import 'package:mvoy/models/trip.dart';
 import 'package:mvoy/providers/trip.provider.dart';
+import 'package:mvoy/screens/currentTripDetails/CurrentTripsDetailsScreen.dart';
+import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
@@ -46,6 +51,12 @@ class _MapViewState extends State<MyMapView> {
   String _startAddress = '';
   String _destinationAddress = '';
   String? _placeDistance = "";
+  double startLatitude = 0;
+  double startLongitude = 0;
+  double destinationLatitude = 0;
+  double destinationLongitude = 0;
+
+  
 
   Set<Marker> markers = {};
 
@@ -250,8 +261,10 @@ class _MapViewState extends State<MyMapView> {
       //   destinationLongitude,
       // );
 
-      await _createPolylines(startLatitude, startLongitude, destinationLatitude,
-          destinationLongitude);
+      await _createPolylines(
+        startLatitude, startLongitude, destinationLatitude,
+          destinationLongitude
+          );
 
       double totalDistance = 0.0;
 
@@ -291,10 +304,11 @@ class _MapViewState extends State<MyMapView> {
 
   // Create the polylines for showing the route between two places
   _createPolylines(
-    double startLatitude,
-    double startLongitude,
-    double destinationLatitude,
-    double destinationLongitude,
+   startLatitude,
+   startLongitude,
+   destinationLatitude,
+   destinationLongitude,
+    
   ) async {
     polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -406,6 +420,38 @@ class _MapViewState extends State<MyMapView> {
                   ),
                 ),
               ),
+              Positioned(
+                left: 130,
+                bottom: 24,
+                child:ElevatedButton(onPressed: () {
+                  Coordinates startCordinates = Coordinates(startLatitude, startLongitude);
+                  Coordinates endCordinates = Coordinates(destinationLatitude, destinationLongitude);
+                  Trip newargument = Trip();
+                  newargument.originName =  _startAddress;
+                  newargument.destinyName =  _destinationAddress;
+                  newargument.distance =  _placeDistance;
+                  newargument.arrivingTime = "arrivingTime";
+                  newargument.clientId = "clientId";
+                  newargument.leavingTime ="leavingTime";
+                  newargument.duration = "duration";
+                  newargument.price = "price";
+                  newargument.driverId= "driverId";
+                  newargument.startPoint= startCordinates;
+                  newargument.destiniPoint= endCordinates;
+                  Navigator.of(context).pushNamed(
+                                    CurrentTripDetailsScreen.routeName,
+                                    arguments:newargument);
+                  },
+                child: Text('Vamonos'.toUpperCase(),
+                style: TextStyle(
+                  fontSize: 20
+                ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black
+                ),
+                )
+                ),
               // Show the place input fields & button for
               // showing the route
               SafeArea(
@@ -442,6 +488,7 @@ class _MapViewState extends State<MyMapView> {
                                   onPressed: () {
                                     startAddressController.text = _currentAddress;
                                     _startAddress = _currentAddress;
+                                    _destinationAddress = _destinationAddress;
                                   },
                                 ),
                                 controller: startAddressController,
@@ -526,7 +573,7 @@ class _MapViewState extends State<MyMapView> {
                                         
                                           getTrip.createTrip(newTrip);
 
-                                          print(newTrip);
+                                          print(_destinationAddress);
                                       });
                                       
                                     }

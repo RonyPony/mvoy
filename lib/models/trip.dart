@@ -1,3 +1,5 @@
+import 'package:mvoy/models/coordinates.dart';
+
 class Trip {
   String? originName;
   String? destinyName;
@@ -8,6 +10,8 @@ class Trip {
   String? clientId;
   String? price;
   String? arrivingTime;
+  Coordinates? startPoint;
+  Coordinates? destiniPoint;
 
   Trip(
       {this.originName,
@@ -18,7 +22,11 @@ class Trip {
       this.driverId,
       this.clientId,
       this.price,
-      this.arrivingTime});
+      this.arrivingTime,
+      this.startPoint,
+      this.destiniPoint,
+      }
+      );
 
   Trip.fromJson(Map<String, dynamic> json) {
     originName = json['originName'];

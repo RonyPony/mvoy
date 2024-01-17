@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/models/trip.dart';
 import 'package:mvoy/screens/driverDetailScreen/driverDetail.screen.dart';
 import 'package:mvoy/widgets/colors.dart';
 
@@ -11,14 +12,14 @@ import '../../widgets/bottomMenuBar.widget.dart';
 import '../../widgets/detailsList.widget.dart';
 import '../../widgets/drawer.widget.dart';
 
-class TripDetailsScreen extends StatefulWidget {
-  const TripDetailsScreen({super.key});
-  static String routeName = "/tripdetailsscreen";
+class CurrentTripDetailsScreen extends StatefulWidget {
+  const CurrentTripDetailsScreen({super.key});
+  static String routeName = "/currenttripdetailsscreen";
   @override
-  State<TripDetailsScreen> createState() => _TripDetailsScreenState();
+  State<CurrentTripDetailsScreen> createState() => _TripDetailsScreenState();
 }
 
-class _TripDetailsScreenState extends State<TripDetailsScreen>
+class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
     with SingleTickerProviderStateMixin {
   late GoogleMapController mapController;
   late AnimationController _controller;
@@ -49,7 +50,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    final tripId = ModalRoute.of(context)!.settings.arguments as int;
+    final tripdata = ModalRoute.of(context)!.settings.arguments as Trip;
+    print(tripdata);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -83,7 +85,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                       child: SingleChildScrollView(
                           child: Column(
                         children: [
-                          _buildTripHeader(tripId.toString()),
+                          _buildTripHeader("Desde "+tripdata.originName!+ " hasta "+tripdata.destinyName!),
                           _buildTripMapInitial(context),
                           _buildTripInfo()
                         ],
@@ -112,10 +114,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
         Container(
           padding: EdgeInsets.only(top: 20, left: 20),
           width: MediaQuery.of(context).size.width * 0.75,
-          child: Text(
-            "viaje no. ".toUpperCase() +
-                tripid +
-                " | de los mameyes a san isidro".toUpperCase(),
+          child: Text(tripid.toUpperCase(),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
