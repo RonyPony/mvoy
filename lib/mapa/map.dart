@@ -488,7 +488,7 @@ class _MapViewState extends State<MyMapView> {
                                   onPressed: () {
                                     startAddressController.text = _currentAddress;
                                     _startAddress = _currentAddress;
-                                    _destinationAddress = _destinationAddress;
+                                    // _destinationAddress = _destinationAddress;
                                   },
                                 ),
                                 controller: startAddressController,
@@ -560,7 +560,7 @@ class _MapViewState extends State<MyMapView> {
                                         }
                                         Trip newTrip = Trip();
                                         newTrip.originName =  _startAddress;
-                                        newTrip.destinyName =  _destinationAddress = '';
+                                        newTrip.destinyName =  _destinationAddress;
                                         newTrip.distance =  _placeDistance;
                                         newTrip.arrivingTime = "arrivingTime";
                                         newTrip.clientId = "clientId";

@@ -85,9 +85,9 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
                       child: SingleChildScrollView(
                           child: Column(
                         children: [
-                          _buildTripHeader("Desde "+tripdata.originName!+ " hasta "+tripdata.destinyName!),
+                          _buildTripHeader("Desde "+tripdata.originName!+ "hasta "+tripdata.destinyName!),
                           _buildTripMapInitial(context),
-                          _buildTripInfo()
+                          _buildTripInfo(tripdata)
                         ],
                       )),
                     ),
@@ -198,10 +198,10 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
     );
   }
 
-  _buildTripInfo() {
+  _buildTripInfo(Trip newtrip) {
     Map<String, String> tripData = <String, String>{
       "duracion del viaje": "15 minutos",
-      "distancia del viaje": "2.5 kilometros",
+      "distancia del viaje": newtrip.distance! + " KM",
       "hora de salida": "1:22 PM",
       "hora de llegada": "1:38 PM",
       "conductor": "kevin rosario",
