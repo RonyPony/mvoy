@@ -65,36 +65,56 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
       ),
       drawer: MvoyDrawerWidget(),
       backgroundColor: AppColors.primaryColor,
-      body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40)),
-                // height: MediaQuery.of(context).size.height * .85,
-                width: MediaQuery.of(context).size.width * .95,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * .71,
-                      width: MediaQuery.of(context).size.width,
-                      child: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          _buildTripHeader("Desde "+tripdata.originName!+ "hasta "+tripdata.destinyName!),
-                          _buildTripMapInitial(context),
-                          _buildTripInfo(tripdata)
-                        ],
-                      )),
-                    ),
-                    // MvoyBottomMenuBarWidget(activeIndex: 1)
-                  ],
-                )),
-          ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40)),
+                  // height: MediaQuery.of(context).size.height * .85,
+                  width: MediaQuery.of(context).size.width * .95,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * .71,
+                        width: MediaQuery.of(context).size.width,
+                        child: SingleChildScrollView(
+                            child: Column(
+                          children: [
+                            _buildTripHeader("Desde "+tripdata.originName!+ "hasta "+tripdata.destinyName!),
+                            _buildTripMapInitial(context),
+                            _buildTripInfo(tripdata),
+                            Padding(padding: const EdgeInsets.only(top: 14),
+                            child: ElevatedButton(onPressed: (){
+                              TextEditingController  txtControler = TextEditingController();
+                              txtControler.text =tripdata.price!;
+                              _showDialogo(txtControler, context);
+                            }
+                            , 
+                            child: Text("Negociar", style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor
+                            ),
+                            ),
+                            )
+                            
+                          ],
+                        )),
+                      ),
+                      // MvoyBottomMenuBarWidget(activeIndex: 1)
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: MvoyBottomMenuBarWidget(activeIndex: 1),
@@ -152,7 +172,7 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: _center,
-              zoom: 11.0,
+              zoom: 12.0,
             ),
           ),
         ),
@@ -200,12 +220,12 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
 
   _buildTripInfo(Trip newtrip) {
     Map<String, String> tripData = <String, String>{
-      "duracion del viaje": "15 minutos",
+      "duracion del viaje": "${newtrip.duration} minutos",
       "distancia del viaje": newtrip.distance! + " KM",
-      "hora de salida": "1:22 PM",
-      "hora de llegada": "1:38 PM",
+      "hora de salida": newtrip.leavingTime!,
+      "hora de llegada": newtrip.arrivingTime!,
       "conductor": "kevin rosario",
-      "precio": "RD: 145.00"
+      "precio": "RD: ${newtrip.price}"
     };
     return MvoyDetailsListWidget(
       data: tripData,
@@ -254,3 +274,68 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
     );
   }
 }
+
+  
+
+_showDialogo(TextEditingController alertController, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.primaryColor,
+          title: Center(child: Text('Nueva Oferta',
+          style: TextStyle(
+            fontWeight: FontWeight.bold
+          ),
+          )),
+          content: TextField(
+            cursorColor:Colors.black,
+            controller: alertController,
+            decoration: InputDecoration(
+              hintText: 'Oferte no menor a \$${alertController.text}',
+              focusColor: Colors.black,
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderSide: BorderSide(
+                  //       color: Colors
+                  //           .black), 
+                  // )
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el AlertDialog
+              },
+              child: Text('Ofertar'.toUpperCase(),
+              style: TextStyle(
+                color: Colors.white
+              ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black
+              ),
+            ),
+            Padding(padding: EdgeInsets.only(left: 12)),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el AlertDialog
+              },
+              child: Text('Cancelar'.toUpperCase(),
+              style: TextStyle(
+                color: Colors.white
+              ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black
+              ),
+            ),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }

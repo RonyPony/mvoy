@@ -112,12 +112,11 @@ class _HomeState extends State<HomeScreen> {
               keyboardType: TextInputType.text,
               onChanged: (value) {},
               decoration: InputDecoration(
-                
                   focusColor: Colors.black,
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Colors
-                            .black), // Color cuando el TextField está enfocado
+                            .black), 
                   ),
                   prefixIcon: SvgPicture.asset(
                     'assets/moto.svg',

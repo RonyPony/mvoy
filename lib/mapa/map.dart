@@ -1,5 +1,5 @@
 import 'dart:ffi';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,7 +11,6 @@ import 'package:mvoy/models/coordinates.dart';
 import 'package:mvoy/models/trip.dart';
 import 'package:mvoy/providers/trip.provider.dart';
 import 'package:mvoy/screens/currentTripDetails/CurrentTripsDetailsScreen.dart';
-import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
@@ -56,7 +55,7 @@ class _MapViewState extends State<MyMapView> {
   double destinationLatitude = 0;
   double destinationLongitude = 0;
 
-  
+  bool showBottom = false;
 
   Set<Marker> markers = {};
 
@@ -281,7 +280,7 @@ class _MapViewState extends State<MyMapView> {
 
       setState(() {
         _placeDistance = totalDistance.toStringAsFixed(2);
-        print('Distancia: $_placeDistance km');
+        // print('Distancia: $_placeDistance km');
       });
 
       return true;
@@ -365,6 +364,7 @@ class _MapViewState extends State<MyMapView> {
                 zoomControlsEnabled: false,
                 polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: _onMapCreated,
+                
               ),
               // Show zoom buttons
               
@@ -420,6 +420,7 @@ class _MapViewState extends State<MyMapView> {
                   ),
                 ),
               ),
+              showBottom ?
               Positioned(
                 left: 130,
                 bottom: 24,
@@ -430,11 +431,11 @@ class _MapViewState extends State<MyMapView> {
                   newargument.originName =  _startAddress;
                   newargument.destinyName =  _destinationAddress;
                   newargument.distance =  _placeDistance;
-                  newargument.arrivingTime = "arrivingTime";
+                  newargument.arrivingTime = "11:22 PM";
                   newargument.clientId = "clientId";
-                  newargument.leavingTime ="leavingTime";
-                  newargument.duration = "duration";
-                  newargument.price = "price";
+                  newargument.leavingTime ="11:10 PM";
+                  newargument.duration = "12";
+                  newargument.price = "50";
                   newargument.driverId= "driverId";
                   newargument.startPoint= startCordinates;
                   newargument.destiniPoint= endCordinates;
@@ -444,14 +445,16 @@ class _MapViewState extends State<MyMapView> {
                   },
                 child: Text('Vamonos'.toUpperCase(),
                 style: TextStyle(
-                  fontSize: 20
+                  fontSize: 20,
+                  color: AppColors.primaryColor
                 ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black
+                  backgroundColor: Colors.black,
+                  surfaceTintColor: Colors.black,
                 ),
                 )
-                ),
+                ) : Container(),
               // Show the place input fields & button for
               // showing the route
               SafeArea(
@@ -488,7 +491,7 @@ class _MapViewState extends State<MyMapView> {
                                   onPressed: () {
                                     startAddressController.text = _currentAddress;
                                     _startAddress = _currentAddress;
-                                    // _destinationAddress = _destinationAddress;
+                           
                                   },
                                 ),
                                 controller: startAddressController,
@@ -516,7 +519,7 @@ class _MapViewState extends State<MyMapView> {
                             SizedBox(height: 10),
                             Visibility(
                               visible: _placeDistance == null ? false : true,
-                              child: Text(
+                              child: Text(  
                                 'DISTANCIA: $_placeDistance km',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -541,22 +544,25 @@ class _MapViewState extends State<MyMapView> {
                                       });
                                       _calculateDistance().then((isCalculated) {
                                         if (isCalculated) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  'Distance Calculated Sucessfully'),
-                                            ),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  'Error Calculating Distance'),
-                                            ),
+                                          showBottom = true;
+                                          // ScaffoldMessenger.of(context)
+                                          //     .showSnackBar(
+                                          //   SnackBar(
+                                          //     content: Text(
+                                          //         'Distance Calculated Sucessfully'),
+                                          //   ),
+                                          // );
+                                        } 
+                                        else {
+                                          showBottom = false;
+                                        //   ScaffoldMessenger.of(context)
+                                        //       .showSnackBar(
+                                        //     SnackBar(
+                                        //       content: Text(
+                                        //           'Error Calculating Distance'),
+                                        //     ),
                                             
-                                          ); 
+                                        //   ); 
                                         }
                                         Trip newTrip = Trip();
                                         newTrip.originName =  _startAddress;
@@ -574,6 +580,7 @@ class _MapViewState extends State<MyMapView> {
                                           getTrip.createTrip(newTrip);
 
                                           print(_destinationAddress);
+                                          
                                       });
                                       
                                     }
