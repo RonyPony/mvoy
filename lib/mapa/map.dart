@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mvoy/models/coordinates.dart';
+import 'package:mvoy/models/coordinates.dart'  ;
 import 'package:mvoy/models/trip.dart';
 import 'package:mvoy/providers/trip.provider.dart';
 import 'package:mvoy/screens/currentTripDetails/CurrentTripsDetailsScreen.dart';
@@ -359,7 +359,6 @@ class _MapViewState extends State<MyMapView> {
                 initialCameraPosition: _initialLocation,
                 myLocationEnabled: true,
                 myLocationButtonEnabled: true,
-                // mapType: MapType.normal
                 zoomGesturesEnabled: true,
                 zoomControlsEnabled: false,
                 polylines: Set<Polyline>.of(polylines.values),
@@ -422,7 +421,7 @@ class _MapViewState extends State<MyMapView> {
               ),
               showBottom ?
               Positioned(
-                left: 130,
+                left: MediaQuery.of(context).size.width * .35,
                 bottom: 24,
                 child:ElevatedButton(onPressed: () {
                   Coordinates startCordinates = Coordinates(startLatitude, startLongitude);
@@ -638,6 +637,7 @@ class _MapViewState extends State<MyMapView> {
                                 ),
                               ),
                             );
+                            _getCurrentLocation();
                           },
                         ),
                       ),

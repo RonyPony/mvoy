@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvoy/models/trip.dart';
+
 import 'package:mvoy/screens/driverDetailScreen/driverDetail.screen.dart';
 import 'package:mvoy/widgets/colors.dart';
 
@@ -20,9 +21,10 @@ class CurrentTripDetailsScreen extends StatefulWidget {
 }
 
 class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
+
     with SingleTickerProviderStateMixin {
   late GoogleMapController mapController;
-  late AnimationController _controller;
+      late AnimationController _controller;
   var _darkMapStyle;
   CameraPosition? _googleMapCurrentCameraPosition;
   void _onMapCreated(GoogleMapController controller) {
@@ -33,6 +35,8 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
   Future _loadMapStyles() async {
     _darkMapStyle = await rootBundle.loadString('assets/map_dark_style.json');
   }
+  
+  
 
   @override
   void initState() {
@@ -46,12 +50,16 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
     _controller.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final tripdata = ModalRoute.of(context)!.settings.arguments as Trip;
-    print(tripdata);
+
+    // void _newOffer (Trip newTrip, String newPrice){
+    //   setState(() {
+    //   });
+    // }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -93,7 +101,7 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
                             child: ElevatedButton(onPressed: (){
                               TextEditingController  txtControler = TextEditingController();
                               txtControler.text =tripdata.price!;
-                              _showDialogo(txtControler, context);
+                              _showDialogo(txtControler, context,tripdata);
                             }
                             , 
                             child: Text("Negociar", style: TextStyle(
@@ -105,8 +113,7 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
                               backgroundColor: AppColors.primaryColor
                             ),
                             ),
-                            )
-                            
+                            ),
                           ],
                         )),
                       ),
@@ -218,6 +225,8 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
     );
   }
 
+  
+
   _buildTripInfo(Trip newtrip) {
     Map<String, String> tripData = <String, String>{
       "duracion del viaje": "${newtrip.duration} minutos",
@@ -277,7 +286,7 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
 
   
 
-_showDialogo(TextEditingController alertController, BuildContext context) {
+_showDialogo(TextEditingController offerController, BuildContext context, Trip myTrip) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -285,20 +294,23 @@ _showDialogo(TextEditingController alertController, BuildContext context) {
           backgroundColor: AppColors.primaryColor,
           title: Center(child: Text('Nueva Oferta',
           style: TextStyle(
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold 
           ),
           )),
           content: TextField(
+            keyboardType: TextInputType.number,
             cursorColor:Colors.black,
-            controller: alertController,
+            controller: offerController,
             decoration: InputDecoration(
-              hintText: 'Oferte no menor a \$${alertController.text}',
+              border: OutlineInputBorder(),
+              fillColor: Colors.black,
+              hintText: 'Oferte no menor a \$50 ',
               focusColor: Colors.black,
-                  // focusedBorder: OutlineInputBorder(
-                  //   borderSide: BorderSide(
-                  //       color: Colors
-                  //           .black), 
-                  // )
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors
+                            .black), 
+                  )
             ),
           ),
           actions: <Widget>[
@@ -307,7 +319,19 @@ _showDialogo(TextEditingController alertController, BuildContext context) {
               children: [
                 ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Cerrar el AlertDialog
+                int price = int.parse(offerController.text);
+                if (price < 50){
+                  showMessage(
+                    "No puede ofertar menor a \$50", context
+                  );
+                  print("El precio es menor");
+                }else{
+                  myTrip.price =offerController.text;
+                print(myTrip.price);
+                print(price);
+                Navigator.of(context).pop(); 
+                }
+                
               },
               child: Text('Ofertar'.toUpperCase(),
               style: TextStyle(
@@ -321,7 +345,8 @@ _showDialogo(TextEditingController alertController, BuildContext context) {
             Padding(padding: EdgeInsets.only(left: 12)),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Cerrar el AlertDialog
+                Navigator.of(context).pop(); 
+                print('object');
               },
               child: Text('Cancelar'.toUpperCase(),
               style: TextStyle(
@@ -337,5 +362,74 @@ _showDialogo(TextEditingController alertController, BuildContext context) {
           ],
         );
       },
+    );
+  }
+
+ showMessage(String text, BuildContext context)  {
+    Dialog errorDialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 5),
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(20)),
+          height: MediaQuery.of(context).size.height * 0.30,
+          width: MediaQuery.of(context).size.width * 0.80,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 10),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: SvgPicture.asset("assets/close.svg")),
+                  )
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: Text(
+                              "Error en el monto".toUpperCase(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                    child: Text(
+                      text.toUpperCase(),
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 50.0)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => errorDialog,
     );
   }
