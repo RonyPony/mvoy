@@ -102,6 +102,12 @@ class TripService implements TripContract {
       return dataResponse!;
     }
   }
+  
+  @override
+  Future<ProcessResponse> updateTrip(String tripId) {
+    // TODO: implement updateTrip
+    throw UnimplementedError();
+  }
 
   }
   

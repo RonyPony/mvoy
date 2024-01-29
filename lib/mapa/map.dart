@@ -567,12 +567,12 @@ class _MapViewState extends State<MyMapView> {
                                         newTrip.originName =  _startAddress;
                                         newTrip.destinyName =  _destinationAddress;
                                         newTrip.distance =  _placeDistance;
-                                        newTrip.arrivingTime = "arrivingTime";
-                                        newTrip.clientId = "clientId";
-                                        newTrip.leavingTime ="leavingTime";
-                                        newTrip.duration = "duration";
-                                        newTrip.price = "price";
-                                        newTrip.driverId= "driverId";
+                                        newTrip.arrivingTime = "7:40";
+                                        newTrip.clientId = "6b29fc40-ca47-1067-b31d-00dd010662da";
+                                        newTrip.leavingTime ="7:20";
+                                        newTrip.duration = "20";
+                                        newTrip.price = "60";
+                                        newTrip.driverId= "6b29fc40-ca47-1067-b31d-00dd010662da";
 
                                         final getTrip = Provider.of<TripProvider>(context, listen: false);
                                         

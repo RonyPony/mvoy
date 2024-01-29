@@ -6,5 +6,6 @@ abstract class TripContract {
   Future<ProcessResponse> makeOffer(String tripId, String offerID, bool isDriveroffering, );
   Future<ProcessResponse> acceptOffer(Trip tripInfo,String offerID);
   Future<ProcessResponse> cancelTrip (String tripId);
+  Future<ProcessResponse> updateTrip (String tripId);
 }
 
