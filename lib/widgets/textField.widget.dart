@@ -27,6 +27,7 @@ class MvoyTextField extends StatelessWidget {
         width: baseSize.width * .78,
         decoration: BoxDecoration(),
         child: TextField(
+          cursorColor: Colors.black,
           obscureText: hideTeext!,
           keyboardType: keyboardType,
           controller: receivedController,

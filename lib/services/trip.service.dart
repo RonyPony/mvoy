@@ -108,6 +108,12 @@ class TripService implements TripContract {
     // TODO: implement updateTrip
     throw UnimplementedError();
   }
+  
+  @override
+  Future<List<Trip>> getAllHistoricalTrips() {
+    // TODO: implement getAllHistoricalTrips
+    throw UnimplementedError();
+  }
 
   }
   

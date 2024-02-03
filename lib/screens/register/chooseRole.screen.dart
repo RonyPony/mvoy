@@ -94,8 +94,6 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         MvoyUser usr = MvoyUser();
         usr.isDriver = isDriver;
-        // await prefs.setString('tmpMvoyUser', jsonEncode(usr.toJson()));
-        // Navigator.of(context).pushNamed(PersonalInfoScreen.routeName);
         Navigator.push(
           context,
           MaterialPageRoute(

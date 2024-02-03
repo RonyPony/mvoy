@@ -58,12 +58,12 @@ class _MvoyDateFieldState extends State<MvoyDateField> {
                                 onSurface: Colors.black),
                             textButtonTheme: TextButtonThemeData(
                                 style: TextButton.styleFrom(
-                                    primary: Colors.black))),
+                                    backgroundColor: Colors.black))),
                         child: child!);
                   },
-                  initialDate: DateTime.now(), //get today's date
+                  initialDate: DateTime(2024), //get today's date
                   firstDate: DateTime(
-                      1800), //DateTime.now() - not to allow to choose before today.
+                      1880), //DateTime.now() - not to allow to choose before today.
                   lastDate: DateTime(2024));
 
               setState(() {

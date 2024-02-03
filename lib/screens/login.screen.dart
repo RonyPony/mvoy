@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/models/credentials.dart';
 import 'package:mvoy/models/loginResponse.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
+import 'package:mvoy/screens/register/personalInformation.screen.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
 import 'package:mvoy/widgets/passwordField.widget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../providers/auth.provider.dart';
 import '../widgets/textField.widget.dart';
@@ -26,7 +29,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
-
+    bool isDriver = false;
   TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -43,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
             _buildLoginForm(),
             _buildLoginBtn(context),
             _buildSignupBtn(context),
-            _buildForgottenPass(context)
+            _buildForgottenPass(context),
           ],
         ),
       )),
@@ -121,9 +124,11 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         LoginResponse loginResponse = await _auth.signin(credenciales);
         if (loginResponse.success!) {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
+          
         } else {
           showMessage(loginResponse.message == null
               ? "Error Iniciando sesion"
@@ -210,9 +215,19 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(ChooseRoleScreen.routeName);
-            },
+            onTap: () async {
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            MvoyUser usr = MvoyUser();
+            usr.isDriver = isDriver;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PersonalInfoScreen(
+                  usr: usr,
+                ),
+              ),
+            );
+          },
             child: MvoyLinkedBtn(
               text: "registrate",
               showArrow: false,
@@ -244,4 +259,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 }

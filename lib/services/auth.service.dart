@@ -115,7 +115,6 @@ class AuthService implements AuthContract {
             'email': info.email!,
             'password': info.password!
           }));
-
       if (response.statusCode == 200) {
         dataResponse = LoginResponse.fromJson(jsonDecode(response.body));
         return dataResponse;

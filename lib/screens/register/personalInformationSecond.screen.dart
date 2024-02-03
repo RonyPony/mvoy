@@ -157,7 +157,8 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
             final _auth = Provider.of<AuthProvider>(context, listen: false);
             MvoyUser registered = await _auth.registerUser(widget.usr!, cred);
             if (registered.id != null) {
-              showMessage("Registrado");
+              showMessageSucess("Registrado");
+              
             } else {
               showMessage("error");
             }
@@ -167,9 +168,10 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
             print("No valid Form");
           });
         }
+        
       },
       child: MvoyMainBtn(
-        text: "siguiente",
+        text: "Registrarse",
       ),
     );
   }
@@ -337,4 +339,75 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
     });
     return true;
   }
+
+  Future<bool> showMessageSucess(String text) async {
+    Dialog errorDialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 5),
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(20)),
+          height: MediaQuery.of(context).size.height * .25,
+          width: MediaQuery.of(context).size.width * 0,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 10),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop(true);
+                          Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          (route) => false);
+                        },
+                        child: SvgPicture.asset("assets/close.svg")),
+                  )
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            "titulo".toUpperCase(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                    child: Text(
+                      text.toUpperCase(),
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 50.0)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) => errorDialog,
+    );
+  }
 }
+

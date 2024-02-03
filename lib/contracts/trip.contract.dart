@@ -7,5 +7,6 @@ abstract class TripContract {
   Future<ProcessResponse> acceptOffer(Trip tripInfo,String offerID);
   Future<ProcessResponse> cancelTrip (String tripId);
   Future<ProcessResponse> updateTrip (String tripId);
+  Future<List<Trip>> getAllHistoricalTrips();
 }
 

@@ -26,6 +26,7 @@ class _MvoyPasswordFieldState extends State<MvoyPasswordField> {
           width: baseSize.width * .60,
           decoration: const BoxDecoration(),
           child: TextField(
+            cursorColor: Colors.black,
             obscureText: isShowingPassword,
             controller: widget.receivedController,
             decoration: InputDecoration(
