@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
-import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
-import 'package:mvoy/screens/profile/profile.screen.dart';
+import 'package:mvoy/providers/auth.provider.dart';
+import 'package:mvoy/widgets/colors.dart';
+import 'package:provider/provider.dart';
 
 class MvoyAppBarWidget extends StatefulWidget {
   final Function? onMenuTap;
@@ -23,7 +23,16 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final getUser = Provider.of<AuthProvider>(context, listen: false);
+    var future =getUser.getCurrentUser();
+    return FutureBuilder(
+      future: future, 
+      builder:(context, snapshot) {
+        if (snapshot.hasError) {
+          return Text("Error obteniendo lista de viajes");
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +44,7 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
           ),
           SizedBox(width: MediaQuery.of(context).size.width * .05),
           Text(
-            "Hola, Ernesto!",
+            "Hola, ...",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -46,6 +55,62 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
               child: SvgPicture.asset('assets/MENU.svg'))
         ],
       ),
-    );
+    );      
+          
+        }
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.grey,
+            child: SvgPicture.asset('assets/usuario.svg'),
+            // backgroundImage: AssetImage('assets/images/cat3.png'),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * .05),
+          Text(
+            "Hola, ${(snapshot.data!.name)}".toUpperCase(),
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .4,
+          ),
+          GestureDetector(
+              onTap: () => widget.onMenuTap!(),
+              child: SvgPicture.asset('assets/MENU.svg'))
+        ],
+      ),
+    );      
+        }
+        return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.grey,
+            child: SvgPicture.asset('assets/usuario.svg'),
+            // backgroundImage: AssetImage('assets/images/cat3.png'),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * .05),
+          Text(
+            "Hola, ...",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .4,
+          ),
+          GestureDetector(
+              onTap: () => widget.onMenuTap!(),
+              child: SvgPicture.asset('assets/MENU.svg'))
+        ],
+      ),
+    );      
+      },);}
+
   }
-}
+
+

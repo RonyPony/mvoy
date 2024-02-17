@@ -30,7 +30,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
     bool isDriver = false;
+    bool rememberUser = false;
   TextEditingController _passwordController = TextEditingController();
+  SharedPreferences? _prefs;
+
+  @override
+  void initState(){
+    super.initState();
+  }
+
+  loadPreferencies() async{
+    _prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
             _buildLogo(),
             _buildLoginForm(),
             _buildLoginBtn(context),
+            _rememberUserCheck(context),
             _buildSignupBtn(context),
             _buildForgottenPass(context),
           ],
@@ -124,11 +136,16 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         LoginResponse loginResponse = await _auth.signin(credenciales);
         if (loginResponse.success!) {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          final SharedPreferences prefs = await SharedPreferences.getInstance();      
+          if(rememberUser == true){
+            // showMessage("klk con klk ");
+          }
+          final String? response = prefs.getString('userId');
+          // print(response);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
-          
+          // showMessage("Log in Sucessfully");
         } else {
           showMessage(loginResponse.message == null
               ? "Error Iniciando sesion"
@@ -150,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
               border: Border.all(color: Colors.black, width: 5),
               color: AppColors.primaryColor,
               borderRadius: BorderRadius.circular(20)),
-          height: MediaQuery.of(context).size.height * .3,
+          height: MediaQuery.of(context).size.height * .26,
           width: MediaQuery.of(context).size.width * 1,
           child: Column(
             children: [
@@ -205,6 +222,27 @@ class _LoginScreenState extends State<LoginScreen> {
     return await showDialog(
       context: context,
       builder: (BuildContext context) => errorDialog,
+    );
+  }
+
+  _rememberUserCheck( BuildContext context){
+    return Container(
+      
+      width: 300,
+      height: 50,
+      child: CheckboxListTile(value: rememberUser, 
+      activeColor: Colors.black,
+      title: Text("Recordar usuario", 
+      style: TextStyle(
+        fontSize:18,
+        fontWeight: FontWeight.bold
+      ),),
+      onChanged: (value){
+        setState(() {
+          rememberUser =value!;
+          
+        });
+      }),
     );
   }
 

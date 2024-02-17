@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:http/http.dart';
 import 'package:mvoy/contracts/auth.contract.dart';
@@ -8,7 +7,9 @@ import 'package:mvoy/models/dominicanPerson.dart';
 import 'package:http/http.dart' as http;
 import 'package:mvoy/models/loginResponse.dart';
 import 'package:mvoy/models/mvoyUser.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mvoy/models/processResponse.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService implements AuthContract {
   @override
@@ -81,7 +82,6 @@ class AuthService implements AuthContract {
         }),
       );
       if (response.statusCode == 200) {
-        // info.id = r
         dataResponse = MvoyUser.fromJson(jsonDecode(response.body));
 
         return dataResponse;
@@ -109,14 +109,18 @@ class AuthService implements AuthContract {
       response = await http.post(
           Uri.parse('http://69.197.150.152:8043/api/user/login'),
           headers: <String, String>{
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', 
           },
           body: jsonEncode(<String, String>{
             'email': info.email!,
-            'password': info.password!
+          'password': info.password!
           }));
       if (response.statusCode == 200) {
         dataResponse = LoginResponse.fromJson(jsonDecode(response.body));
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        var jwtData = dataResponse.result;  
+        Map<String, dynamic>? decodedToken = JwtDecoder.decode(jwtData!);
+        prefs.setString("userId", decodedToken['id']);
         return dataResponse;
       } else {
         if (response.statusCode == 404) {
@@ -131,4 +135,25 @@ class AuthService implements AuthContract {
       return dataResponse!;
     }
   }
+                  
+  @override
+  Future<MvoyUser> getCurrentUser() async {
+  MvoyUser dataResponse = MvoyUser(); 
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? id = prefs.getString('userId');
+  try {
+    Response response = await http.get(Uri.parse('http://69.197.150.152:8043/api/user/$id'));
+    if (response.statusCode == 200) {
+      dataResponse = MvoyUser.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      throw Exception('Error de solicitud: ${response.statusCode}');
+    }
+    return dataResponse;
+  } catch (e) {
+    print('Error en la solicitud: $e');
+    throw Exception('No se pudo obtener la información del usuario');
+  }
+}
+
+
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/driverDetailScreen/driverDetail.screen.dart';
 
 class MvoyDetailsListWidget extends StatefulWidget {
   final Map<String, String> data;

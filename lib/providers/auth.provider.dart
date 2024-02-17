@@ -5,7 +5,6 @@ import 'package:mvoy/models/mvoyUser.dart';
 
 import '../models/credentials.dart';
 import '../models/dominicanPerson.dart';
-import '../models/processResponse.dart';
 
 class AuthProvider with ChangeNotifier {
   AuthContract _contract;
@@ -22,10 +21,10 @@ class AuthProvider with ChangeNotifier {
     return result;
   }
 
-  // Future<User> getCurrentUser()async{
-  //   final result = await _contract.getCurrentUser();
-  //   return result;
-  // }
+  Future<MvoyUser> getCurrentUser()async{
+    final result = await _contract.getCurrentUser();
+    return result;
+  }
 
   Future<MvoyUser> registerUser(MvoyUser info, Credentials credentials) async {
     final result = await _contract.registeruser(info, credentials);

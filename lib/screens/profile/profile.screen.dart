@@ -1,7 +1,12 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/models/mvoyUser.dart';
+import 'package:mvoy/providers/auth.provider.dart';
+import 'package:mvoy/providers/trip.provider.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
@@ -17,6 +22,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,33 +38,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       drawer: MvoyDrawerWidget(),
       backgroundColor: AppColors.primaryColor,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40)),
-                  // height: MediaQuery.of(context).size.height * .85,
-                  width: MediaQuery.of(context).size.width * .95,
-                  child: Column(
-                    children: [
-                      _buildProfileHeader(context),
-                      _buildProfileKPIS(),
-                      Container(
-                        height: MediaQuery.of(context).size.height * .43,
-                        width: MediaQuery.of(context).size.width,
-                        child: SingleChildScrollView(
-                          child: _buildFrom(),
-                        ),
-                      ),
-                      
-                    ],
-                  )),
-            ],
-          ),
+      body: Center(
+        child:Column(
+          children: [_buildList(context)],
         ),
       ),
       bottomNavigationBar: MvoyBottomMenuBarWidget(activeIndex: 0,)
@@ -188,13 +170,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _buildFrom() {
+    final String? cedula;
+    final String? pNombre;
+    final String? sNombre;
+    final String? pApellido;
+    final String? sApellido;
     return Column(
       children: [
         SizedBox(
           height: 20,
         ),
         _label("cedula"),
-        MvoyTextField(placeHolder: "40227599079"),
+        MvoyTextField(placeHolder: ""),
         _label("primer nombre"),
         MvoyTextField(placeHolder: "ronel"),
         _label("segundo nombre"),
@@ -220,4 +207,126 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
+
+
+  _currentId()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? id = prefs.getString('userId');
+    return id;
+  }
+
+  _buildWaitScreen( BuildContext context) {
+    return Container(
+            width: MediaQuery.of(context).size.width * .96,
+            height: MediaQuery.of(context).size.height * .70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: Colors.white
+            ),
+            child: Center(
+              child: Container(
+               width: MediaQuery.of(context).size.width * .70,
+               height: MediaQuery.of(context).size.height * .60,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+                child: Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 7,
+        ),
+        SvgPicture.asset(
+          'assets/loading.svg',
+          height: 100,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 4,
+        ),
+        const Text(
+          "Cargando Lista de Viajes",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text("Por favor espera ...")
+      ],
+    ),
+              ),
+            ),
+          );
+  }
+
+  _buildList(BuildContext context) {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final getUser = Provider.of<AuthProvider>(context, listen: false);
+    var future =getUser.getCurrentUser();
+    return  FutureBuilder(
+      future: future, 
+      builder:(context, snapshot) {
+        if (snapshot.hasError) {
+          return Text("Error obteniendo lista de viajes");
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _buildWaitScreen(context);
+          
+        }
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40)),
+                  // height: MediaQuery.of(context).size.height * .85,
+                  width: MediaQuery.of(context).size.width * .95,
+                  child: Column(
+                    children: [
+                      _buildProfileHeader(context),
+                      _buildProfileKPIS(),
+                      Container(
+                        height: MediaQuery.of(context).size.height * .43,
+                        width: MediaQuery.of(context).size.width,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              _label("cedula"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.cedula)}"),
+                              _label("primer nombre"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.name)}"),
+                              _label("segundo nombre"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.middleName)}"),
+                              _label("primer apellido"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname)}"),
+                              _label("segundo apellido"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname2)}"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      
+                    ],
+                  )),
+            ],
+          ),
+        ),
+      );;
+          // Text("${(snapshot.data!.name)}");
+        }
+        return LinearProgressIndicator(
+          color: AppColors.primaryColor,
+        );
+      },);}
+
+
 }
+
+    

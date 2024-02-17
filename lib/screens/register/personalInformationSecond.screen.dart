@@ -7,16 +7,11 @@ import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/screens/register/motoInfo.screen.dart';
 import 'package:mvoy/widgets/booleanSelectorField.widget.dart';
 import 'package:mvoy/widgets/colors.dart';
-import 'package:mvoy/widgets/datePickerField.widget.dart';
 import 'package:mvoy/widgets/formPanel.widget.dart';
 import 'package:mvoy/widgets/linkedBtn.widget.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
-import 'package:mvoy/widgets/passwordField.widget.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../models/processResponse.dart';
 import '../../providers/auth.provider.dart';
 import '../login.screen.dart';
 

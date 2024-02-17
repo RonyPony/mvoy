@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mvoy/contracts/driver.contract.dart';
 import 'package:mvoy/models/credentials.dart';
 import 'package:mvoy/models/processResponse.dart';
-import 'package:mvoy/models/vehicle.dart';
 
 import '../models/driver.dart';
 

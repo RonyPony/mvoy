@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvoy/mapa/map.dart';
-import 'package:mvoy/screens/requestTrip/requestTrip.screen.dart';
 import 'package:mvoy/widgets/appbar.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';

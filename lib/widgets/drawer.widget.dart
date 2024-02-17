@@ -4,6 +4,7 @@ import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
 import 'package:mvoy/screens/profile/profile.screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MvoyDrawerWidget extends StatefulWidget {
   final Function? onMenuTap;
@@ -141,12 +142,15 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
                 ),
               ],
             ),
-            onTap: () {
+            onTap: () async {
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.remove('userId');
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => LoginScreen(),
                   ),
                   (route) => false);
+
             },
           ),
         ],
