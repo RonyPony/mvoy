@@ -344,7 +344,7 @@ class _PersonalInfoSecondScreenState extends State<PersonalInfoSecondScreen> {
               border: Border.all(color: Colors.black, width: 5),
               color: AppColors.primaryColor,
               borderRadius: BorderRadius.circular(20)),
-          height: MediaQuery.of(context).size.height * .25,
+          height: MediaQuery.of(context).size.height * .27,
           width: MediaQuery.of(context).size.width * 0,
           child: Column(
             children: [

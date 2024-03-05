@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class MvoyTextField extends StatelessWidget {
   final String placeHolder;
   final bool? hideTeext;
+  final bool? enabled;
   final TextEditingController? receivedController;
   final TextInputType? keyboardType;
   final void Function()? onTap;
   final void Function()? onChanged;
   const MvoyTextField(
       {super.key,
+      this.enabled,
       required this.placeHolder,
       this.onTap,
       this.onChanged,
@@ -27,6 +29,7 @@ class MvoyTextField extends StatelessWidget {
         width: baseSize.width * .78,
         decoration: BoxDecoration(),
         child: TextField(
+          enabled: enabled,
           cursorColor: Colors.black,
           obscureText: hideTeext!,
           keyboardType: keyboardType,

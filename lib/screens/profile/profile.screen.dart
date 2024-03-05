@@ -169,30 +169,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  _buildFrom() {
-    final String? cedula;
-    final String? pNombre;
-    final String? sNombre;
-    final String? pApellido;
-    final String? sApellido;
-    return Column(
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        _label("cedula"),
-        MvoyTextField(placeHolder: ""),
-        _label("primer nombre"),
-        MvoyTextField(placeHolder: "ronel"),
-        _label("segundo nombre"),
-        MvoyTextField(placeHolder: "ronel"),
-        _label("primer apellido"),
-        MvoyTextField(placeHolder: "ronel"),
-        _label("segundo apellido"),
-        MvoyTextField(placeHolder: "ronel"),
-      ],
-    );
-  }
+  // _buildFrom() {
+  //   final String? cedula;
+  //   final String? pNombre;
+  //   final String? sNombre;
+  //   final String? pApellido;
+  //   final String? sApellido;
+  //   return Column(
+  //     children: [
+  //       SizedBox(
+  //         height: 20,
+  //       ),
+  //       _label("cedula"),
+  //       MvoyTextField(placeHolder: ""),
+  //       _label("primer nombre"),
+  //       MvoyTextField(placeHolder: "ronel"),
+  //       _label("segundo nombre"),
+  //       MvoyTextField(placeHolder: "ronel"),
+  //       _label("primer apellido"),
+  //       MvoyTextField(placeHolder: "ronel"),
+  //       _label("segundo apellido"),
+  //       MvoyTextField(placeHolder: "ronel"),
+  //     ],
+  //   );
+  // }
 
   _label(String s) {
     return Row(
@@ -209,11 +209,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
-  _currentId()async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? id = prefs.getString('userId');
-    return id;
-  }
+  // _currentId()async{
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final String? id = prefs.getString('userId');
+  //   return id;
+  // }
 
   _buildWaitScreen( BuildContext context) {
     return Container(
@@ -299,15 +299,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 20,
                               ),
                               _label("cedula"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.cedula)}"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.cedula)}", enabled: false,),
                               _label("primer nombre"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.name)}"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.name)}", enabled: false),
                               _label("segundo nombre"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.middleName)}"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.middleName)}", enabled: false),
                               _label("primer apellido"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname)}"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname)}", enabled: false),
                               _label("segundo apellido"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname2)}"),
+                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname2)}", enabled: false),
                             ],
                           ),
                         ),

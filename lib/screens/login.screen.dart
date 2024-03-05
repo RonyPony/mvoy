@@ -73,11 +73,15 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.only(
               top: baseSize.height * .01, right: baseSize.width * .04),
           child: GestureDetector(
-            onTap: (){
+            onTap: ()async{
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('userId', '0fb828c2-6348-4743-b190-08dc3a36e525');
               Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+
             },
             child: MvoyLinkedBtn(
               text: "saltar",
+              
             ),
           ),
         ),

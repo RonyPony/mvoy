@@ -140,7 +140,7 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
           padding: EdgeInsets.only(top: 20, left: 20),
           width: MediaQuery.of(context).size.width * 0.75,
           child: Text(tripid.toUpperCase(),
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         SvgPicture.asset(
@@ -160,24 +160,27 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
         Container(
           height: 200,
           width: MediaQuery.of(context).size.width * .9,
-          child: GoogleMap(
-            mapType: MapType.normal,
-            zoomControlsEnabled: false,
-            compassEnabled: false,
-            zoomGesturesEnabled: false,
-            onCameraMove: (position) {
-              _googleMapCurrentCameraPosition = position;
-            },
-            trafficEnabled: false,
-            myLocationButtonEnabled: false,
-            myLocationEnabled: false,
-            scrollGesturesEnabled: false,
-            tiltGesturesEnabled: false,
-            liteModeEnabled: false,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 12.0,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: GoogleMap(
+              mapType: MapType.normal,
+              zoomControlsEnabled: false,
+              compassEnabled: false,
+              zoomGesturesEnabled: false,
+              onCameraMove: (position) {
+                _googleMapCurrentCameraPosition = position;
+              },
+              trafficEnabled: false,
+              myLocationButtonEnabled: false,
+              myLocationEnabled: false,
+              scrollGesturesEnabled: false,
+              tiltGesturesEnabled: false,
+              liteModeEnabled: false,
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 12.0,
+              ),
             ),
           ),
         ),

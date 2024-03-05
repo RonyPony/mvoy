@@ -33,14 +33,17 @@ dependencies:
   flutter_svg: any
   provider: ^6.0.5
   cupertino_icons: ^1.0.2
-  http: ^1.1.0
+  http: ^0.13.0
   shared_preferences: ^2.2.0
   google_maps_flutter: ^2.3.1
   geolocator: ^9.0.2
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.1
-  flutter_polyline_points: ^2.0.0
+  flutter_polyline_points: ^1.0.0
   geocoding: ^2.1.1
+  jwt_decoder: ^2.0.1
+  google_maps_webservice: ^0.0.20-nullsafety.5
+  google_place: ^0.4.7
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +96,8 @@ flutter:
     - assets/task.svg
     - assets/profile.svg
     - assets/location.svg
+    - assets/location2.svg
+    - assets/location_pin.svg
     - assets/trip.svg
     - assets/profilePicture.svg
     - assets/locationSpot.svg

@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvoy/screens/tripDetailsScreen/tripDetails.screen.dart';
 import 'package:mvoy/widgets/colors.dart';
+import 'package:mvoy/widgets/search.Bar.dart';
 // import 'package:mvoy/widgets/mainBtn.widget.dart';
 
 import '../../widgets/appbar.dart';
@@ -46,7 +47,7 @@ class _HomeState extends State<MyTripsScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [_buildSerchBar(context), _buildList(context)],
+            children: [MvoySearchbar(), _buildList(context)],
           ),
         ),
       ),
@@ -62,51 +63,6 @@ class _HomeState extends State<MyTripsScreen> {
     );
   }
 
-  _buildSerchBar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * .8,
-            height: 60,
-            child: TextField(
-              cursorColor: Colors.black,
-              keyboardType: TextInputType.text,
-              onChanged: (value) {},
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors
-                            .black), 
-                  ),
-                focusColor: Colors.black,
-                  prefixIcon: SvgPicture.asset(
-                    'assets/moto.svg',
-                    height: 10,
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  labelText: "  A DONDE VAMOS ?",
-                  labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
-                  fillColor: AppColors.primaryColor,
-                  filled: true),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(5)),
-            child: SvgPicture.asset('assets/search.svg'),
-          )
-        ],
-      ),
-    );
-  }
 
   _buildList(BuildContext context) {
     return Container(

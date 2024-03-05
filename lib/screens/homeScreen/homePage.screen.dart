@@ -10,6 +10,7 @@ import 'package:mvoy/mapa/map.dart';
 import 'package:mvoy/widgets/appbar.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/mainBtn.widget.dart';
+import 'package:mvoy/widgets/search.Bar.dart';
 
 import '../../widgets/bottomMenuBar.widget.dart';
 import '../../widgets/drawer.widget.dart';
@@ -24,9 +25,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
+  // TextEditingController _controller = TextEditingController();
   late GoogleMapController mapController;
   CameraPosition? _googleMapCurrentCameraPosition;
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  // final LatLng _center = const LatLng(45.521563, -122.677433);
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var _darkMapStyle;
   bool showZoomControl = false;
@@ -40,6 +42,7 @@ class _HomeState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     _loadMapStyles();
+    
   }
 
   Future _loadMapStyles() async {
@@ -65,7 +68,7 @@ class _HomeState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _buildSerchBar(context),
+            MvoySearchbar(),
             Expanded(
               child: FutureBuilder<Widget>(
                 future: _buildMap(context),
@@ -96,58 +99,6 @@ class _HomeState extends State<HomeScreen> {
     );
   }
 
-  _buildSerchBar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * .8,
-            height: 60,
-            child: TextField(
-              cursorColor:Colors.black,
-              keyboardType: TextInputType.text,
-              onChanged: (value) {},
-              decoration: InputDecoration(
-                  focusColor: Colors.black,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors
-                            .black), 
-                  ),
-                  prefixIcon: SvgPicture.asset(
-                    'assets/moto.svg',
-                    height: 9,
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  border: OutlineInputBorder(
-
-                      // borderRadius: BorderRadius.circular(10.0),
-
-                      ),
-                  labelText: "  A DONDE VAMOS ?",
-                  labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
-                  fillColor: AppColors.primaryColor,
-                  filled: true),
-            ),
-          ),
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyMapView()));
-            },
-            child: Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(5)),
-              child: SvgPicture.asset('assets/search.svg'),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
   Future<Widget> _buildMap(BuildContext context) async {
     Position position = await _determinePosition();
@@ -167,9 +118,10 @@ class _HomeState extends State<HomeScreen> {
           child: Stack(
             children: [
               GoogleMap(
+                
                 mapType: MapType.normal,
                 zoomControlsEnabled: false,
-                compassEnabled: true,
+                compassEnabled: false,
                 onCameraMove: (position) {
                   _googleMapCurrentCameraPosition = position;
                 },
@@ -182,7 +134,7 @@ class _HomeState extends State<HomeScreen> {
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
                   target: _center,
-                  zoom: 11.0,
+                  zoom: 16.0,
                 ),
               ),
               StatefulBuilder(
@@ -248,6 +200,7 @@ class _HomeState extends State<HomeScreen> {
                                                 _googleMapCurrentCameraPosition!
                                                         .zoom -
                                                     1)));
+                                                    print('object');
                                   },
                                   child: Container(
                                       padding: EdgeInsets.all(8),
