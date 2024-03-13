@@ -51,8 +51,9 @@ class _HomeState extends State<MyTripsScreen> {
           ),
         ),
       ),
+      
       bottomNavigationBar: MvoyBottomMenuBarWidget(
-                        activeIndex: 0,
+                        activeIndex: 1,
                       ),
     );
   }
@@ -177,6 +178,7 @@ class _HomeState extends State<MyTripsScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: 12,),
               // Column(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [

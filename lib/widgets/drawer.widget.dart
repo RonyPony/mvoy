@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/providers/currentUser.provider.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/login.screen.dart';
 import 'package:mvoy/screens/mytrips/mytrips.screen.dart';
 import 'package:mvoy/screens/profile/profile.screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MvoyDrawerWidget extends StatefulWidget {
@@ -25,6 +27,7 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Drawer(
       backgroundColor: Colors.white,
       child:
@@ -143,8 +146,10 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
               ],
             ),
             onTap: () async {
+              
               final SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.remove('userId');
+              // Provider.of<UserProvider>(context).clearCurrentUser();
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => LoginScreen(),

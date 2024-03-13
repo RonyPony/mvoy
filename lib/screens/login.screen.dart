@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/models/credentials.dart';
 import 'package:mvoy/models/loginResponse.dart';
 import 'package:mvoy/models/mvoyUser.dart';
+import 'package:mvoy/providers/currentUser.provider.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/password/forgottenPassword.screen.dart';
 import 'package:mvoy/screens/register/chooseRole.screen.dart';
@@ -37,7 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState(){
     super.initState();
+    // clearCurrentUser();
   }
+
+  // clearCurrentUser(){
+  //     Provider.of<UserProvider>(context).clearCurrentUser();
+  //   }
 
   loadPreferencies() async{
     _prefs = await SharedPreferences.getInstance();
@@ -75,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: GestureDetector(
             onTap: ()async{
               final SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.setString('userId', '0fb828c2-6348-4743-b190-08dc3a36e525');
+              prefs.setString('userId', '80c100df-0d19-4ed6-e7ce-08dc3ff65df6');
               Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
 
             },

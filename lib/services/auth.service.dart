@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mvoy/contracts/auth.contract.dart';
 import 'package:mvoy/models/credentials.dart';
@@ -9,6 +10,8 @@ import 'package:mvoy/models/loginResponse.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mvoy/models/processResponse.dart';
+import 'package:mvoy/providers/currentUser.provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService implements AuthContract {
@@ -132,28 +135,54 @@ class AuthService implements AuthContract {
       }
     } catch (e) {
       print(e.toString());
-      return dataResponse!;
+      return dataResponse;
     }
   }
                   
   @override
-  Future<MvoyUser> getCurrentUser() async {
-  MvoyUser dataResponse = MvoyUser(); 
+Future<MvoyUser> getCurrentUser(BuildContext context) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? id = prefs.getString('userId');
+
   try {
     Response response = await http.get(Uri.parse('http://69.197.150.152:8043/api/user/$id'));
     if (response.statusCode == 200) {
-      dataResponse = MvoyUser.fromJson(json.decode(response.body));
+      MvoyUser dataResponse = MvoyUser.fromJson(json.decode(response.body));
+      Provider.of<UserProvider>(context, listen: false).setCurrentUser(dataResponse);
+      return dataResponse;
     } else if (response.statusCode == 400) {
       throw Exception('Error de solicitud: ${response.statusCode}');
     }
-    return dataResponse;
+    return MvoyUser(); // En caso de error, devolver un usuario vacío
   } catch (e) {
     print('Error en la solicitud: $e');
     throw Exception('No se pudo obtener la información del usuario');
   }
 }
+
+//   Future<MvoyUser> getCurrentUser(BuildContext context) async {
+//   MvoyUser dataResponse = MvoyUser(); 
+//   // final setUser =  Provider.of<UserProvider>(context, listen: false);
+//   final SharedPreferences prefs = await SharedPreferences.getInstance();
+//   final String? id = prefs.getString('userId');
+//   // // prefs.setString('userId', "790691a5-6cbb-41a0-c0e3-08dc0da1b818");
+//   // final String id = "0fb828c2-6348-4743-b190-08dc3a36e525";
+//   try {
+//     Response response = await http.get(Uri.parse('http://69.197.150.152:8043/api/user/$id'));
+//     if (response.statusCode == 200) {
+//       // Provider.of<UserProvider>(context, listen: false).setCurrentUser(dataResponse);
+//       dataResponse = MvoyUser.fromJson(json.decode(response.body));
+//     } else if (response.statusCode == 400) {
+//       throw Exception('Error de solicitud: ${response.statusCode}');
+//     }
+//     return dataResponse;
+//   } catch (e) {
+//     print('Error en la solicitud: $e');
+//     throw Exception('No se pudo obtener la información del usuario');
+//   }
+  
+// }
+
 
 
 }

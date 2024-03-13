@@ -30,17 +30,17 @@ class TripService implements TripContract {
           headers: <String, String>{
             'Content-Type': 'application/json',
           },
-          body: jsonEncode(<String, String>{         
+          body: jsonEncode(<String, dynamic>{         
             'originName': tripInfo.originName!,
             'destinyName': tripInfo.destinyName!,
             'duration': tripInfo.duration!,
             'distance': tripInfo.distance!,
+            'statusTrip': tripInfo.status!,
             'leavingTime': tripInfo.leavingTime!,
             'driverId': tripInfo.driverId!,
             'clientId': tripInfo.clientId!,
             'price': tripInfo.price!,
             'arrivingTime': tripInfo.arrivingTime!
-
           }));
 
       if (response.statusCode == 200) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvoy/providers/auth.provider.dart';
+import 'package:mvoy/providers/currentUser.provider.dart';
 import 'package:mvoy/providers/driver.provider.dart';
 import 'package:mvoy/providers/map.provider.dart';
 import 'package:mvoy/providers/trip.provider.dart';
@@ -31,7 +32,10 @@ class InitialScreen extends StatelessWidget {
         ),      
         ChangeNotifierProvider(
           create: (context)=>MapProvider(),
-        )  
+        ),
+        ChangeNotifierProvider(
+          create: (context)=>UserProvider(),
+        )    
       ],
       child: MaterialApp(
         routes: getApplicationRoutes(),

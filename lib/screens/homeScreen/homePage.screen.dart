@@ -75,6 +75,7 @@ class _HomeState extends State<HomeScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return _buildWaitScreen();
+                    
                   }
                   if (snapshot.connectionState == ConnectionState.done &&
                       snapshot.hasData) {
@@ -83,7 +84,9 @@ class _HomeState extends State<HomeScreen> {
                   return _buildWaitScreen();
                 },
               ),
-            )
+              
+            ),
+            
           ],
         ),
       ),

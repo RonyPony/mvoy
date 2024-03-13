@@ -21,10 +21,11 @@ class AuthProvider with ChangeNotifier {
     return result;
   }
 
-  Future<MvoyUser> getCurrentUser()async{
-    final result = await _contract.getCurrentUser();
+  Future<MvoyUser> getCurrentUser(BuildContext context)async{
+    final result = await _contract.getCurrentUser(context);
     return result;
   }
+
 
   Future<MvoyUser> registerUser(MvoyUser info, Credentials credentials) async {
     final result = await _contract.registeruser(info, credentials);

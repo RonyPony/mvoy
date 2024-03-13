@@ -2,6 +2,7 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/providers/auth.provider.dart';
+import 'package:mvoy/providers/currentUser.provider.dart';
 import 'package:mvoy/providers/trip.provider.dart';
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/textField.widget.dart';
@@ -23,8 +24,12 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   
+
+
   @override
+  
   Widget build(BuildContext context) {
+    
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -40,10 +45,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: AppColors.primaryColor,
       body: Center(
         child:Column(
-          children: [_buildList(context)],
+          children: [_buildScreen(context),
+          ],
         ),
+        
       ),
-      bottomNavigationBar: MvoyBottomMenuBarWidget(activeIndex: 0,)
+
+      bottomNavigationBar: MvoyBottomMenuBarWidget(activeIndex: 2,)
     );
   }
 
@@ -53,7 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  _buildProfileHeader(BuildContext context) {
+
+  _buildProfileHeader(BuildContext context, MvoyUser user,  ) {
     return Column(
       children: [
         Row(
@@ -74,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 children: [
                   Text(
-                    "{username}{userLastname}}".toUpperCase(),
+                    "${(user.name)} ${(user.lastname)}".toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Row(
@@ -87,6 +96,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "{{userLocation}}".toUpperCase(),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
+                      GestureDetector(
+                        onTap: (){
+                          Provider.of<UserProvider>(context).clearCurrentUser();
+                        },
+                        child: Text('data'))
                     ],
                   )
                 ],
@@ -169,31 +183,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // _buildFrom() {
-  //   final String? cedula;
-  //   final String? pNombre;
-  //   final String? sNombre;
-  //   final String? pApellido;
-  //   final String? sApellido;
-  //   return Column(
-  //     children: [
-  //       SizedBox(
-  //         height: 20,
-  //       ),
-  //       _label("cedula"),
-  //       MvoyTextField(placeHolder: ""),
-  //       _label("primer nombre"),
-  //       MvoyTextField(placeHolder: "ronel"),
-  //       _label("segundo nombre"),
-  //       MvoyTextField(placeHolder: "ronel"),
-  //       _label("primer apellido"),
-  //       MvoyTextField(placeHolder: "ronel"),
-  //       _label("segundo apellido"),
-  //       MvoyTextField(placeHolder: "ronel"),
-  //     ],
-  //   );
-  // }
-
   _label(String s) {
     return Row(
       children: [
@@ -207,13 +196,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-
-
-  // _currentId()async{
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final String? id = prefs.getString('userId');
-  //   return id;
-  // }
 
   _buildWaitScreen( BuildContext context) {
     return Container(
@@ -244,13 +226,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: MediaQuery.of(context).size.height / 4,
         ),
         const Text(
-          "Cargando Lista de Viajes",
+          "Cargando informacion",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
         ),
-        const Text("Por favor espera ...")
+        const Text("Por favor espera...")
       ],
     ),
               ),
@@ -258,23 +240,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
   }
 
-  _buildList(BuildContext context) {
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final getUser = Provider.of<AuthProvider>(context, listen: false);
-    var future =getUser.getCurrentUser();
-    return  FutureBuilder(
-      future: future, 
-      builder:(context, snapshot) {
-        if (snapshot.hasError) {
-          return Text("Error obteniendo lista de viajes");
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return _buildWaitScreen(context);
-          
-        }
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
-          return SafeArea(
+  _builErrorScreen( BuildContext context) {
+    return Container(
+            width: MediaQuery.of(context).size.width * .96,
+            height: MediaQuery.of(context).size.height * .70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: Colors.white
+            ),
+            child: Center(
+              child: Container(
+               width: MediaQuery.of(context).size.width * .70,
+               height: MediaQuery.of(context).size.height * .60,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+                child: Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 7,
+        ),
+        SvgPicture.asset(
+          'assets/loading.svg',
+          height: 100,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 4,
+        ),
+        const Text(
+          "Error cargando la informacion",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text("Por favor espera...")
+      ],
+    ),
+              ),
+            ),
+          );
+  }
+
+  _buildScreen(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+  final currentUser = userProvider.currentUser;
+
+  if (currentUser == null) {
+    return _buildWaitScreen(context);
+  }
+    return SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -287,7 +303,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: MediaQuery.of(context).size.width * .95,
                   child: Column(
                     children: [
-                      _buildProfileHeader(context),
+                      _buildProfileHeader(
+                        context, 
+                        currentUser),
                       _buildProfileKPIS(),
                       Container(
                         height: MediaQuery.of(context).size.height * .43,
@@ -299,15 +317,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 20,
                               ),
                               _label("cedula"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.cedula)}", enabled: false,),
+                              MvoyTextField(placeHolder: "${(currentUser.cedula)}", enabled: false,),
                               _label("primer nombre"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.name)}", enabled: false),
+                              MvoyTextField(placeHolder: "${(currentUser.name)}", enabled: false),
                               _label("segundo nombre"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.middleName)}", enabled: false),
+                              MvoyTextField(placeHolder: "${(currentUser.middleName)}", enabled: false),
                               _label("primer apellido"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname)}", enabled: false),
+                              MvoyTextField(placeHolder: "${(currentUser.lastname)}", enabled: false),
                               _label("segundo apellido"),
-                              MvoyTextField(placeHolder: "${(snapshot.data!.lastname2)}", enabled: false),
+                              MvoyTextField(placeHolder: "${(currentUser.lastname2)}", enabled: false),
                             ],
                           ),
                         ),
@@ -318,13 +336,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-      );;
-          // Text("${(snapshot.data!.name)}");
-        }
-        return LinearProgressIndicator(
-          color: AppColors.primaryColor,
-        );
-      },);}
+      );
+      
+      }
 
 
 }

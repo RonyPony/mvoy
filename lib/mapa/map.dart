@@ -648,21 +648,22 @@ class MyMapView extends StatefulWidget {
                                                 
                                             //   ); 
                                             }
-                                            // Trip newTrip = Trip();
-                                            // newTrip.originName =  _startAddress;
-                                            // newTrip.destinyName =  _destinationAddress;
-                                            // newTrip.distance =  _placeDistance;
-                                            // newTrip.arrivingTime = "7:40";
-                                            // newTrip.clientId = "6b29fc40-ca47-1067-b31d-00dd010662da";
-                                            // newTrip.leavingTime ="7:20";
-                                            // newTrip.duration = "20";
-                                            // newTrip.price = "50";
-                                            // newTrip.driverId= "6b29fc40-ca47-1067-b31d-00dd010662da";
-                            
-                                            // final getTrip = Provider.of<TripProvider>(context, listen: false);
+                                            Trip newTrip = Trip();
+                                            newTrip.originName =  _startAddress;
+                                            newTrip.destinyName =  _destinationAddress;
+                                            newTrip.distance =  _placeDistance;
+                                            newTrip.arrivingTime = "7:40";
+                                            newTrip.clientId = "6b29fc40-ca47-1067-b31d-00dd010662da";
+                                            newTrip.leavingTime ="7:20";
+                                            newTrip.status = 0;
+                                            newTrip.duration = "20";
+                                            newTrip.price = "50";
+                                            newTrip.driverId= "6b29fc40-ca47-1067-b31d-00dd010662da";
+
+                                            final getTrip = Provider.of<TripProvider>(context, listen: false);
                                             
-                                            //   getTrip.createTrip(newTrip);
-                            
+                                              getTrip.createTrip(newTrip);
+                                            
                                             //   print(_destinationAddress);
                                               
                                           });

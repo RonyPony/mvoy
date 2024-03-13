@@ -8,6 +8,7 @@ class Trip {
   String? leavingTime;
   String? driverId;
   String? clientId;
+  int? status;
   String? price;
   String? arrivingTime;
   Coordinates? startPoint;
@@ -20,6 +21,7 @@ class Trip {
       this.distance,
       this.leavingTime,
       this.driverId,
+      this.status,
       this.clientId,
       this.price,
       this.arrivingTime,
@@ -33,6 +35,7 @@ class Trip {
     destinyName = json['destinyName'];
     duration = json['duration'];
     distance = json['distance'];
+    status = json['statusTrip'];
     leavingTime = json['leavingTime'];
     driverId = json['driverId'];
     clientId = json['clientId'];
@@ -46,6 +49,7 @@ class Trip {
     data['destinyName'] = this.destinyName;
     data['duration'] = this.duration;
     data['distance'] = this.distance;
+    data['statusTrip'] = this.status;
     data['leavingTime'] = this.leavingTime;
     data['driverId'] = this.driverId;
     data['clientId'] = this.clientId;

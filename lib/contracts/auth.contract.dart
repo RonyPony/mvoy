@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mvoy/models/loginResponse.dart';
 
 import '../models/credentials.dart';
@@ -7,7 +8,7 @@ import '../models/mvoyUser.dart';
 abstract class AuthContract {
   Future<bool> isUserAuthenticated();
   Future<DominicanPerson> getPersonInfoByCedula(String cedula);
-  Future<MvoyUser> getCurrentUser();
+  Future<MvoyUser> getCurrentUser(BuildContext context);
   Future<MvoyUser> registeruser(MvoyUser info, Credentials credentials);
   Future<LoginResponse> signin(Credentials info);
   Future<bool> verifyUserEmail(String email);

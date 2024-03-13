@@ -24,12 +24,12 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     final getUser = Provider.of<AuthProvider>(context, listen: false);
-    var future =getUser.getCurrentUser();
+    var future =getUser.getCurrentUser(context);
     return FutureBuilder(
       future: future, 
       builder:(context, snapshot) {
         if (snapshot.hasError) {
-          return Text("Error obteniendo lista de viajes");
+          return _buildError();
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Padding(
@@ -44,7 +44,7 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
           ),
           SizedBox(width: MediaQuery.of(context).size.width * .05),
           Text(
-            "Hola, ...",
+            "Cargando...",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -97,7 +97,7 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
           ),
           SizedBox(width: MediaQuery.of(context).size.width * .05),
           Text(
-            "Hola, ...",
+            "Cargando...",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -111,6 +111,34 @@ class _MvoyAppBarWidgetState extends State<MvoyAppBarWidget> {
     );      
       },);}
 
+
+  _buildError(){
+    return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.grey,
+            child: SvgPicture.asset('assets/usuario.svg'),
+            // backgroundImage: AssetImage('assets/images/cat3.png'),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * .05),
+          Text(
+            "Error...",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .4,
+          ),
+          GestureDetector(
+              onTap: () => widget.onMenuTap!(),
+              child: SvgPicture.asset('assets/MENU.svg'))
+        ],
+      ),
+    );   
+  }
+    
   }
 
 

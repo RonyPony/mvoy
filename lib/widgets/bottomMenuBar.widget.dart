@@ -7,7 +7,7 @@ import 'package:mvoy/widgets/colors.dart';
 
 class MvoyBottomMenuBarWidget extends StatefulWidget {
   final double? spaceBetween;
-  final double activeIndex;
+  final int activeIndex;
   const MvoyBottomMenuBarWidget(
       {Key? key, this.spaceBetween = 15, required this.activeIndex})
       : super(key: key);
@@ -18,7 +18,7 @@ class MvoyBottomMenuBarWidget extends StatefulWidget {
 }
 
 class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
-  double? activeTab;
+  int? activeTab;
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -57,7 +57,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: activeTab == 0
-                            ? AppColors.primaryColor
+                            ? Color.fromRGBO(191,161,0,25)
                             : Colors.transparent),
                     child: SvgPicture.asset('assets/home.svg'),
                   ),
@@ -78,7 +78,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: activeTab == 1
-                            ? AppColors.primaryColor
+                            ? Color.fromRGBO(191,161,0,25)
                             : Colors.transparent),
                     child: SvgPicture.asset('assets/task.svg'),
                   ),
@@ -100,7 +100,7 @@ class _MvoyBottomMenuBarWidgetState extends State<MvoyBottomMenuBarWidget> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: activeTab == 2
-                            ? AppColors.primaryColor
+                            ? Color.fromRGBO(191,161,0,25)
                             : Colors.transparent),
                     child: SvgPicture.asset('assets/profile.svg'),
                   ),
