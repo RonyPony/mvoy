@@ -22,26 +22,27 @@ class TripService implements TripContract {
 
   @override
   Future<ProcessResponse> createTrip(Trip tripInfo) async {
-    ProcessResponse dataResponse = ProcessResponse(success:false,errorMessage: "");
+    ProcessResponse dataResponse =
+        ProcessResponse(success: false, errorMessage: "");
     try {
       http.Response? response;
-      response = await http.post(
-          Uri.parse('http://69.197.150.152:8043/api/trip'),
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode(<String, dynamic>{         
-            'originName': tripInfo.originName!,
-            'destinyName': tripInfo.destinyName!,
-            'duration': tripInfo.duration!,
-            'distance': tripInfo.distance!,
-            'statusTrip': tripInfo.status!,
-            'leavingTime': tripInfo.leavingTime!,
-            'driverId': tripInfo.driverId!,
-            'clientId': tripInfo.clientId!,
-            'price': tripInfo.price!,
-            'arrivingTime': tripInfo.arrivingTime!
-          }));
+      response =
+          await http.post(Uri.parse('http://69.197.150.152:8043/api/trip'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+              },
+              body: jsonEncode(<String, dynamic>{
+                'originName': tripInfo.originName!,
+                'destinyName': tripInfo.destinyName!,
+                'duration': tripInfo.duration!,
+                'distance': tripInfo.distance!,
+                'statusTrip': tripInfo.status!,
+                'leavingTime': tripInfo.leavingTime!,
+                'driverId': tripInfo.driverId!,
+                'clientId': tripInfo.clientId!,
+                'price': tripInfo.price!,
+                'arrivingTime': tripInfo.arrivingTime!
+              }));
 
       if (response.statusCode == 200) {
         Trip finalTrip = Trip.fromJson(jsonDecode(response.body));
@@ -53,7 +54,7 @@ class TripService implements TripContract {
           return dataResponse;
         } else {
           dataResponse.success = false;
-          dataResponse.errorMessage="error";
+          dataResponse.errorMessage = "error";
           return dataResponse;
         }
       }
@@ -64,24 +65,23 @@ class TripService implements TripContract {
   }
 
   @override
-  Future<ProcessResponse> makeOffer(String tripId, String offerID, bool isDriveroffering) async {
-    ProcessResponse dataResponse = ProcessResponse(success:false,errorMessage: "");
+  Future<ProcessResponse> makeOffer(
+      String tripId, String offerID, bool isDriveroffering) async {
+    ProcessResponse dataResponse =
+        ProcessResponse(success: false, errorMessage: "");
     try {
       http.Response? response;
-      response = await http.post(
-          Uri.parse('http://69.197.150.152:8043/api/trip'),
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-          },
-            
-          body: jsonEncode(<String, String>{        
-
-              // "clientId":  ,
-              // "tripId": ,
-              // "motorcycleUserId": ,
-              // "price": ,
-
-          }));
+      response =
+          await http.post(Uri.parse('http://69.197.150.152:8043/api/trip'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+              },
+              body: jsonEncode(<String, String>{
+                // "clientId":  ,
+                // "tripId": ,
+                // "motorcycleUserId": ,
+                // "price": ,
+              }));
 
       if (response.statusCode == 200) {
         Trip finalTrip = Trip.fromJson(jsonDecode(response.body));
@@ -93,7 +93,7 @@ class TripService implements TripContract {
           return dataResponse;
         } else {
           dataResponse.success = false;
-          dataResponse.errorMessage="error";
+          dataResponse.errorMessage = "error";
           return dataResponse;
         }
       }
@@ -102,18 +102,16 @@ class TripService implements TripContract {
       return dataResponse!;
     }
   }
-  
+
   @override
   Future<ProcessResponse> updateTrip(String tripId) {
     // TODO: implement updateTrip
     throw UnimplementedError();
   }
-  
+
   @override
   Future<List<Trip>> getAllHistoricalTrips() {
     // TODO: implement getAllHistoricalTrips
     throw UnimplementedError();
   }
-
-  }
-  
+}
