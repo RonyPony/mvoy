@@ -11,8 +11,10 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearCurrentUser() {
-    _currentUser = MvoyUser();
+  void clearCurrentUser(MvoyUser user) {
+    _currentUser = user;
     notifyListeners();
   }
 }
+
+

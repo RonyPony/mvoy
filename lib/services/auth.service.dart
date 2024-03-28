@@ -152,6 +152,7 @@ Future<MvoyUser> getCurrentUser(BuildContext context) async {
       return dataResponse;
     } else if (response.statusCode == 400) {
       throw Exception('Error de solicitud: ${response.statusCode}');
+      
     }
     return MvoyUser(); // En caso de error, devolver un usuario vacío
   } catch (e) {

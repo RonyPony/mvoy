@@ -96,11 +96,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "{{userLocation}}".toUpperCase(),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      GestureDetector(
-                        onTap: (){
-                          Provider.of<UserProvider>(context).clearCurrentUser();
-                        },
-                        child: Text('data'))
                     ],
                   )
                 ],

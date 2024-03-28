@@ -19,6 +19,7 @@ import 'dart:math' show cos, sqrt, asin;
 
 import 'package:mvoy/widgets/colors.dart';
 import 'package:mvoy/widgets/location_list_tile.dart';
+import 'package:mvoy/widgets/map.TextField.dart';
 import 'package:provider/provider.dart';
 
 class MyMapView extends StatefulWidget {
@@ -27,319 +28,9 @@ class MyMapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MyMapView> {
-  late GoogleMapController mapController;
-  static const API_KEY = 'AIzaSyCY47HTgLpdMDimZ49YdWqzWk-rt5UI3jA';
-  late Position _currentPosition;
-  String _currentAddress = '';
-  bool showPredictionContainer = false;
 
-  void placeAutoComplete(String query) {
-    Provider.of<MapProvider>(context, listen: false).placeAutoComplete(query);
-  }
-
-  var _darkMapStyle;
-  void _onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(_darkMapStyle);
-    mapController = controller;
-  }
-
-  Future _loadMapStyles() async {
-    _darkMapStyle = await rootBundle.loadString('assets/map_dark_style.json');
-    _getCurrentLocation();
-  }
-
-  final startAddressController = TextEditingController();
-  final destinationAddressController = TextEditingController();
-
-  final startAddressFocusNode = FocusNode();
-  final desrinationAddressFocusNode = FocusNode();
-
-  String _startAddress = '';
-  String _destinationAddress = '';
-  String? _placeDistance = "";
-  double startLatitude = 0;
-  double startLongitude = 0;
-  double destinationLatitude = 0;
-  double destinationLongitude = 0;
-
-  bool showBottom = false;
-
-  Set<Marker> markers = {};
-
-  late PolylinePoints polylinePoints;
-  Map<PolylineId, Polyline> polylines = {};
-  List<LatLng> polylineCoordinates = [];
-
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Widget _textField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String label,
-    required String hint,
-    required double width,
-    required Widget prefixIcon,
-    Widget? suffixIcon,
-    required Function(String) locationCallback,
-  }) {
-    return Container(
-      width: width * 0.8,
-      child: TextField(
-        onChanged: (value) {
-          locationCallback(value);
-        },
-        controller: controller,
-        focusNode: focusNode,
-        decoration: new InputDecoration(
-          focusColor: Colors.black,
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
-          labelText: label,
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: AppColors.primaryColor,
-              width: 2,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: Colors.black,
-              width: 2,
-            ),
-          ),
-          contentPadding: EdgeInsets.all(15),
-          hintText: hint,
-        ),
-      ),
-    );
-  }
-
-  // Method for retrieving the current location
-  _getCurrentLocation() async {
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
-      setState(() {
-        _currentPosition = position;
-        print('Posicion actual: $_currentPosition');
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
-              zoom: 18.0,
-            ),
-          ),
-        );
-      });
-      await _getAddress();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  // Method for retrieving the address
-  _getAddress() async {
-    try {
-      List<Placemark> p = await placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = p[0];
-
-      setState(() {
-        _currentAddress =
-            "${place.street}, ${place.locality}, ${place.postalCode} ";
-        startAddressController.text = _currentAddress;
-        _startAddress = _currentAddress;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // Method for calculating the distance between two places
-  Future<bool> _calculateDistance() async {
-    try {
-      // Retrieving placemarks from addresses
-      List<Location> startPlacemark = await locationFromAddress(_startAddress);
-      List<Location> destinationPlacemark =
-          await locationFromAddress(_destinationAddress);
-
-      // Use the retrieved coordinates of the current position,
-      // instead of the address if the start position is user's
-      // current position, as it results in better accuracy.
-      double startLatitude = _startAddress == _currentAddress
-          ? _currentPosition.latitude
-          : startPlacemark[0].latitude;
-
-      double startLongitude = _startAddress == _currentAddress
-          ? _currentPosition.longitude
-          : startPlacemark[0].longitude;
-
-      double destinationLatitude = destinationPlacemark[0].latitude;
-      double destinationLongitude = destinationPlacemark[0].longitude;
-
-      String startCoordinatesString = '($startLatitude, $startLongitude)';
-      String destinationCoordinatesString =
-          '($destinationLatitude, $destinationLongitude)';
-
-      // Start Location Marker
-      Marker startMarker = Marker(
-        markerId: MarkerId(startCoordinatesString),
-        position: LatLng(startLatitude, startLongitude),
-        infoWindow: InfoWindow(
-          title: 'Start $startCoordinatesString',
-          snippet: _startAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      );
-
-      // Destination Location Marker
-      Marker destinationMarker = Marker(
-        markerId: MarkerId(destinationCoordinatesString),
-        position: LatLng(destinationLatitude, destinationLongitude),
-        infoWindow: InfoWindow(
-          title: 'Destino $destinationCoordinatesString',
-          snippet: _destinationAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
-      );
-
-      // Adding the markers to the list
-      markers.add(startMarker);
-      markers.add(destinationMarker);
-
-      print(
-        'Cordenadas de inicio: ($startLatitude, $startLongitude)',
-      );
-      print(
-        'Cordenadas de destino: ($destinationLatitude, $destinationLongitude)',
-      );
-
-      // Calculating to check that the position relative
-      // to the frame, and pan & zoom the camera accordingly.
-      double miny = (startLatitude <= destinationLatitude)
-          ? startLatitude
-          : destinationLatitude;
-      double minx = (startLongitude <= destinationLongitude)
-          ? startLongitude
-          : destinationLongitude;
-      double maxy = (startLatitude <= destinationLatitude)
-          ? destinationLatitude
-          : startLatitude;
-      double maxx = (startLongitude <= destinationLongitude)
-          ? destinationLongitude
-          : startLongitude;
-
-      double southWestLatitude = miny;
-      double southWestLongitude = minx;
-
-      double northEastLatitude = maxy;
-      double northEastLongitude = maxx;
-
-      // Accommodate the two locations within the
-      // camera view of the map
-      mapController.animateCamera(
-        CameraUpdate.newLatLngBounds(
-          LatLngBounds(
-            northeast: LatLng(northEastLatitude, northEastLongitude),
-            southwest: LatLng(southWestLatitude, southWestLongitude),
-          ),
-          100.0,
-        ),
-      );
-
-      // Calculating the distance between the start and the end positions
-      // with a straight path, without considering any route
-      // double distanceInMeters = await Geolocator.bearingBetween(
-      //   startLatitude,
-      //   startLongitude,
-      //   destinationLatitude,
-      //   destinationLongitude,
-      // );
-
-      await _createPolylines(startLatitude, startLongitude, destinationLatitude,
-          destinationLongitude);
-
-      double totalDistance = 0.0;
-
-      // Calculating the total distance by adding the distance
-      // between small segments
-      for (int i = 0; i < polylineCoordinates.length - 1; i++) {
-        totalDistance += _coordinateDistance(
-          polylineCoordinates[i].latitude,
-          polylineCoordinates[i].longitude,
-          polylineCoordinates[i + 1].latitude,
-          polylineCoordinates[i + 1].longitude,
-        );
-      }
-
-      setState(() {
-        _placeDistance = totalDistance.toStringAsFixed(2);
-        // print('Distancia: $_placeDistance km');
-      });
-
-      return true;
-    } catch (e) {
-      print(e);
-    }
-    return false;
-  }
-
-  // Formula for calculating distance between two coordinates
-
-  double _coordinateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
-  // Create the polylines for showing the route between two places
-  _createPolylines(
-    startLatitude,
-    startLongitude,
-    destinationLatitude,
-    destinationLongitude,
-  ) async {
-    polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      API_KEY,
-      PointLatLng(startLatitude, startLongitude),
-      PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.transit,
-    );
-
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-    }
-
-    PolylineId id = PolylineId('poly');
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.black,
-      points: polylineCoordinates,
-      width: 3,
-    );
-    polylines[id] = polyline;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-    _loadMapStyles();
-  }
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -351,20 +42,20 @@ class _MapViewState extends State<MyMapView> {
       child: Scaffold(
         key: _scaffoldKey,
         body: Consumer<MapProvider>(
-          builder: (BuildContext context, value, _) {
+          builder: (BuildContext context, controller, _) {
             return SafeArea(
               child: Stack(
                 children: <Widget>[
                   // Map View
                   GoogleMap(
-                    markers: Set<Marker>.from(markers),
-                    initialCameraPosition: value.initialLocation,
+                    markers: Set<Marker>.from(controller.markers),
+                    initialCameraPosition: controller.initialLocation,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomGesturesEnabled: true,
                     zoomControlsEnabled: false,
-                    polylines: Set<Polyline>.of(polylines.values),
-                    onMapCreated: _onMapCreated,
+                    polylines: Set<Polyline>.of(controller.polylines.values),
+                    onMapCreated: controller.onMapCreated,
                   ),
                   // Show zoom buttons
 
@@ -390,7 +81,7 @@ class _MapViewState extends State<MyMapView> {
                                     child: Icon(Icons.add),
                                   ),
                                   onTap: () {
-                                    mapController.animateCamera(
+                                    controller.mapController.animateCamera(
                                       CameraUpdate.zoomIn(),
                                     );
                                   },
@@ -410,7 +101,7 @@ class _MapViewState extends State<MyMapView> {
                                     child: Icon(Icons.remove),
                                   ),
                                   onTap: () {
-                                    value.mapController.animateCamera(
+                                    controller.mapController.animateCamera(
                                       CameraUpdate.zoomOut(),
                                     );
                                   },
@@ -422,16 +113,16 @@ class _MapViewState extends State<MyMapView> {
                       ),
                     ),
                   ),
-                  showBottom
+                  controller.showBottom
                       ? Positioned(
                           left: MediaQuery.of(context).size.width * .35,
                           bottom: 24,
                           child: ElevatedButton(
                             onPressed: () {
                               Trip newTrip = Trip();
-                              newTrip.originName = _startAddress;
-                              newTrip.destinyName = _destinationAddress;
-                              newTrip.distance = _placeDistance;
+                              newTrip.originName = controller.startAddress;
+                              newTrip.destinyName = controller.destinationAddress;
+                              newTrip.distance = controller.placeDistance;
                               newTrip.arrivingTime = "7:40";
                               newTrip.clientId =
                                   "6b29fc40-ca47-1067-b31d-00dd010662da";
@@ -492,8 +183,8 @@ class _MapViewState extends State<MyMapView> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 10),
-                                  _textField(
-                                      label: _startAddress.isEmpty
+                                  MapTextField(
+                                      label: controller.startAddress.isEmpty
                                           ? "Seleccione punto de salida?"
                                           : "",
                                       hint: 'Seleccione punto de salida',
@@ -504,22 +195,22 @@ class _MapViewState extends State<MyMapView> {
                                       suffixIcon: IconButton(
                                         icon: Icon(Icons.my_location),
                                         onPressed: () {
-                                          startAddressController.text =
-                                              _currentAddress;
-                                          _startAddress = _currentAddress;
+                                          controller.startAddressController.text =
+                                              controller.currentAddress;
+                                          controller.startAddress = controller.currentAddress;
                                         },
                                       ),
-                                      controller: startAddressController,
-                                      focusNode: startAddressFocusNode,
+                                      controller: controller.startAddressController,
+                                      focusNode: controller.startAddressFocusNode,
                                       width: width,
                                       locationCallback: (String value) {
                                         setState(() {
-                                          _startAddress = value;
+                                          controller.startAddress = value;
                                         });
                                       }),
                                   SizedBox(height: 10),
-                                  _textField(
-                                      label: _destinationAddress.isEmpty
+                                  MapTextField(
+                                      label: controller.destinationAddress.isEmpty
                                           ? "Hacia donde vamos?"
                                           : "",
                                       hint: 'Seleccione el destino',
@@ -527,16 +218,16 @@ class _MapViewState extends State<MyMapView> {
                                         Icons.looks_two,
                                         color: AppColors.primaryColor,
                                       ),
-                                      controller: destinationAddressController,
-                                      focusNode: desrinationAddressFocusNode,
-                                      suffixIcon: _destinationAddress == ''
+                                      controller: controller.destinationAddressController,
+                                      focusNode: controller.desrinationAddressFocusNode,
+                                      suffixIcon: controller.destinationAddress == ''
                                           ? GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  destinationAddressController
+                                                  controller.destinationAddressController
                                                       .clear();
-                                                  _destinationAddress = '';
-                                                  showPredictionContainer =
+                                                  controller.destinationAddress = '';
+                                                  controller.showPredictionContainer =
                                                       false;
                                                 });
                                               },
@@ -544,30 +235,30 @@ class _MapViewState extends State<MyMapView> {
                                           : GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  destinationAddressController
+                                                  controller.destinationAddressController
                                                       .clear();
-                                                  _destinationAddress = '';
-                                                  showPredictionContainer =
+                                                  controller.destinationAddress = '';
+                                                  controller.showPredictionContainer =
                                                       false;
                                                 });
                                               },
                                               child: Icon(Icons.delete)),
                                       width: width,
                                       locationCallback: (String value) {
-                                        destinationAddressController.text == ''
-                                            ? showPredictionContainer = false
-                                            : showPredictionContainer = true;
+                                        controller.destinationAddressController.text == ''
+                                            ? controller.showPredictionContainer = false
+                                            : controller.showPredictionContainer = true;
                                         setState(() {
-                                          placeAutoComplete(value);
-                                          _destinationAddress = value;
-                                          _placeDistance == '';
+                                          controller.placeAutoComplete(value);
+                                          controller.destinationAddress = value;
+                                          controller.placeDistance == '';
                                         });
                                       }),
                                   SizedBox(height: 10),
                                   Visibility(
                                     visible:
-                                        _placeDistance == "" ? false : true,
-                                    child: _placeDistance == null
+                                        controller.placeDistance == "" ? false : true,
+                                    child: controller.placeDistance == null
                                         ? Text(
                                             'DISTANCIA: Calculando...',
                                             style: TextStyle(
@@ -576,7 +267,7 @@ class _MapViewState extends State<MyMapView> {
                                             ),
                                           )
                                         : Text(
-                                            'DISTANCIA: $_placeDistance km',
+                                            'DISTANCIA: ${(controller.placeDistance)} km',
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
@@ -585,7 +276,7 @@ class _MapViewState extends State<MyMapView> {
                                   ),
                                   SizedBox(height: 5),
                                   Visibility(
-                                    visible: showPredictionContainer == false
+                                    visible: controller.showPredictionContainer == false
                                         ? false
                                         : true,
                                     child: Container(
@@ -601,27 +292,27 @@ class _MapViewState extends State<MyMapView> {
                                       child: ListView.builder(
                                         physics: NeverScrollableScrollPhysics(),
                                         itemCount:
-                                            value.placesPredictions.length,
+                                            controller.placesPredictions.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return LocationListTile(
                                             press: () {
-                                              destinationAddressController
+                                              controller.destinationAddressController
                                                       .text =
-                                                  value.placesPredictions[index]
+                                                  controller.placesPredictions[index]
                                                       .description!;
-                                              _destinationAddress = value
+                                              controller.destinationAddress = controller
                                                   .placesPredictions[index]
                                                   .description!;
                                               FocusScope.of(context).unfocus();
 
                                               setState(() {
-                                                showPredictionContainer = false;
+                                                controller.showPredictionContainer = false;
                                                 FocusScope.of(context)
                                                     .unfocus();
                                               });
                                             },
-                                            location: value
+                                            location: controller
                                                 .placesPredictions[index]
                                                 .description!,
                                           );
@@ -633,26 +324,26 @@ class _MapViewState extends State<MyMapView> {
                                     height: 5,
                                   ),
                                   ElevatedButton(
-                                    onPressed: (_startAddress != '' &&
-                                            _destinationAddress != '')
+                                    onPressed: (controller.startAddress != '' &&
+                                            controller.destinationAddress != '')
                                         ? () async {
-                                            startAddressFocusNode.unfocus();
-                                            desrinationAddressFocusNode
+                                            controller.startAddressFocusNode.unfocus();
+                                            controller.desrinationAddressFocusNode
                                                 .unfocus();
                                             setState(() {
-                                              if (markers.isNotEmpty)
-                                                markers.clear();
-                                              if (polylines.isNotEmpty)
-                                                polylines.clear();
-                                              if (polylineCoordinates
+                                              if (controller.markers.isNotEmpty)
+                                                controller.markers.clear();
+                                              if (controller.polylines.isNotEmpty)
+                                                controller.polylines.clear();
+                                              if (controller.polylineCoordinates
                                                   .isNotEmpty)
-                                                polylineCoordinates.clear();
-                                              _placeDistance = null;
+                                                controller.polylineCoordinates.clear();
+                                              controller.placeDistance = null;
                                             });
-                                            _calculateDistance()
+                                            controller.calculateDistance()
                                                 .then((isCalculated) {
                                               if (isCalculated) {
-                                                showBottom = true;
+                                                controller.showBottom = true;
                                                 // ScaffoldMessenger.of(context)
                                                 //     .showSnackBar(
                                                 //   SnackBar(
@@ -661,7 +352,7 @@ class _MapViewState extends State<MyMapView> {
                                                 //   ),
                                                 // );
                                               } else {
-                                                showBottom = false;
+                                                controller.showBottom = false;
                                                 //   ScaffoldMessenger.of(context)
                                                 //       .showSnackBar(
                                                 //     SnackBar(
@@ -721,18 +412,18 @@ class _MapViewState extends State<MyMapView> {
                                 child: Icon(Icons.my_location),
                               ),
                               onTap: () {
-                                value.mapController.animateCamera(
+                                controller.mapController.animateCamera(
                                   CameraUpdate.newCameraPosition(
                                     CameraPosition(
                                       target: LatLng(
-                                        _currentPosition.latitude,
-                                        _currentPosition.longitude,
+                                        controller.currentPosition.latitude,
+                                        controller.currentPosition.longitude,
                                       ),
                                       zoom: 18.0,
                                     ),
                                   ),
                                 );
-                                _getCurrentLocation();
+                                controller.getCurrentLocation();
                               },
                             ),
                           ),

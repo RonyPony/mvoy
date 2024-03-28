@@ -57,5 +57,7 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>We need the access to your location because our app offers services bases on Geolocation</string>
 	</dict>
 </plist>

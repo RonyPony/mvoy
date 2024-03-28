@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvoy/models/coordinates.dart';
 import 'package:mvoy/models/trip.dart';
+import 'package:mvoy/providers/map.provider.dart';
 import 'package:mvoy/widgets/colors.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/bottomMenuBar.widget.dart';
@@ -28,6 +31,7 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(_darkMapStyle);
     mapController = controller;
+    
   }
 
   Future _loadMapStyles() async {
@@ -41,12 +45,6 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
     super.initState();
     _controller = AnimationController(vsync: this);
     _loadMapStyles();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
   
   @override
@@ -71,56 +69,62 @@ class _TripDetailsScreenState extends State<CurrentTripDetailsScreen>
       ),
       drawer: MvoyDrawerWidget(),
       backgroundColor: AppColors.primaryColor,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40)),
-                  // height: MediaQuery.of(context).size.height * .85,
-                  width: MediaQuery.of(context).size.width * .95,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * .71,
-                        width: MediaQuery.of(context).size.width,
-                        child: SingleChildScrollView(
-                            child: Column(
-                          children: [
-                            _buildTripHeader("Desde "+tripdata.originName!+ "hasta "+tripdata.destinyName!),
-                            _buildTripMapInitial(context),
-                            _buildTripInfo(tripdata),
-                            Padding(padding: const EdgeInsets.only(top: 14),
-                            child: ElevatedButton(onPressed: (){
-                              TextEditingController  txtControler = TextEditingController();
-                              txtControler.text =tripdata.price!;
-                              _showDialogo(txtControler, context,tripdata);
-                            }
-                            , 
-                            child: Text("Negociar", style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold
-                            ),),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor
-                            ),
-                            ),
-                            ),
-                          ],
-                        )),
-                      ),
-                      // MvoyBottomMenuBarWidget(activeIndex: 1)
-                    ],
-                  )),
-            ],
+      body: Consumer(
+        builder: ( context, controller, _) {
+          return SingleChildScrollView(
+          child: SafeArea(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(40)),
+                    // height: MediaQuery.of(context).size.height * .85,
+                    width: MediaQuery.of(context).size.width * .95,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * .71,
+                          width: MediaQuery.of(context).size.width,
+                          child: SingleChildScrollView(
+                              child: Column(
+                            children: [
+                              _buildTripHeader("Desde "+tripdata.originName!+ "hasta "+tripdata.destinyName!),
+                              _buildTripMapInitial(context),
+                              _buildTripInfo(tripdata),
+                              Padding(padding: const EdgeInsets.only(top: 14),
+                              child: ElevatedButton(onPressed: (){
+                                TextEditingController  txtControler = TextEditingController();
+                                txtControler.text =tripdata.price!;
+                                _showDialogo(txtControler, context,tripdata);
+                              }
+                              , 
+                              child: Text("Negociar", style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold
+                              ),),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor
+                              ),
+                              ),
+                              ),
+                            ],
+                          )),
+                        ),
+                        // MvoyBottomMenuBarWidget(activeIndex: 1)
+                      ],
+                    )),
+              ],
+            ),
           ),
-        ),
+        );
+      
+          },
+        
       ),
       bottomNavigationBar: MvoyBottomMenuBarWidget(activeIndex: 1),
     );

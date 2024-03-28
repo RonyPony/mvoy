@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mvoy/models/mvoyUser.dart';
 import 'package:mvoy/providers/currentUser.provider.dart';
 import 'package:mvoy/screens/homeScreen/homePage.screen.dart';
 import 'package:mvoy/screens/login.screen.dart';
@@ -18,7 +19,7 @@ class MvoyDrawerWidget extends StatefulWidget {
 
 class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
   double? activeTab;
-
+  MvoyUser? user;
   @override
   void initState() {
     // TODO: implement initState
@@ -131,32 +132,37 @@ class _MvoyDrawerWidgetState extends State<MvoyDrawerWidget> {
           SizedBox(
             height: 200,
           ),
-          ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/logout.svg'),
-                SizedBox(
-                  width: 30,
-                ),
-                Text(
-                  'SALIR',
-                  style: TextStyle(fontSize: 25),
-                ),
-              ],
-            ),
-            onTap: () async {
-              
-              final SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.remove('userId');
-              // Provider.of<UserProvider>(context).clearCurrentUser();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
+          Consumer<UserProvider>(
+            builder: (BuildContext context, value, Widget? child) { 
+              return ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/logout.svg'),
+                  SizedBox(
+                    width: 30,
                   ),
-                  (route) => false);
-
-            },
+                  Text(
+                    'SALIR',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ],
+              ),
+              onTap: () async {
+                
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.remove('userId');
+                // value.clearCurrentUser(user!);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                    (route) => false);
+            
+              },
+            );
+             },
+            
           ),
         ],
       ),

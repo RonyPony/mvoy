@@ -151,7 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
             // showMessage("klk con klk ");
           }
           final String? response = prefs.getString('userId');
-          // print(response);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
